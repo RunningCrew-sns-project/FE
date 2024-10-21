@@ -2,8 +2,15 @@
 
 import { useMediaQuery } from "react-responsive"
 
+interface DeviceTypes {
+  isMobile: boolean;
+  isTablet: boolean;
+  isTabletAndLaptop: boolean;
+  isDesktop: boolean;
+}
 
-export const useDevice = () => {
+
+export const useDevice = () : DeviceTypes => {
 
   const isMobile = useMediaQuery({
     query :"(max-width: 640px)"

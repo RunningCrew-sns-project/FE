@@ -1,30 +1,43 @@
-import { useDevice } from "../../hook/useDevice";
+import SlickSlider from "../../components/Slider/slider";
+import todayRun from '../../assets/mianBanner1_bg.jpg';
+import withTogeter from '../../assets/mianBanner2_bg.jpg';
+import joinCrew from '../../assets/mianBanner3_bg.jpg';
+import MainBanner from "./mainbanner";
+import {  useState } from "react";
+
+
 
 const MainPage = () => {
-  const { isMobile, isTablet, isTabletAndLaptop, isDesktop } = useDevice();
+
+  const [state, setState] = useState('')
+
+  // const getState = () => {
+  //   try {
+  //     // axios 요청 
+  //   } catch (error) {
+      
+  //   }
+  // }
+
+  // useEffect(()=>{
+
+  // },[])
+
+  const slidesData = [
+    { id: 1, bgimg: todayRun, subTitle : 'TODAY' , title : 'RUNNING SCHEDULE', btn : '시작하기'},
+    { id: 2, bgimg: joinCrew, subTitle : 'CREW', title : 'JOIN THE CREW', btn : '등록하기'},
+    { id: 3, bgimg: withTogeter, subTitle : 'SCHEDULE', title : 'RUNNING TOGETHER', btn : '등록하기'},
+  ];
 
   return (
     <>
-      {isMobile && (
-        <div className="bg-blue-500 p-4">
-          <h1 className="text-white">모바일 뷰입니다</h1>
-        </div>
-      )}
-      {isTablet && (
-        <div className="bg-green-500 p-4">
-          <h1 className="text-white">태블릿 뷰입니다</h1>
-        </div>
-      )}
-      {isTabletAndLaptop && (
-        <div className="bg-yellow-500 p-4">
-          <h1 className="text-black">노트북 뷰입니다</h1>
-        </div>
-      )}
-      {isDesktop && (
-        <div className="bg-red-500 p-4">
-          <h1 className="text-white">데스크탑 뷰입니다</h1>
-        </div>
-      )}
+      <SlickSlider>
+        {slidesData.map(slide => (
+          <div key={slide.id}>
+            <MainBanner slide={slide} state={state}/>
+          </div>
+        ))}
+      </SlickSlider>
     </>
   );
 };
