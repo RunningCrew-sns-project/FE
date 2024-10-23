@@ -29,7 +29,7 @@ const RunBox = (props: RunProps | CrewProps) => {
 	return (
 		<div className="w-[184px]">
 			<div className="h-[160px] relative">
-				//TODO:이미지 url로 교체
+				{/* TODO:이미지 url로 교체 */}
 				<img src={runCrew} className="object-cover w-full h-full rounded-lg" />
 				<div className="absolute right-2 top-2 bg-[#C0FF00] rounded-xl">
 					<span className="px-3">{props.status}</span>
