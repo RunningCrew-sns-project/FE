@@ -16,6 +16,10 @@ export default {
       'desktop': '1280px',
       // => @media (min-width: 1280px) { ... }
     },
+    fontFamily: {
+      kbo: ['KBO-bold', 'sans-serif'], // KBO 폰트 추가
+      pre900: ['Pretendard900','sans-serif' ]
+    },
 	},
 	plugins: [],
 };
