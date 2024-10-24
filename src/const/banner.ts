@@ -19,3 +19,4 @@ export const BANNER_KEY: { [key: string]: BannerData } = {
   '/running': { img: withTogeter, title: 'RUNNING' },
   '/chat': { img: joinCrew, title: 'CHAT' },
 };
+

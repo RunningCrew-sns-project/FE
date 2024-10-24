@@ -29,9 +29,21 @@ const MainPage = () => {
     { id: 3, bgimg: withTogeter, subTitle : 'SCHEDULE', title : 'RUNNING TOGETHER', btn : '등록하기'},
   ];
 
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true, 
+    autoplaySpeed: 3000,
+    fade: false,
+  };
+
+
   return (
     <>
-      <SlickSlider>
+      <SlickSlider settings={sliderSettings}>
         {slidesData.map(slide => (
           <div key={slide.id}>
             <MainBanner slide={slide} state={state}/>
