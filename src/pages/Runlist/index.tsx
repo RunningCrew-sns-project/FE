@@ -49,7 +49,7 @@ const RunListPage = () => {
 								<span className="text-sm">최신순</span>
 							</div>
 							<hr className="border border-white my-4" />
-							<div className="w-3/4 space-y-1">
+							<div className="">
 							<ItemList runData={runData}/>
 							</div>
 						</div>

@@ -12,17 +12,24 @@ interface RunData {
 }
 
 interface ItemListProps {
-	runData: RunData[]; // runData는 RunData 객체의 배열
+	runData: {           
+		data: RunData[]; 
+		total: number;  
+		page: number;    
+		pageSize: number; 
+		moreData: boolean; 
+	};
 }
 
 const ItemList = ({ runData }: ItemListProps) => {
 	return (
-		<>
-			<div className="flex flex-wrap justify-between">
-				{runData.map((item) => (
-					<div className="w-[32%] mb-4">
+		<> 
+			{/* 런박스 반응형 나중에  */}
+			{/* 무한스크롤릴 구현 나중에  */}
+			<div className="grid grid-cols-2 gap-4 w-full tablet:grid-cols-3 laptop:grid-cols-4 desktop:grid-cols-5  ">
+				{runData.data.map((item) => ( 
+					<div className="w-[32%] mb-4" key={item.title}>
 						<RunBox
-							key={item.title} // 각 요소에 고유한 key 값을 부여해야 한다 (ex. title)
 							title={item.title}
 							location={item.location}
 							date={item.date}
@@ -38,4 +45,5 @@ const ItemList = ({ runData }: ItemListProps) => {
 		</>
 	);
 };
+
 export default ItemList;
