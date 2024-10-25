@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../../components/Button";
 import RunBox from "../../components/RunBox";
+import InfiniteScroll from "../../components/InfiniteScroll";
 
 type Props = {};
 
@@ -15,11 +16,16 @@ const MyPage = (props: Props) => {
 		maximumPeople: 10,
 		status: "시작전",
 	};
+	const dd = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 	return (
-		<div className="flex w-full justify-around bg-black">
-			<RunBox {...data} />
-			<RunBox />
-		</div>
+		<>
+			<div className="flex flex-col w-full justify-around bg-black">
+				{dd.map(() => {
+					return <RunBox {...data} />;
+				})}
+			</div>
+			<InfiniteScroll isLastPage={false} fetch={() => console.log("touch")} />
+		</>
 	);
 };
 
