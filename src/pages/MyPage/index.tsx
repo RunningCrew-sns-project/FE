@@ -19,7 +19,7 @@ const MyPage = (props: Props) => {
 	const dd = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 	return (
 		<>
-			<div className="flex flex-col w-full justify-around bg-black">
+			<div className="flex w-full justify-around bg-black flex-wrap gap-4">
 				{dd.map(() => {
 					return <RunBox {...data} />;
 				})}

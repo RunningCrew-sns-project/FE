@@ -41,7 +41,7 @@ const InfiniteScroll = (props: Props) => {
 	}, [handleScroll]);
 
 	return (
-		<div className="w-full flex justify-center">
+		<div className="w-full flex justify-center ">
 			{props.isLastPage ? (
 				"--End--"
 			) : (

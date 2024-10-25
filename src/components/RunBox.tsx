@@ -27,8 +27,8 @@ const RunBox = (props: RunProps | CrewProps) => {
 	};
 
 	return (
-		<div className="w-[184px]">
-			<div className="h-[160px] relative">
+		<div className="w-[184px] cursor-pointer flex flex-col laptop:flex-row laptop:w-[400px] laptop:border laptop:border-white/30 rounded-lg">
+			<div className="w-[180px] h-[160px] relative">
 				{/* TODO:이미지 url로 교체 */}
 				<img src={runCrew} className="object-cover w-full h-full rounded-lg" />
 				<div className="absolute right-2 top-2 bg-[#C0FF00] rounded-xl">
@@ -42,17 +42,15 @@ const RunBox = (props: RunProps | CrewProps) => {
 				</div>
 			</div>
 			{/* title */}
-			<div className="px-2 flex flex-col mt-2 gap-1">
+			<div className="px-2 flex flex-col mt-2 gap-1 laptop:p-4">
 				<h1 className="text-white font-semibold text-lg truncate">
 					{props.title}
 				</h1>
-				<div className="flex text-sm justify-between">
+				<div className="flex text-sm justify-between laptop:flex-col laptop:justify-between laptop:h-full">
 					<span className="text-white">{props.location}</span>
 					{isRunProps(props) && (
 						<div className="flex">
-							<div className=" bg-white rounded-xl px-2 mr-1">
-								{props.location}
-							</div>
+							<div className=" bg-white rounded-xl px-2 mr-1">{props.date}</div>
 							<div className=" bg-white rounded-xl px-2">{props.startTime}</div>
 						</div>
 					)}
