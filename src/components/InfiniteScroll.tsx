@@ -16,11 +16,6 @@ const InfiniteScroll = (props: Props) => {
 		) {
 			if (!props.isLastPage) {
 				props.fetch();
-				console.log(
-					window.innerHeight,
-					document.documentElement.scrollTop,
-					document.documentElement.offsetHeight,
-				);
 			}
 		}
 	}, [props]);
