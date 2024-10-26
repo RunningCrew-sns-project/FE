@@ -21,7 +21,13 @@ const MyPage = (props: Props) => {
 		<>
 			<div className="flex w-full justify-around bg-black flex-wrap gap-4">
 				{dd.map(() => {
-					return <RunBox {...data} />;
+					return (
+						<RunBox
+							{...data}
+							boxHorizontalWidth="400px"
+							boxVerticalWidth="200px"
+						/>
+					);
 				})}
 			</div>
 			<InfiniteScroll isLastPage={false} fetch={() => console.log("touch")} />

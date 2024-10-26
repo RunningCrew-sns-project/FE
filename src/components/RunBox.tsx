@@ -11,6 +11,8 @@ interface RunProps {
 	people: number;
 	maximumPeople: number;
 	status: "시작전" | "진행중" | "완료";
+	boxVerticalWidth?: string; //세로
+	boxHorizontalWidth?: string; //가로
 }
 
 interface CrewProps {
@@ -20,6 +22,8 @@ interface CrewProps {
 	people: number;
 	maximumPeople: number;
 	status: "모집중" | "만원";
+	boxVerticalWidth?: string;
+	boxHorizontalWidth?: string;
 }
 const RunBox = (props: RunProps | CrewProps) => {
 	const isRunProps = (props: any): props is RunProps => {
@@ -27,8 +31,12 @@ const RunBox = (props: RunProps | CrewProps) => {
 	};
 
 	return (
-		<div className="w-[184px] cursor-pointer flex flex-col laptop:flex-row laptop:w-[400px] laptop:border laptop:border-white/30 rounded-lg">
-			<div className="w-[180px] h-[160px] relative">
+		<div
+			className={`w-[${props.boxVerticalWidth || "184px"}] cursor-pointer flex flex-col laptop:flex-row laptop:w-[${props.boxHorizontalWidth || "400px"}] laptop:border laptop:border-white/30 rounded-lg`}
+		>
+			<div
+				className={`w-[${props.boxVerticalWidth || "180px"}] h-[160px] relative`}
+			>
 				{/* TODO:이미지 url로 교체 */}
 				<img src={runCrew} className="object-cover w-full h-full rounded-lg" />
 				<div className="absolute right-2 top-2 bg-[#C0FF00] rounded-xl">
