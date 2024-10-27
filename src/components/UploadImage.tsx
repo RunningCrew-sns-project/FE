@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import axios from 'axios'
-import Button from "./Button";
+import { useRef, useState } from "react";
 
 type UploadImageProps = {
     onUploadFiles: () => void;
@@ -8,10 +6,13 @@ type UploadImageProps = {
     uploadfileLength?: number;
     id: string;
     imgpreviewWidth: number;
-    imgpreviewHeight: number
+    imgpreviewHeight: number;
+    buttonClassName: string;
+    imgClassName: string;
+    buttonpositionClassName: string;
 };
 
-const UploadImage = ({ id, onUploadFiles, multiple, uploadfileLength, imgpreviewWidth, imgpreviewHeight }: UploadImageProps) => {
+const UploadImage = ({ id, onUploadFiles, multiple, uploadfileLength, imgpreviewWidth, imgpreviewHeight, buttonClassName, imgClassName, buttonpositionClassName }: UploadImageProps) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const ref = useRef(null);
 
@@ -44,7 +45,7 @@ const UploadImage = ({ id, onUploadFiles, multiple, uploadfileLength, imgpreview
 
     return (
         <>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 items-start">
                 <input
                     id={id}
                     type="file"
@@ -53,21 +54,16 @@ const UploadImage = ({ id, onUploadFiles, multiple, uploadfileLength, imgpreview
                     multiple={multiple}
                     ref={ref}
                 />
-                {uploadedFiles.length < uploadfileLength && (
-                    <label className="cursor-pointer" onClick={() => ref.current.click()}>
-                        <Button className="bg-[#BFFF00]">파일 선택 </Button>
-                    </label>
-                )}
                 <div className="flex gap-x-[9px] flex-wrap">
                     {uploadedFiles?.map((file, index) => (
-                        <div key={index} className="relative"
-                            style={{ width: `${imgpreviewWidth}px`, height: `${imgpreviewHeight}px` }} >
+                        <div key={index}
+                            className="relative "
+                            style={{ width: `${imgpreviewWidth}px`, height: `${imgpreviewHeight}px` }}
+                        >
                             <img
                                 src={URL.createObjectURL(file)}
-                                width={imgpreviewWidth}
-                                height={imgpreviewHeight}
                                 alt={`image${index}`}
-                                className="object-cover w-full h-full rounded-lg"
+                                className={imgClassName}
                             />
                             <button
                                 type="button"
@@ -79,6 +75,14 @@ const UploadImage = ({ id, onUploadFiles, multiple, uploadfileLength, imgpreview
                         </div>
                     ))}
                 </div>
+                {uploadedFiles.length < uploadfileLength && (
+                    <label className={`cursor-pointer ${buttonpositionClassName} ml-auto`} onClick={(event) => {
+                        event.stopPropagation();
+                        ref.current.click();
+                    }}>
+                        <div className={buttonClassName}>파일 선택 </div>
+                    </label>
+                )}
             </div>
         </>
     );
