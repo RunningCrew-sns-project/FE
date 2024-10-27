@@ -2,11 +2,13 @@ import React from "react";
 import { BiLike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
+import InfiniteScroll from "../../components/InfiniteScroll";
 
 type Props = {};
 
 const MyFeed = (props: Props) => {
 	const data = [1, 1, 1, 1, 1];
+	const requestPost = () => {};
 	const Post = () => {
 		return (
 			<div className="mb-6">
@@ -38,6 +40,7 @@ const MyFeed = (props: Props) => {
 			{data.map(() => {
 				return <Post />;
 			})}
+			<InfiniteScroll isLastPage={true} fetch={requestPost} />
 		</div>
 	);
 };
