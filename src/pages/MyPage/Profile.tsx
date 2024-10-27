@@ -8,12 +8,12 @@ const Profile = (props: Props) => {
 	return (
 		<div className="flex flex-col w-full h-screen px-4">
 			<div className="border-b py-4 ">
-				<div className="w-[800px] mx-auto flex items-center justify-between">
+				<div className="w-full laptop:w-[800px] mx-auto flex items-center justify-between">
 					<h1 className="font-bold text-xl">내 정보</h1>
 					<Button theme="dark">저장</Button>
 				</div>
 			</div>
-			<form className="flex flex-col w-[800px] mx-auto py-6">
+			<form className="flex flex-col w-full laptop:w-[800px] mx-auto py-6">
 				<div className="w-[100px] h-[100px] rounded-full bg-blue-200 relative mb-6 cursor-pointer">
 					<img src="profile-pic-url" alt="Profile" />
 					<FaEdit
