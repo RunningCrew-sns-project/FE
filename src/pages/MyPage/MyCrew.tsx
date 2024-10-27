@@ -16,7 +16,7 @@ const MyCrew = (props: Props) => {
 	const num = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	const requestData = () => {};
 	return (
-		<div className="flex flex-wrap gap-2">
+		<div className="flex flex-wrap gap-6 mx-auto justify-center">
 			{num.map(() => {
 				return <RunBox {...data} />;
 			})}

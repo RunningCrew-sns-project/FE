@@ -1,5 +1,6 @@
 import React from "react";
 import runCrew from "../assets/runCrew.jpg";
+import { IoPeopleSharp } from "react-icons/io5";
 
 // 제목 지역 일자 시작시간 이미지 인원수 진행상태값
 interface RunProps {
@@ -39,7 +40,7 @@ const RunBox = (props: RunProps | CrewProps) => {
 
 	return (
 		<div
-			className={`w-[170px] cursor-pointer flex flex-col laptop:flex-row laptop:w-[400px] laptop:border laptop:border-white/30 rounded-lg`}
+			className={`w-[170px] cursor-pointer flex flex-col laptop:flex-row laptop:w-[400px] rounded-lg bg-gray-900`}
 		>
 			<div className={`w-[170px]  h-[160px] relative shrink-0`}>
 				{/* TODO:이미지 url로 교체 */}
@@ -49,15 +50,15 @@ const RunBox = (props: RunProps | CrewProps) => {
 				>
 					<span className="px-3 truncate">{props.status}</span>
 				</div>
-				<div className="absolute bottom-2 left-2 flex">
-					<span>👽</span>
+				<div className="absolute bottom-2 left-2 flex items-center gap-1">
+					<IoPeopleSharp color="" />
 					<div className=" bg-black rounded-xl text-white text-sm px-3">
 						{props.people}/{props.maximumPeople}
 					</div>
 				</div>
 			</div>
 
-			<div className="px-2 flex flex-col mt-2 gap-1 laptop:p-4 laptop:mt-0 flex-grow overflow-hidden">
+			<div className="px-2 pb-2 flex flex-col mt-2 gap-1 laptop:p-4 laptop:mt-0 flex-grow overflow-hidden">
 				{/* title */}
 				<h1 className="text-white font-semibold text-lg truncate">
 					{props.title}

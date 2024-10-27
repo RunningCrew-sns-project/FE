@@ -19,7 +19,7 @@ const MyRunning = (props: Props) => {
 	const num = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	const requestData = () => {};
 	return (
-		<div className="flex flex-wrap gap-4">
+		<div className="flex flex-wrap gap-6 justify-center">
 			{num.map(() => {
 				return <RunBox {...data} boxVerticalWidth="130px" />;
 			})}
