@@ -1,8 +1,8 @@
 import { FormProvider, useForm } from "react-hook-form";
-
 import { Link } from "react-router-dom";
 import InputField, { InputFieldProps } from "./inputField";
 import Button from "../../components/Button";
+// import UploadImage from "../../components/UploadImage";
 
 interface FormLayoutProps {
 	title: string;
@@ -17,6 +17,14 @@ const FormLayout = ({ title, fields, onSubmit , children }: FormLayoutProps) => 
 	return (
 		<FormProvider {...methods}>
 			<h2 className="mb-10 font-black text-[20px]">{title}</h2>
+			{/* <UploadImage
+				id="image-upload"
+				onUploadFiles={(formData) => console.log(formData)} // 파일 업로드 핸들링
+				multiple={true}
+				uploadfileLength={5} // 최대 업로드 파일 수
+				imgpreviewWidth={100} // 미리보기 이미지 너비
+				imgpreviewHeight={100} // 미리보기 이미지 높이
+			/> */}
 			<form onSubmit={methods.handleSubmit(onSubmit)}>
 				{fields.map((field, index) => (
 					<div
