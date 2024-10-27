@@ -8,6 +8,7 @@ import MyPage from "../pages/MyPage";
 import MyCrew from "../pages/MyPage/MyCrew";
 import MyRunning from "../pages/MyPage/MyRunning";
 import MyFeed from "../pages/MyPage/MyFeed";
+import Profile from "../pages/MyPage/Profile";
 
 const router = createBrowserRouter([
 	{
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
 					{ path: "myRunning", element: <MyRunning /> },
 					{ path: "myFeed", element: <MyFeed /> },
 				],
+			},
+			{
+				path: "Profile",
+				element: <Profile />,
 			},
 		],
 		errorElement: <Errorpage />,

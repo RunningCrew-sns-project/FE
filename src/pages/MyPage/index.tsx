@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 
 type Props = {};
 
 const MyPage = (props: Props) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const navigate = useNavigate();
+	const handleClickEditProfile = () => {
+		navigate("/profile");
+	};
 	return (
 		<div className="flex bg-black flex-col tablet:flex-row h-full">
 			{isMenuOpen && (
 				<div
-					className="fixed inset-0 opacity-50 z-20"
+					className="fixed inset-0 z-20"
 					onClick={() => setIsMenuOpen(false)}
 				></div>
 			)}
@@ -28,10 +32,13 @@ const MyPage = (props: Props) => {
 					</div>
 					{/* 슬라이드 아웃 메뉴 */}
 					<div
-						className={`fixed top-0 right-0 w-64 h-full bg-white transition-transform transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}
+						className={`fixed top-0 right-0 z-30 w-64 h-full bg-white transition-transform transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}
 					>
 						<div className="flex flex-col px-4 mt-[200px] gap-6">
-							<Button theme="primary">회원정보수정</Button>
+							<Button theme="primary" onClick={handleClickEditProfile}>
+								회원정보수정
+							</Button>
+
 							<Button theme="light" className="border">
 								회원탈퇴
 							</Button>
