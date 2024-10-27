@@ -16,7 +16,7 @@ const Button = ({
 	disabled = false,
 }: Props) => {
 	const buttonTheme = {
-		primary: "bg-[#C0FF00] text-[#000]",
+		primary: "bg-primary text-[#000]",
 		dark: "bg-[#000] text-white",
 		light: "bg-white text-[#000]",
 	};

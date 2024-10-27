@@ -33,7 +33,7 @@ const InputField = ({
 						render={({ field }) => (
 							<select
 								{...field}
-								className="border border-gray-600 rounded p-2 text-base bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 mb-5 w-full"
+								className="border border-gray-600 rounded bg-inputBg p-2 text-base bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 mb-5 w-full"
 							>
 								{LOCATION.map((location) => (
 									<option key={location.id} value={location.area}>
@@ -56,7 +56,7 @@ const InputField = ({
 								{...field}
 								required={required}
 								placeholder={placeholder}
-								className="border border-gray-600 p-2 rounded text-base  mb-5 w-full"
+								className="border border-gray-600 p-2 rounded text-base mb-5 w-full bg-inputBg"
 							/>
 						)}
 					/>

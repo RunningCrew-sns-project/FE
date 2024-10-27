@@ -25,6 +25,9 @@ const MainBanner = ({ slide, state }: Props) => {
 			case "CREW":
 				navigate("/create/crew");
 				break;
+			case "TODAY":
+				navigate('/running');
+				break;
 			default:
 				navigate("/");
 				break;

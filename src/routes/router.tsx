@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import MainPage from "../pages/Main";
 import RunListPage from "../pages/Runlist";
 import Errorpage from "../pages/errorPage";
@@ -10,6 +10,10 @@ import Run from "../pages/Run/create/createRun";
 import CrewRun from "../pages/Run/create/createCrewRun";
 import Crew from "../pages/Run/create/createCrew";
 import Running from "../pages/Runlist/running";
+import MyCrew from "../pages/MyPage/MyCrew";
+import MyRunning from "../pages/MyPage/MyRunning";
+import MyFeed from "../pages/MyPage/MyFeed";
+
 
 const router = createBrowserRouter([
 	{
@@ -52,6 +56,15 @@ const router = createBrowserRouter([
 			{
 				path: "myPage",
 				element: <MyPage />,
+				children: [
+					{
+						index: true,
+						element: <Navigate to="myRunning" replace />,
+					},
+					{ path: "myCrew", element: <MyCrew /> },
+					{ path: "myRunning", element: <MyRunning /> },
+					{ path: "myFeed", element: <MyFeed /> },
+				],
 			},
 		],
 		errorElement: <Errorpage />,
