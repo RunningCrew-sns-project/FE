@@ -90,7 +90,7 @@ const WriteBlogCard = () => {
                     buttonClassName="px-6 py-2 transition-colors rounded-xl hover:opacity-80 text-md font-bold bg-red-500"
                 ></UploadImage>
                 <div>
-                    <Button className="bg-blue-500" type="submit">완료</Button>
+                    <Button className="bg-[#BFFF00]" type="submit">완료</Button>
                 </div>
             </form>
         </>
