@@ -13,9 +13,9 @@ export type BannerData = {
 
 export const BANNER_KEY: { [key: string]: BannerData } = {
   '/runlist': { img: todayRun, title: 'RUN_LIST' }, 
-  '/createrun': { img: withTogeter, title: 'CREATE_RUN' },
-  '/createcrew': { img: joinCrew, title: 'JOIN THE CREW' },
-  '/crewrun': { img: todayRun, title: 'CREW_RUN' },
+  '/create/run': { img: withTogeter, title: 'CREATE_RUN' },
+  '/create/crew': { img: joinCrew, title: 'JOIN THE CREW' },
+  '/create/crewRun': { img: todayRun, title: 'CREW_RUN' },
   '/running': { img: withTogeter, title: 'RUNNING' },
   '/chat': { img: joinCrew, title: 'CHAT' },
 };

@@ -6,6 +6,7 @@ export default {
       colors: {
         primary: '#BFFF00', 
         secondary: '#333333', 
+        inputBg: '#F7F6F9'
       },
     },
     screens: {

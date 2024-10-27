@@ -57,7 +57,7 @@ const LocationFilter = ({ setArea }: LocationFilterProps) => {
 	return (
 		<div>
 			{isDesktop || isLaptop ? (
-				<div className="flex flex-wrap gap-2 justify-start">
+				<div className="flex flex-wrap gap-2 justify-start" >
 					{LOCATION.map((item: LocationData) => (
 						<Button
 							theme={seletArea === item.area ? "primary" : "light"}
@@ -75,7 +75,7 @@ const LocationFilter = ({ setArea }: LocationFilterProps) => {
 					{/* 슬라이더가 반만 보이도록 설정 */}
 					<SlickSlider settings={sliderSettings} className="flex">
 						{LOCATION.map((item: LocationData) => (
-							<div className="flex justify-center mx-2 pl-28">
+							<div className="flex justify-center mx-2 pl-28" key={item.id}>
 								<Button
 									theme={seletArea === item.area ? "primary" : "light"}
 									className="text-sm min-w-[100px] max-w-[150px]"
