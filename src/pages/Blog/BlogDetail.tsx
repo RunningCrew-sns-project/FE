@@ -98,7 +98,7 @@ const BlogDetail = () => {
                 )
                 )}
                 <input className="border border-2 border-slate-300 p-2 rounded-md w-96"></input>
-                <Button onClick={handlesubmitcomment} className="bg-blue-500" type="submit">완료</Button>
+                <Button onClick={handlesubmitcomment} className="bg-[#BFFF00]" type="submit">완료</Button>
             </div>
         </>
     );

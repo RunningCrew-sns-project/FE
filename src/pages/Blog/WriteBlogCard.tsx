@@ -7,6 +7,11 @@ import UploadImage from '../../components/UploadImage';
 
 
 type BlogCardInput = {
+    title: string;
+    content: string;
+    record: string;
+    distance: string;
+    imageUrl: string;
 }
 
 
@@ -16,24 +21,15 @@ const WriteBlogCard = () => {
         register,
         handleSubmit,
         formState: { errors },
+        watch,
+        setValue
     } = useForm<BlogCardInput>()
 
     const [blogImages, setblogImages] = useState([]);
-    const onSubmit = async () => {
+
+    const onSubmit = async (BlogCardData: BlogCardInput) => {
         console.log('BlogCard작성')
 
-        //todo. formdata 전달
-        /* ex) request body 요청 데이터 
-            {
-            "title": "블로그 제목 입력",
-            "content": "블로그 내용 입력",
-            "record": "HH:mm:ss",
-            "distance": "0.0km",
-            "imageUrl": "https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg"
-            }
-        */
-
-        /* 이미지 업로드 api/storage post 요청*/
         try {
             const fileUrls = await uploadFiles(
                 'http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage',
@@ -44,6 +40,9 @@ const WriteBlogCard = () => {
 
             //todo.fileUrl을 블로그 작성 api imageurl에 추가해서 연동 
 
+            console.log('BlogData', BlogCardData)
+            BlogCardData["imageUrl"] = fileUrls
+            console.log('BlogData with img', BlogCardData)
 
         } catch (error) {
             console.error('파일 업로드 에러:', error);
@@ -53,33 +52,50 @@ const WriteBlogCard = () => {
 
     }
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-                <label>제목</label>
-                <input className="border border-2 border-slate-300 p-2 rounded-md w-96" {...register("title")} />
-            </div>
+        <>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                    <label>제목</label>
+                    <input className="border border-2 border-slate-300 p-2 rounded-md w-96" {...register("title")} />
+                </div>
 
-            <div>
-                <label>내용</label>
-                <textarea className="border border-2 border-slate-300 p-2 rounded-md w-96" {...register("content")} />
-            </div>
+                <div>
+                    <label>내용</label>
+                    <textarea className="border border-2 border-slate-300 p-2 rounded-md w-96" {...register("content")} />
+                </div>
 
-            <UploadImage
-                id="blog"
-                onUploadFiles={(formData) => {
-                    setblogImages(formData);
-                }}
-                multiple
-                uploadfileLength={4}
-                imgpreviewWidth={250}
-                imgpreviewHeight={250}
-            ></UploadImage>
+                <div>
+                    <label>기록</label>
+                    <textarea placeholder="hh:mm:ss"
+                        maxLength={8}
+                        className="border border-2 border-slate-300 p-2 rounded-md w-48" {...register("record")} />
+                </div>
 
-            <div>
-                <Button className="bg-blue-500" type="submit">완료</Button>
-            </div>
-        </form>
+                <div>
+                    <label>거리</label>
+                    <textarea className="border border-2 border-slate-300 p-2 rounded-md w-96" {...register("distance")} />
+                </div>
+
+                <UploadImage
+                    id="blog"
+                    onUploadFiles={(formData) => {
+                        setblogImages(formData);
+                    }}
+                    multiple={true}
+                    uploadfileLength={4}
+                    imgpreviewWidth={250}
+                    imgpreviewHeight={250}
+                    imgClassName="object-cover w-full h-full rounded-lg"
+                    buttonpositionClassName="mr-14"
+                    buttonClassName="px-6 py-2 transition-colors rounded-xl hover:opacity-80 text-md font-bold bg-red-500"
+                ></UploadImage>
+                <div>
+                    <Button className="bg-[#BFFF00]" type="submit">완료</Button>
+                </div>
+            </form>
+        </>
     );
+
 };
 
 export default WriteBlogCard;
