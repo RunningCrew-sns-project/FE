@@ -24,8 +24,7 @@ const Button = ({
 		<button
 			onClick={onClick}
 			className={
-				`px-6 py-2 transition-colors rounded-xl hover:opacity-80 text-md font-bold ${
-					buttonTheme[theme]
+				`px-6 py-2 transition-colors rounded-xl hover:opacity-80 text-md font-bold ${buttonTheme[theme]
 				} ${disabled && "cursor-no-drop"}` +
 				" " +
 				className

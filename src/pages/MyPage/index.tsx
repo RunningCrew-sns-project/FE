@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
+import { IoIosSettings } from "react-icons/io";
 
 type Props = {};
 
@@ -18,32 +19,38 @@ const MyPage = (props: Props) => {
 					onClick={() => setIsMenuOpen(false)}
 				></div>
 			)}
+			{/* 슬라이드 아웃 메뉴 */}
+			<div
+				className={`fixed top-0 right-0 z-30 w-64 h-full bg-white transition-transform transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}
+			>
+				<div className="flex flex-col px-4 mt-[200px] gap-6">
+					<Button theme="primary" onClick={handleClickEditProfile}>
+						회원정보수정
+					</Button>
+
+					<Button theme="light" className="border">
+						회원탈퇴
+					</Button>
+					<Button theme="dark">로그아웃</Button>
+				</div>
+			</div>
 			<div className="w-full h-[160px] shrink-0 fixed z-10 px-4 pt-4 tablet:w-[160px] tablet:h-screen tablet:border-r border-white/30 bg-black">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center tablet:flex-col">
-						<div className="w-[80px] h-[80px] bg-pink-100 rounded-full mr-4 tablet:mr-0 tablet:mb-4"></div>
+						<div className="w-[80px] h-[80px] bg-pink-100 rounded-full mr-4 tablet:mr-0 tablet:mb-4 tablet:mt-10">
+							<img src="url" />
+						</div>
 						<h1 className="text-white">Nick name</h1>
 					</div>
 					<div
-						className="text-white tablet:absolute tablet:left-10 tablet:bottom-10"
+						className="text-white tablet:absolute tablet:left-4 tablet:bottom-10 flex items-center cursor-pointer"
 						onClick={() => setIsMenuOpen(!isMenuOpen)}
 					>
-						setting
-					</div>
-					{/* 슬라이드 아웃 메뉴 */}
-					<div
-						className={`fixed top-0 right-0 z-30 w-64 h-full bg-white transition-transform transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}
-					>
-						<div className="flex flex-col px-4 mt-[200px] gap-6">
-							<Button theme="primary" onClick={handleClickEditProfile}>
-								회원정보수정
-							</Button>
-
-							<Button theme="light" className="border">
-								회원탈퇴
-							</Button>
-							<Button theme="dark">로그아웃</Button>
-						</div>
+						<IoIosSettings
+							color="white"
+							style={{ width: "30px", height: "30px" }}
+						/>
+						<span className="hidden tablet:block">Setting</span>
 					</div>
 				</div>
 				<div className="flex w-full justify-between py-6 tablet:flex-col gap-4">
@@ -77,7 +84,7 @@ const MyPage = (props: Props) => {
 				</div>
 			</div>
 			{/* scroll area */}
-			<div className="px-4 mt-[180px] tablet:ml-[180px] tablet:mt-[80px]">
+			<div className="px-4 mt-[180px] tablet:ml-[180px] tablet:mt-[80px] w-full">
 				<Outlet />
 			</div>
 		</div>
