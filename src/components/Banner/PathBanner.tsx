@@ -4,7 +4,7 @@ const PathBanner = () => {
     const banner = useBanner();
 
     return (
-        <div className="relative w-full h-[180px] tablet:h-[300px] laptop:h-[300px] desktop:h-[300px] ">
+        <div className="relative w-full h-[180px] tablet:h-[300px] laptop:h-[300px] desktop:h-[300px] mb-20 ">
             {banner ? (
                 <>
                     <img

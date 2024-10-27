@@ -38,6 +38,7 @@ const DateFilter = ({startDate, setStartDate, currentDate}: DateFilterProps) => 
 				<DatePicker
 					selected={startDate}
 					onChange={(date: Date | null) => {
+						console.log(date)
 						setStartDate(date);
 						closeModal(); // 날짜 선택 후 모달 닫기
 					}}
