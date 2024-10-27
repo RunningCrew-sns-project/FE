@@ -13,6 +13,7 @@ import MyPage from "../pages/MyPage/index";
 import MyCrew from "../pages/MyPage/MyCrew";
 import MyRunning from "../pages/MyPage/MyRunning";
 import MyFeed from "../pages/MyPage/MyFeed";
+import Profile from "../pages/MyPage/Profile";
 import Blog from "../pages/Blog/Blog";
 import WriteBlogCard from "../pages/Blog/WriteBlogCard";
 import BlogDetail from "../pages/Blog/BlogDetail";
@@ -70,17 +71,21 @@ const router = createBrowserRouter([
 				],
 			},
 			{
-				path: 'blog',
-				element: <Blog />
+				path: "Profile",
+				element: <Profile />,
 			},
 			{
-				path: 'writeBlogCard',
-				element: <WriteBlogCard />
+				path: "blog",
+				element: <Blog />,
 			},
 			{
-				path: 'blog/:id',
-				element: <BlogDetail />
-			}
+				path: "writeBlogCard",
+				element: <WriteBlogCard />,
+			},
+			{
+				path: "blog/:id",
+				element: <BlogDetail />,
+			},
 		],
 		errorElement: <Errorpage />,
 	},
