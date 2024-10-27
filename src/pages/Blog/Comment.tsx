@@ -51,35 +51,37 @@ const Comment = (props: CommentProps) => {
     const renderDropdownMenu = () => {
         if (!dropdownOpen || isEdit) return null;
         return (
-            <div className="flex flex-col justify-center items-center">
-                <Button onClick={handleEditComment} className="bg-blue-500">수정</Button>
-                <Button onClick={handleDeleteComment} className="bg-blue-500">삭제</Button>
+            <div className="flex flex-col justify-center items-center border border-gray-400 rounded">
+                <Button onClick={handleEditComment} className="bg-transparent">수정</Button>
+                <Button onClick={handleDeleteComment} className="bg-transparent">삭제</Button>
             </div>
         );
     };
 
     return (
         <>
-            <div className="bg-white">
-                <div className="flex">
-                    <img src={props.userImg}
-                        className="w-12 h-12 rounded-full mr-4"></img>
-                    <div className="mr-4">{props.userName}</div>
-                    <div className="" onClick={Opendropdown}>
-                        <IoIosMore />
-                    </div>
-                    {renderDropdownMenu()}
-                    <CommentForm isEdit={isEdit} setisEdit={setisEdit} content={props.content} setdropdownOpen={setdropdownOpen}></CommentForm>
+            <div className="flex items-center">
+                <img src={props.userImg}
+                    className="w-12 h-12 rounded-full mt-3"></img>
+                <div className="ml-3 mt-6">{props.userName}</div>
+                <div className="ml-auto" onClick={Opendropdown}>
+                    <IoIosMore />
                 </div>
-                <div>{props.createdAt}</div>
-                {confirmDeleteOpen ? <ApplicationModal
-                    leftButtontext="삭제할래요!!"
-                    rightbuttontext="취소"
-                    leftButtonevent={handleconfirmDeletecomment}
-                    rightbuttonevent={handlecloseModal}>
-                    <div>해당 댓글을 삭제하시겠습니까??</div>
-                </ApplicationModal> : ''}
+                <div>
+                    {renderDropdownMenu()}
+                </div>
             </div>
+            <div>
+                <CommentForm isEdit={isEdit} setisEdit={setisEdit} content={props.content} setdropdownOpen={setdropdownOpen}></CommentForm>
+            </div>
+            <div className="text-gray-500">{props.createdAt}</div>
+            {confirmDeleteOpen ? <ApplicationModal
+                leftButtontext="삭제할래요!!"
+                rightbuttontext="취소"
+                leftButtonevent={handleconfirmDeletecomment}
+                rightbuttonevent={handlecloseModal}>
+                <div>해당 댓글을 삭제하시겠습니까??</div>
+            </ApplicationModal> : ''}
 
         </>
     );
