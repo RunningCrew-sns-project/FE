@@ -30,9 +30,9 @@ const ApplicationModal = ({ leftButtontext, rightbuttontext, leftButtonevent, ri
                     <div >
                         {children}
                     </div>
-                    <div>
-                        <Button className="bg-blue-500" onClick={leftButtonevent}>{leftButtontext}</Button>
-                        <Button className="bg-blue-500" onClick={rightbuttonevent}>{rightbuttontext} </Button>
+                    <div >
+                        <Button className="bg-[#BFFF00]" onClick={leftButtonevent}>{leftButtontext}</Button>
+                        <Button className="bg-[#BFFF00] ml-2" onClick={rightbuttonevent}>{rightbuttontext} </Button>
                     </div>
                 </div>
             </div>

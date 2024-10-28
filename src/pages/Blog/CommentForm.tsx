@@ -34,13 +34,17 @@ const CommentForm = ({ isEdit, setisEdit, content, setdropdownOpen }: CommentPro
         <>
             {isEdit ?
                 <>
-                    <input className="border border-2 border-slate-300 p-2 rounded-md w-96"
-                        onChange={handlewriteEditcomment}
-                        value={editComment}
-                    >
-                    </input>
-                    <Button onClick={handlesubmitEditcomment} className="bg-blue-500" type="submit">완료</Button>
-                    <Button onClick={handlecancelEditcomment} className="bg-blue-500" type="submit">취소</Button>
+                    <div className="flex mt-3">
+                        <input className="border border-2 border-slate-300 p-2 rounded-md w-dvw"
+                            onChange={handlewriteEditcomment}
+                            value={editComment}
+                        >
+                        </input>
+                        <div className="flex ml-2 space-x-2">
+                            <Button onClick={handlesubmitEditcomment} className="bg-[#BFFF00] w-20" type="submit">완료</Button>
+                            <Button onClick={handlecancelEditcomment} className="bg-[#BFFF00] w-20" type="submit">취소</Button>
+                        </div>
+                    </div>
                 </>
                 : <div>{content}</div>}
         </>
