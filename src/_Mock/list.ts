@@ -7,6 +7,8 @@ interface RunProps {
   people: number;       // 현재 참여 인원, 숫자 타입
   maximumPeople: number;// 최대 참여 인원, 숫자 타입
   status: "시작전" | "진행중" | "완료";  // 모임 상태, 특정한 문자열 중 하나 (시작전, 진행중, 완료)
+  runId:number;
+  runType: "Crew" | "Run"
 }
 
 interface RunDataResponse {
@@ -28,6 +30,8 @@ export const runData: RunDataResponse  = {
       people: 10,
       maximumPeople: 15,
       status: "진행중",
+      runId : 3,
+      runType: "Crew"
     },
     {
       title: "도심 속 야간 달리기",
@@ -38,6 +42,8 @@ export const runData: RunDataResponse  = {
       people: 8,
       maximumPeople: 10,
       status: "시작전",
+      runId : 4,
+      runType: "Crew"
     },
     {
       title: "주말 러닝 클럽",
@@ -48,6 +54,8 @@ export const runData: RunDataResponse  = {
       people: 15,
       maximumPeople: 20,
       status: "완료",
+      runId : 5,
+      runType: "Run"
     },
     {
       title: "청계천 주말 러너즈",
@@ -58,6 +66,8 @@ export const runData: RunDataResponse  = {
       people: 20,
       maximumPeople: 25,
       status: "진행중",
+      runId : 6,
+      runType: "Run"
     },
     {
       title: "아침을 여는 한강 러닝",
@@ -68,6 +78,8 @@ export const runData: RunDataResponse  = {
       people: 12,
       maximumPeople: 20,
       status: "시작전",
+      runId : 7,
+      runType: "Run"
     },
     {
       title: "강남 러닝 크루",
@@ -78,6 +90,8 @@ export const runData: RunDataResponse  = {
       people: 5,
       maximumPeople: 10,
       status: "완료",
+      runId : 8,
+      runType: "Run"
     },
     {
       title: "해질녘 러닝",
@@ -88,6 +102,8 @@ export const runData: RunDataResponse  = {
       people: 7,
       maximumPeople: 12,
       status: "진행중",
+      runId : 9,
+      runType: "Run"
     },
     {
       title: "주말 야외 러닝",
@@ -98,6 +114,8 @@ export const runData: RunDataResponse  = {
       people: 18,
       maximumPeople: 20,
       status: "시작전",
+      runId : 10,
+      runType: "Run"
     },
     {
       title: "강원도 힐링 러닝",
@@ -108,6 +126,8 @@ export const runData: RunDataResponse  = {
       people: 10,
       maximumPeople: 15,
       status: "진행중",
+      runId : 11,
+      runType: "Run"
     },
     {
       title: "도시 공원 아침 러닝",
@@ -118,6 +138,8 @@ export const runData: RunDataResponse  = {
       people: 16,
       maximumPeople: 20,
       status: "완료",
+      runId : 12,
+      runType: "Run"
     },
   ],
   "total": 10,       // 총 데이터 수

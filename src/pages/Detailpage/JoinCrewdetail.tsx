@@ -4,9 +4,13 @@ import { useState } from 'react';
 import DetailHeader from './DetailHeader';
 import DetailInfo from './DetailInfo';
 import { GiRunningShoe } from "react-icons/gi";
+import { useParams } from 'react-router-dom';
 
 const JoinCrewdetail = () => {
 
+    let { runId } = useParams();
+
+    //runId에 해당하는 detail api 가져오기 
     const joincrewarray = [{
         crewname: 'firstrunnncrew',
         intro: 'intro',

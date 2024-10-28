@@ -90,15 +90,15 @@ const router = createBrowserRouter([
 				element: <BlogDetail />,
 			},
 			{
-				path: "joinRun",
+				path: "joinRun/:id",
 				element: <JoinRundetail />,
 			},
 			{
-				path: "joinCrewRun",
+				path: "joinCrewRun/:id",
 				element: <JoinCrewrundetail />,
 			},
 			{
-				path: "joinCrew",
+				path: "joinCrew/:id",
 				element: <JoinCrewdetail />,
 			},
 			{
