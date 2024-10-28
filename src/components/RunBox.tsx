@@ -12,6 +12,7 @@ interface RunProps {
 	people: number;
 	maximumPeople: number;
 	status: "시작전" | "진행중" | "완료";
+	runId: number;
 	boxVerticalWidth?: string; //세로
 	boxHorizontalWidth?: string; //가로
 }
@@ -23,6 +24,7 @@ interface CrewProps {
 	people: number;
 	maximumPeople: number;
 	status: "모집중" | "만원";
+	runId: number;
 	boxVerticalWidth?: string;
 	boxHorizontalWidth?: string;
 }

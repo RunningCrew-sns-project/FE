@@ -12,7 +12,9 @@ interface FormLayoutProps {
 	setImgFile: (formData: FormData) => void; 
 }
 
+
 const FormLayout = ({ title, fields, onSubmit, children, setImgFile }: FormLayoutProps) => {
+
 	const methods = useForm<InputFieldProps>();
 
 	const handleUploadFiles = (formData: FormData) => {
