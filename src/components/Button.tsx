@@ -6,9 +6,11 @@ type Props = {
 	className?: string;
 	onClick?: () => void;
 	disabled?: boolean;
+	type : 'button' | 'submit' | 'reset'
 };
 
 const Button = ({
+	type,
 	theme,
 	children,
 	className,
@@ -22,6 +24,7 @@ const Button = ({
 	};
 	return (
 		<button
+			type={type}
 			onClick={onClick}
 			className={
 				`px-6 py-2 transition-colors rounded-xl hover:opacity-80 text-md font-bold ${buttonTheme[theme]
