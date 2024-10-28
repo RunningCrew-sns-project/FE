@@ -11,7 +11,7 @@ interface FormLayoutProps {
 	children?: React.ReactNode; // children 추가
 }
 
-const FormLayout = ({ title, fields, onSubmit , children }: FormLayoutProps) => {
+const FormLayout = ({ title, fields, onSubmit, children }: FormLayoutProps) => {
 	const methods = useForm<InputFieldProps>();
 
 	return (
