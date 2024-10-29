@@ -26,7 +26,7 @@ const MainBanner = ({ slide, state }: Props) => {
 				navigate("/create/crew");
 				break;
 			case "TODAY":
-				navigate('/running');
+				navigate("/running");
 				break;
 			default:
 				navigate("/");
@@ -57,6 +57,7 @@ const MainBanner = ({ slide, state }: Props) => {
 								타이틀제목 인원수
 							</span>
 							<Button
+								type="button"
 								theme="primary"
 								className="absolute left-36"
 								onClick={handleMoveBtn}
@@ -66,6 +67,7 @@ const MainBanner = ({ slide, state }: Props) => {
 						</div>
 					) : (
 						<Button
+							type="button"
 							theme="primary"
 							className="text-lg font-pre900"
 							onClick={handleMoveBtn}

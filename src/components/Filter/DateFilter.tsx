@@ -39,7 +39,7 @@ const DateFilter = ({startDate, setStartDate, currentDate}: DateFilterProps) => 
 
 	return (
 		<>
-			<Button theme="primary" onClick={openModal}>
+			<Button	type="button" theme="primary" onClick={openModal}>
 				날짜 선택
 			</Button>
 			{startDate && (

@@ -60,6 +60,7 @@ const LocationFilter = ({ setArea }: LocationFilterProps) => {
 				<div className="flex flex-wrap gap-2 justify-start" >
 					{LOCATION.map((item: LocationData) => (
 						<Button
+							type="button"
 							theme={seletArea === item.area ? "primary" : "light"}
 							key={item.id}
 							className="text-sm  min-w-[100px] max-w-[150px] "
@@ -77,6 +78,7 @@ const LocationFilter = ({ setArea }: LocationFilterProps) => {
 						{LOCATION.map((item: LocationData) => (
 							<div className="flex justify-center mx-2 pl-28" key={item.id}>
 								<Button
+									type="button"
 									theme={seletArea === item.area ? "primary" : "light"}
 									className="text-sm min-w-[100px] max-w-[150px]"
 									onClick={() => handleClick(item.area)}
