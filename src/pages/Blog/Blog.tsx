@@ -60,8 +60,8 @@ const Blog = () => {
     return (
         <>
             <div className="bg-black">
-                <Button className="bg-[#BFFF00]" onClick={handleMovewriteBlogCardpage}>작성하기</Button>
-                <div className="gap-y-4">
+                <Button className="bg-[#BFFF00]" onClick={handleMovewriteBlogCardpage}>+</Button>
+                <div className="gap-y-4 mt-2 mb-2">
                     {blogarray.map((blog: BlogType) => {
                         return (
                             <BlogCard key={blog.blogId}

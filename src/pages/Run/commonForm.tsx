@@ -2,29 +2,39 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import InputField, { InputFieldProps } from "./inputField";
 import Button from "../../components/Button";
-// import UploadImage from "../../components/UploadImage";
+import UploadImage from "../../components/UploadImage";
 
 interface FormLayoutProps {
 	title: string;
 	fields: InputFieldProps[];
 	onSubmit: (data: InputFieldProps) => void;
 	children?: React.ReactNode; // children 추가
+	setImgFile: (formData: FormData) => void; 
 }
 
-const FormLayout = ({ title, fields, onSubmit , children }: FormLayoutProps) => {
+
+const FormLayout = ({ title, fields, onSubmit, children, setImgFile }: FormLayoutProps) => {
+
 	const methods = useForm<InputFieldProps>();
+
+	const handleUploadFiles = (formData: FormData) => {
+		setImgFile(formData)
+};
 
 	return (
 		<FormProvider {...methods}>
 			<h2 className="mb-10 font-black text-[20px]">{title}</h2>
-			{/* <UploadImage
-				id="image-upload"
-				onUploadFiles={(formData) => console.log(formData)} // 파일 업로드 핸들링
+			<UploadImage
+				onUploadFiles={handleUploadFiles}
 				multiple={true}
-				uploadfileLength={5} // 최대 업로드 파일 수
-				imgpreviewWidth={100} // 미리보기 이미지 너비
-				imgpreviewHeight={100} // 미리보기 이미지 높이
-			/> */}
+				uploadfileLength={5}
+				id="file-upload"
+				imgpreviewWidth={100}
+				imgpreviewHeight={100}
+				buttonClassName="bg-blue-500 text-white p-2 rounded"
+				imgClassName="w-full h-full object-cover"
+				buttonpositionClassName="flex items-center"
+			/>
 			<form onSubmit={methods.handleSubmit(onSubmit)}>
 				{fields.map((field, index) => (
 					<div
@@ -43,6 +53,7 @@ const FormLayout = ({ title, fields, onSubmit , children }: FormLayoutProps) => 
 				{children}
 				<div className="flex flex-col gap-2 justify-between w-full mt-5 tablet:flex-row laptop:flex-row desktop:flex-row ">
 					<Button
+						type="submit"
 						theme="primary"
 						className="w-[320px] tablet:w-[320px] laptop:w-[400px] desktop:w-[400px]"
 					>
@@ -52,7 +63,7 @@ const FormLayout = ({ title, fields, onSubmit , children }: FormLayoutProps) => 
 						to="/"
 						className="w-[320px] tablet:w-[320px] laptop:w-[400px] desktop:w-[400px]"
 					>
-						<Button theme="dark" className="w-full">
+						<Button type="button" theme="dark" className="w-full">
 							취소하기
 						</Button>
 					</Link>

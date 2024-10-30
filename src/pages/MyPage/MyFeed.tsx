@@ -8,7 +8,7 @@ type Props = {};
 
 const MyFeed = (props: Props) => {
 	const data = [1, 1, 1, 1, 1];
-	const requestPost = () => {};
+	const requestPost = () => { };
 	const Post = () => {
 		return (
 			<div className="mb-6">

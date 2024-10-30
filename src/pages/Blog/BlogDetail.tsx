@@ -85,20 +85,26 @@ const BlogDetail = () => {
                             imageUrl={blogdetail.imageUrl}
                             content={blogdetail.content}
                             liked={blogdetail.liked}
+                            likeCount={blogdetail.likeCount}
                             blogId={blogdetail.blogId}></BlogCard>
                         {blogdetail.comments.map((comment: Comment) => (
-                            <Comment
-                                content={comment.content}
-                                userName={comment.userName}
-                                userImg={comment.userImg}
-                                createdAt={comment.createdAt}>
-                            </Comment>
+                            <div className="mb-0 h-30 w-full tablet:w-[700px] laptop:w-[1100px] mx-auto bg-white px-4 rounded-lg ">
+                                <Comment
+                                    content={comment.content}
+                                    userName={comment.userName}
+                                    userImg={comment.userImg}
+                                    createdAt={comment.createdAt}>
+                                </Comment>
+                            </div>
                         ))}
                     </>
                 )
-                )}
-                <input className="border border-2 border-slate-300 p-2 rounded-md w-96"></input>
-                <Button onClick={handlesubmitcomment} className="bg-[#BFFF00]" type="submit">완료</Button>
+                )
+                }
+                <div className="justify-between items-center ml-20">
+                    <input className="mt-2 w-full tablet:w-[630px] laptop:w-[1030px] border border-2 border-slate-300 p-2 rounded-md w-96 "></input>
+                    <Button onClick={handlesubmitcomment} className="ml-2 bg-[#BFFF00]" type="submit">완료</Button>
+                </div>
             </div>
         </>
     );

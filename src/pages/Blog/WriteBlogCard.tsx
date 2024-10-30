@@ -3,6 +3,8 @@ import { useForm, FormProvider, useFormContext } from 'react-hook-form';
 import { uploadFiles } from '../../api/image/api';
 import Button from '../../components/Button';
 import UploadImage from '../../components/UploadImage';
+import { bloginputfields } from '../../const/bloginputfields';
+import BlogInput, { BlogInputProps } from './BlogInput';
 
 
 
@@ -26,6 +28,7 @@ const WriteBlogCard = () => {
     } = useForm<BlogCardInput>()
 
     const [blogImages, setblogImages] = useState([]);
+    const methods = useForm<BlogInputProps>();
 
     const onSubmit = async (BlogCardData: BlogCardInput) => {
         console.log('BlogCard작성')
@@ -53,47 +56,45 @@ const WriteBlogCard = () => {
     }
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label>제목</label>
-                    <input className="border border-2 border-slate-300 p-2 rounded-md w-96" {...register("title")} />
-                </div>
+            <div className="flex flex-col items-center mb-20">
+                <FormProvider {...methods}>
+                    <form onSubmit={methods.handleSubmit(onSubmit)}>
+                        {bloginputfields.map((blogfield, index) => (
+                            <div
+                                key={index}
+                                className="w-[320px] tablet:w-[640px] laptop:w-[800px] desktop:w-[800px]"
+                            >
+                                <BlogInput
+                                    type={blogfield.type}
+                                    name={blogfield.name}
+                                    label={blogfield.label}
+                                    required={blogfield.required}
+                                    placeholder={blogfield.placeholder}
+                                />
+                            </div>
+                        ))}
 
-                <div>
-                    <label>내용</label>
-                    <textarea className="border border-2 border-slate-300 p-2 rounded-md w-96" {...register("content")} />
-                </div>
-
-                <div>
-                    <label>기록</label>
-                    <textarea placeholder="hh:mm:ss"
-                        maxLength={8}
-                        className="border border-2 border-slate-300 p-2 rounded-md w-48" {...register("record")} />
-                </div>
-
-                <div>
-                    <label>거리</label>
-                    <textarea className="border border-2 border-slate-300 p-2 rounded-md w-96" {...register("distance")} />
-                </div>
-
-                <UploadImage
-                    id="blog"
-                    onUploadFiles={(formData) => {
-                        setblogImages(formData);
-                    }}
-                    multiple={true}
-                    uploadfileLength={4}
-                    imgpreviewWidth={250}
-                    imgpreviewHeight={250}
-                    imgClassName="object-cover w-full h-full rounded-lg"
-                    buttonpositionClassName="mr-14"
-                    buttonClassName="px-6 py-2 transition-colors rounded-xl hover:opacity-80 text-md font-bold bg-red-500"
-                ></UploadImage>
-                <div>
-                    <Button className="bg-[#BFFF00]" type="submit">완료</Button>
-                </div>
-            </form>
+                        <UploadImage
+                            id="blog"
+                            onUploadFiles={(formData) => {
+                                setblogImages(formData);
+                            }}
+                            multiple={true}
+                            uploadfileLength={4}
+                            imgpreviewWidth={250}
+                            imgpreviewHeight={250}
+                            imgClassName="object-cover w-full h-full rounded-lg"
+                            buttonpositionClassName="mr-0"
+                            buttonClassName="px-6 py-2 transition-colors rounded-xl hover:opacity-80 text-md font-bold bg-[#BFFF00]"
+                        ></UploadImage>
+                        <div>
+                            <Button className="bg-[#BFFF00]" type="submit">완료</Button>
+                        </div>
+                    </form>
+                </FormProvider>
+            </div>
         </>
+
     );
 
 };
