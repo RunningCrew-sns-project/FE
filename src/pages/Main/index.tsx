@@ -2,8 +2,8 @@ import SlickSlider from "../../components/Slider/slider";
 import todayRun from '../../assets/mianBanner1_bg.jpg';
 import withTogeter from '../../assets/mianBanner2_bg.jpg';
 import joinCrew from '../../assets/mianBanner3_bg.jpg';
-import MainBanner from "./mainbanner";
 import {  useState } from "react";
+import MainBanner from "./mainbanner";
 
 
 

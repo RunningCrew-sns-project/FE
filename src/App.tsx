@@ -1,15 +1,20 @@
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import Footer from "./components/Layout/footer";
 import Header from "./components/Layout/header";
-import { Toaster } from 'react-hot-toast';
-
+import { Toaster } from "react-hot-toast";
+import { useDevice } from "./hook/usedevice";
 
 function App() {
+	const location = useLocation();
+	const { isMobile, isTablet } = useDevice();
+
+	const isRunning = location.pathname === "/running";
+	const hideHeaderFooter = isRunning && (isMobile || isTablet);
 	return (
 		<>
-			<Header />
+			{!hideHeaderFooter && <Header />}
 			<Outlet />
-			<Footer />
+			{!hideHeaderFooter && <Footer />}
 			<div>
 				<Toaster />
 			</div>
