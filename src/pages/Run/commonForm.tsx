@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import InputField, { InputFieldProps } from "./inputField";
 import Button from "../../components/Button";
 import UploadImage from "../../components/UploadImage";
@@ -16,6 +16,8 @@ interface FormLayoutProps {
 const FormLayout = ({ title, fields, onSubmit, children, setImgFile }: FormLayoutProps) => {
 
 	const methods = useForm<InputFieldProps>();
+	const location = useLocation(); // 현재 경로 가져오기
+	const cancelLink = location.pathname === "create/crewRun" ? "/" : "/crew";
 
 	const handleUploadFiles = (formData: FormData) => {
 		setImgFile(formData)
@@ -60,7 +62,7 @@ const FormLayout = ({ title, fields, onSubmit, children, setImgFile }: FormLayou
 						등록하기
 					</Button>
 					<Link
-						to="/"
+						to={cancelLink}
 						className="w-[320px] tablet:w-[320px] laptop:w-[400px] desktop:w-[400px]"
 					>
 						<Button type="button" theme="dark" className="w-full">

@@ -12,7 +12,7 @@ interface RunProps {
 }
 
 interface RunDataResponse {
-  data: RunProps[];  // RunProps 배열
+  itmes: RunProps[];  // RunProps 배열
   total: number;      // 총 데이터 수
   page: number;       // 현재 페이지
   pageSize: number;   // 한 페이지당 데이터 수
@@ -20,7 +20,7 @@ interface RunDataResponse {
 }
 
 export const runData: RunDataResponse  = {
-  data:[
+  itmes:[
     {
       title: "새벽 달리기 모임",
       location: "서울 한강공원",

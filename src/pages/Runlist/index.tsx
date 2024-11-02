@@ -7,6 +7,8 @@ import LocationFilter from "../../components/Filter/LocationFilter";
 import ItemList from "./ItemList";
 import { useEffect, useState } from "react";
 import { runData } from "../../_Mock/list";
+import { useSearchParams } from "react-router-dom";
+// import { CrewTeamList } from "../../_Mock/crewteamlist";
 
 const RunListPage = () => {
 	const { isMobile } = useDevice();
@@ -14,13 +16,27 @@ const RunListPage = () => {
 	const currentDate = new Date();
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
 	const [area, setArea] = useState("전체");
+	const [sortOrder, setSortOrder] = useState("latest"); // 기본값은 최신순
+	const [items, setItems] = useState([]);
+
+	//카테고리
+	const [searchParms] = useSearchParams();
+	const category = searchParms.get("");
 
 	// 통신함수
 	useEffect(() => {
 		// 통신
+		const res = runData;
+		// const res2 = CrewTeamList;
+		setItems(res.itmes);
 		console.log(startDate);
 		console.log(area);
-	}, [area, startDate]);
+		console.log(sortOrder);
+	}, [area, startDate, sortOrder, items, category]);
+
+	const handleSort = (order: string) => {
+		setSortOrder(order);
+	};
 
 	return (
 		<>
@@ -48,13 +64,24 @@ const RunListPage = () => {
 									</h3>
 								)}
 								<div>
-									<span className="text-sm">최신순</span>
-									<span className="text-sm"> 오래된순 </span>
+									<button
+										className={`text-sm ${sortOrder === "latest" ? "text-primary" : "text-white"}`}
+										onClick={() => handleSort("latest")}
+									>
+										최신순
+									</button>
+									<button
+										className={`text-sm  ml-4 ${sortOrder === "oldest" ? "text-primary font-bold" : "text-white"}`}
+										onClick={() => handleSort("oldest")}
+									>
+										{" "}
+										오래된순{" "}
+									</button>
 								</div>
 							</div>
 							<hr className="border border-white my-4" />
 							<div className="">
-								<ItemList runData={runData} />
+								<ItemList runData={items} />
 							</div>
 						</div>
 					</div>
