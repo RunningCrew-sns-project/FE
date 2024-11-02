@@ -19,8 +19,12 @@ import BlogDetail from "../pages/Blog/BlogDetail";
 import JoinRundetail from "../pages/Detailpage/JoinRundetail";
 import JoinCrewrundetail from "../pages/Detailpage/JoinCrewRundetail";
 import JoinCrewdetail from "../pages/Detailpage/JoinCrewdetail";
+
+import KakaoCallback from "../pages/Auth/KakaoCallback";
+
 import CrewPage from "../pages/Crew";
 import RunningPage from "../pages/Running";
+
 
 const router = createBrowserRouter([
 	{
@@ -53,6 +57,9 @@ const router = createBrowserRouter([
 				],
 			},
 			{
+				path: "running",
+				element: <Running />,
+      },
 				path: "crew",
 				element: <CrewPage />,
 			},
@@ -61,8 +68,12 @@ const router = createBrowserRouter([
 				element: <RunningPage />,
 			},
 			{
-				path: "Login",
+				path: "login",
 				element: <Login />,
+			},
+			{
+				path: "auth/kakao/callback",
+				element: <KakaoCallback />,
 			},
 			{
 				path: "myPage",
@@ -78,7 +89,7 @@ const router = createBrowserRouter([
 				],
 			},
 			{
-				path: "Profile",
+				path: "profile",
 				element: <Profile />,
 			},
 			{
@@ -104,14 +115,6 @@ const router = createBrowserRouter([
 			{
 				path: "joinCrew/:id",
 				element: <JoinCrewdetail />,
-			},
-			{
-				path: "Login",
-				element: <Login />,
-			},
-			{
-				path: "Login",
-				element: <Login />,
 			},
 		],
 		errorElement: <Errorpage />,
