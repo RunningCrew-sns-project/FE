@@ -1,6 +1,11 @@
+
 import MapPage from "../../components/Map/Map";
+import useStopWatch from "../../hook/useStopWatch";
+import ProgressBar from "./ProgressBar";
 
 const Running = () => {
+	const {start, stop, formatTime, time} = useStopWatch()
+
 	const locationData = {
 		startCoordinates: { lat: 37.51064272274346, lng: 127.09971395114385 },
 		endCoordinates: { lat: 37.51113059993883, lng: 127.09811980036908 },
@@ -14,8 +19,11 @@ const Running = () => {
 				<div className="w-full h-full">
 					<MapPage locationData={locationData} width="100%" height="100%"  className="rounded-t-3xl"/>
 				</div>
+				<div className="absolute top-20 left-4 z-10">
+					<ProgressBar start={start} stop={stop} />
+				</div>
 				<div className="absolute top-4 left-4 z-10">
-            <p>타이머</p>
+						{formatTime(time)}
         </div>
 			</div>
 		</>

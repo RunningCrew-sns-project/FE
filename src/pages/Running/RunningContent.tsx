@@ -1,5 +1,5 @@
 import { useDevice } from "../../hook/usedevice";
-import Running from "./running";
+import Running from "./Running";
 import RunningFooter from "./RunningFooter";
 import RuningHeader from "./RunningHeader";
 
