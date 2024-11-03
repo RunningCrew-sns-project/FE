@@ -1,10 +1,17 @@
+
 import { useDevice } from "../../hook/usedevice";
+import useStopWatch from "../../hook/useStopWatch";
 import Running from "./Running";
 import RunningFooter from "./RunningFooter";
 import RuningHeader from "./RunningHeader";
 
 const RunningContent = () => {
 	const { isMobile, isTablet } = useDevice();
+	const { stop } = useStopWatch();
+
+
+
+
 
 	return (
 		<>
@@ -20,7 +27,7 @@ const RunningContent = () => {
 					<Running />
 				</div>
 				<div className={`absolute bottom-0 w-full z-20`}>
-					<RunningFooter />
+					<RunningFooter  stop={stop}/>
 				</div>
 			</div>
 		</>

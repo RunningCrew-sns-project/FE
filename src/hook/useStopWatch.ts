@@ -14,6 +14,16 @@ const useStopWatch = () => {
 		}
 	};
 
+	const pause = () => {
+		if (isRunning) {
+			setIsRunning(false);
+			if (timer.current !== null) {
+				clearInterval(timer.current);
+				timer.current = null;
+			}
+		}
+	};
+
 	const stop = () => {
 		if (isRunning) {
 			setIsRunning(false);
@@ -22,6 +32,7 @@ const useStopWatch = () => {
 				timer.current = null;
 			}
 		}
+		setTime(0); // 타이머 초기화
 	};
 	const formatTime = (time : number) => {
 		const hours = Math.floor((time / 60 / 60) % 24);
@@ -35,7 +46,7 @@ const useStopWatch = () => {
 		return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 	};
 
-	return { start, stop, formatTime, time };
+	return { start, stop, formatTime, time ,pause };
 };
 
 export default useStopWatch;
