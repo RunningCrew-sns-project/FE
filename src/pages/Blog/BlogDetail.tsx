@@ -2,7 +2,6 @@ import BlogCard from "./BlogCard";
 import { useParams } from 'react-router-dom';
 import Comment from "./Comment";
 import Button from "../../components/Button";
-import CommentForm from "./CommentForm";
 
 type BlogDetailprops = {
     userName: string;
@@ -12,7 +11,7 @@ type BlogDetailprops = {
     content: string;
     record: string;
     distance: string;
-    imageUrl: string;
+    imageUrl: string[];
     likeCount: number;
     liked: boolean
     createdAt: string;
@@ -42,7 +41,7 @@ const BlogDetail = () => {
             content: "블로그 내용 입력1",
             record: "00:15:00",
             distance: "1.5km",
-            imageUrl: "https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg",
+            imageUrl: ["https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg"],
             likeCount: 1,
             liked: true,
             createdAt: "2024-10-24T16:26:13",
@@ -72,11 +71,13 @@ const BlogDetail = () => {
 
     return (
         <>
-            <div className="bg-black">
+            <div className="bg-black py-8">
                 {blogdetailarray.map((blogdetail: BlogDetailprops) => (
-                    <>
+                    <div
+                        key={blogdetail.blogId}
+                        className="w-full tablet:w-[700px] laptop:w-[1100px] mx-auto bg-white px-8 py-6 mt-6 rounded-lg shadow-lg"
+                    >
                         <BlogCard
-                            key={blogdetail.blogId}
                             userImg={blogdetail.userImg}
                             userName={blogdetail.userName}
                             title={blogdetail.title}
@@ -86,25 +87,36 @@ const BlogDetail = () => {
                             content={blogdetail.content}
                             liked={blogdetail.liked}
                             likeCount={blogdetail.likeCount}
-                            blogId={blogdetail.blogId}></BlogCard>
-                        {blogdetail.comments.map((comment: Comment) => (
-                            <div className="mb-0 h-30 w-full tablet:w-[700px] laptop:w-[1100px] mx-auto bg-white px-4 rounded-lg ">
-                                <Comment
-                                    content={comment.content}
-                                    userName={comment.userName}
-                                    userImg={comment.userImg}
-                                    createdAt={comment.createdAt}>
-                                </Comment>
-                            </div>
-                        ))}
-                    </>
-                )
-                )
-                }
-                <div className="justify-between items-center ml-20">
-                    <input className="mt-2 w-full tablet:w-[630px] laptop:w-[1030px] border border-2 border-slate-300 p-2 rounded-md w-96 "></input>
-                    <Button onClick={handlesubmitcomment} className="ml-2 bg-[#BFFF00]" type="submit">완료</Button>
-                </div>
+                            blogId={blogdetail.blogId}
+                        />
+                        <div className="pt-4">
+                            {blogdetail.comments.map((comment: Comment) => (
+                                <div key={comment.commentId} className="mb-2 w-full bg-gray-100 rounded-lg p-4">
+                                    <Comment
+                                        content={comment.content}
+                                        userName={comment.userName}
+                                        userImg={comment.userImg}
+                                        createdAt={comment.createdAt}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="flex items-center gap-2 mt-6">
+                            <input
+                                type="text"
+                                placeholder="댓글을 입력하세요"
+                                className="flex-grow border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#BFFF00]"
+                            />
+                            <Button
+                                onClick={handlesubmitcomment}
+                                className="bg-[#BFFF00] text-white px-4 py-2 rounded-md hover:bg-[#aaff00] transition"
+                                type="submit"
+                            >
+                                완료
+                            </Button>
+                        </div>
+                    </div>
+                ))}
             </div>
         </>
     );
