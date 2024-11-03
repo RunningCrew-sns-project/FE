@@ -34,7 +34,7 @@ const MyPage = (props: Props) => {
 					<Button theme="dark">로그아웃</Button>
 				</div>
 			</div>
-			<div className="w-full h-[160px] shrink-0 fixed z-10 px-4 pt-4 tablet:w-[160px] tablet:h-screen tablet:border-r border-white/30 bg-black">
+			<div className="w-full h-[160px] shrink-0 fixed z-10 px-4 pt-4 tablet:w-[220px] tablet:h-screen tablet:border-r border-white/30 bg-black">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center tablet:flex-col">
 						<div className="w-[80px] h-[80px] bg-pink-100 rounded-full mr-4 tablet:mr-0 tablet:mb-4 tablet:mt-10">
@@ -84,7 +84,7 @@ const MyPage = (props: Props) => {
 				</div>
 			</div>
 			{/* scroll area */}
-			<div className="px-4 mt-[180px] tablet:ml-[180px] tablet:mt-[80px] w-full">
+			<div className="px-4 mt-[180px] tablet:ml-[220px] tablet:mt-[80px] w-full">
 				<Outlet />
 			</div>
 		</div>
