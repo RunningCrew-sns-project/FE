@@ -25,15 +25,16 @@ const KakaoCallback = () => {
 						},
 					);
 
+					navigate("/");
 					if (response.status === 200) {
 						// 토큰 저장
-						localStorage.setItem("auth_token", response.data.token);
+						localStorage.setItem("auth_token", response.data.success.responseData.accessToken);
 						// 메인 페이지로 이동
-						// navigate("/main");
+						navigate("/main");
 					}
 				} catch (error) {
 					console.error("카카오 로그인 처리 실패:", error);
-					navigate("/login"); // 실패시 로그인 페이지로
+					//navigate("/login"); // 실패시 로그인 페이지로
 				}
 			};
 

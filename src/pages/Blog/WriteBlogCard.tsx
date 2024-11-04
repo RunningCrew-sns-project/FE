@@ -5,7 +5,10 @@ import Button from '../../components/Button';
 import UploadImage from '../../components/UploadImage';
 import { bloginputfields } from '../../const/bloginputfields';
 import BlogInput, { BlogInputProps } from './BlogInput';
-
+import { useMutation } from "@tanstack/react-query";
+import { writeBlog } from '../../api/blog/api';
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom';
 
 
 type BlogCardInput = {
@@ -19,6 +22,16 @@ type BlogCardInput = {
 
 const WriteBlogCard = () => {
 
+    const { mutate, isLoading, isError, error, isSuccess } = useMutation({
+        mutationFn: writeBlog,
+        onSuccess: (data) => {
+            console.log("블로그 작성 성공:", data);
+        },
+        onError: (error) => {
+            console.error("블로그 작성 실패:", error);
+        },
+    })
+
     const {
         register,
         handleSubmit,
@@ -27,11 +40,10 @@ const WriteBlogCard = () => {
         setValue
     } = useForm<BlogCardInput>()
 
+    const navigate = useNavigate();
     const [blogImages, setblogImages] = useState([]);
     const methods = useForm<BlogInputProps>();
-
     const onSubmit = async (BlogCardData: BlogCardInput) => {
-        console.log('BlogCard작성')
 
         try {
             const fileUrls = await uploadFiles(
@@ -39,13 +51,21 @@ const WriteBlogCard = () => {
                 blogImages,
                 { directory: 'blog_images', big: false }
             );
-            console.log('내가 업로드한 fileUrls', fileUrls);
 
-            //todo.fileUrl을 블로그 작성 api imageurl에 추가해서 연동 
-
-            console.log('BlogData', BlogCardData)
             BlogCardData["imageUrl"] = fileUrls
-            console.log('BlogData with img', BlogCardData)
+            console.log('BlogData', BlogCardData)
+
+            const writeBlogData = {
+                title: BlogCardData.title,
+                content: BlogCardData.content,
+                distance: BlogCardData.distance,
+                record: BlogCardData.record,
+                imageUrll: BlogCardData.imageUrl
+            };
+
+            mutate(writeBlogData);
+            toast.success('블로그 작성완료되었어요!')
+            navigate(`/blog`);
 
         } catch (error) {
             console.error('파일 업로드 에러:', error);

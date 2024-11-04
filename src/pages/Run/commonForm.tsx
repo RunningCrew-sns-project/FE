@@ -17,7 +17,7 @@ const FormLayout = ({ title, fields, onSubmit, children, setImgFile }: FormLayou
 
 	const methods = useForm<InputFieldProps>();
 	const location = useLocation(); // 현재 경로 가져오기
-	const cancelLink = location.pathname === "create/crewRun" ? "/" : "/crew";
+	const cancelLink = location.pathname === "/create/crewRun" ? "/crew" : "/";
 
 	const handleUploadFiles = (formData: FormData) => {
 		setImgFile(formData)

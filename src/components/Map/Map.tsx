@@ -6,9 +6,10 @@ import React from "react";
 interface MapPageProps {
 	locationData: LocationDataProps;
 	setLocationData?: React.Dispatch<React.SetStateAction<LocationDataProps>>; // 선택적 props로 변경
-	width: string;
-	height: string;
+	width?: string;
+	height?: string;
 	className?: string;
+	currentlocation?: { latitude: number | null; longitude: number | null }; 
 }
 
 const MapPage = ({
@@ -17,6 +18,7 @@ const MapPage = ({
 	width = "100%", // 기본값 설정
 	height = "360px",
 	className = "",
+	currentlocation
 }: MapPageProps) => {
 	return (
 		<>
@@ -45,6 +47,11 @@ const MapPage = ({
 						<div style={{ color: "#000" }}>
 							도착지: {locationData.endAddress}
 						</div>
+					</MapMarker>
+				)}
+				{currentlocation?.latitude && currentlocation?.longitude && (
+					<MapMarker position={{ lat: currentlocation.latitude, lng: currentlocation.longitude }}>
+						<div style={{ color: "red" }}>현재 위치</div>
 					</MapMarker>
 				)}
 			</Map>
