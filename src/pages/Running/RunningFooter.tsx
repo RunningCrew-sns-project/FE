@@ -2,18 +2,29 @@ import { useDevice } from "../../hook/usedevice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import RunResultModal from "../../components/Modal/runResult";
+import RunResultModal from "../../components/Modal/RunResult";
 
-const RunningFooter = () => {
+interface RunningFooterProps {
+  stop: () => void;
+  setIsStop: (value: boolean) => void;
+  data: { time: string; progress: number }; // data의 구조에 따라 수정 필요
+}
+
+const RunningFooter = ({stop, setIsStop, data}:RunningFooterProps) => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleOpneModal = () => {
+		stop()
 		setIsOpen(true);
+		setIsStop(true);
 	};
 
 
-  const handleCloseModal = () => setIsOpen(false);
+  const handleCloseModal = () => {
+		setIsOpen(false);
+		setIsStop(false)
+	}
   
 
 	return (
@@ -36,7 +47,7 @@ const RunningFooter = () => {
 						<FontAwesomeIcon icon={faDoorOpen} className="text-2xl mb-1" />
 						<span className="text-xs">종료하기</span>
 					</div>
-					<RunResultModal isOpen={isOpen} onClose={handleCloseModal} />
+					<RunResultModal isOpen={isOpen} onClose={handleCloseModal} data={data}  />
 				</div>
 			</div>
 		</>
