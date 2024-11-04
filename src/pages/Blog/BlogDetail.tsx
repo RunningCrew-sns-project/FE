@@ -4,6 +4,10 @@ import Comment from "./Comment";
 import Button from "../../components/Button";
 import { useQuery } from '@tanstack/react-query'
 import { getBlogdetail } from "../../api/blog/api";
+import { useMutation } from "@tanstack/react-query";
+import { writeComment } from "../../api/comment/api";
+import { useState } from "react";
+import { useQueryClient } from '@tanstack/react-query';
 
 type BlogDetailprops = {
     userName: string;
@@ -33,44 +37,31 @@ const BlogDetail = () => {
 
     let { blogId } = useParams();
 
-    //todo. blogId에 해당하는 BlogCarddetail api 
-    const { data: blogdetailarray, isLoading, isError, error } = useQuery({ queryKey: ['blog', blogId], queryFn: () => getBlogdetail(blogId) })
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+        mutationFn: writeComment,
+        onSuccess: () => {
+            queryClient.invalidateQueries(['blogdetail', blogId]);
+            toast.success('댓글이 삭제되었습니다!');
+        },
+        onError: (error) => {
+            console.error("댓글 작성 실패:", error);
+        },
+    })
 
-    // const blogdetailarray =
-    //     [{
-    //         userImg: "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/elderly-man-icon.png",
-    //         userName: "user1",
-    //         blogId: 93,
-    //         title: "블로그 제목 입력1",
-    //         content: "블로그 내용 입력1",
-    //         record: "00:15:00",
-    //         distance: "1.5km",
-    //         imageUrl: ["https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg"],
-    //         likeCount: 1,
-    //         liked: true,
-    //         createdAt: "2024-10-24T16:26:13",
-    //         comments: [
-    //             {
-    //                 blogId: 93,
-    //                 commentId: 28,
-    //                 content: "댓글입니당",
-    //                 userName: "user3",
-    //                 userImg: "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/elderly-man-icon.png",
-    //                 createdAt: "2024-10-24T00:00:00"
-    //             },
-    //             {
-    //                 blogId: 93,
-    //                 commentId: 29,
-    //                 content: "댓글입니당2",
-    //                 userName: "user4",
-    //                 userImg: "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/elderly-man-icon.png",
-    //                 createdAt: "2024-10-24T00:00:00"
-    //             }]
-    //     }]
+    const [commentContent, setcommentContent] = useState('')
+    const { data: blogdetailarray, isLoading, isError, error } = useQuery({ queryKey: ['blogdetail', blogId], queryFn: () => getBlogdetail(blogId) })
 
-    //todo.댓글작성 api 
-    const handlesubmitcomment = () => {
-
+    const handlechangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setcommentContent(e.target.value)
+    }
+    const handlesubmitcomment = (e: React.FormEvent) => {
+        e.preventDefault();
+        const writecommentData = {
+            content: commentContent
+        }
+        mutate({ blogId: Number(blogId), writecommentData });
+        setcommentContent('')
     }
 
     return (
@@ -101,23 +92,28 @@ const BlogDetail = () => {
                                             userName={comment.userName}
                                             userImg={comment.userImg}
                                             createdAt={comment.createdAt}
+                                            commentId={comment.commentId}
+                                            blogId={comment.blogId}
                                         />
                                     </div>
                                 ))}
                             </div>
                             <div className="flex items-center gap-2 mt-6">
-                                <input
-                                    type="text"
-                                    placeholder="댓글을 입력하세요"
-                                    className="flex-grow border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#BFFF00]"
-                                />
-                                <Button
-                                    onClick={handlesubmitcomment}
-                                    className="bg-[#BFFF00] text-white px-4 py-2 rounded-md hover:bg-[#aaff00] transition"
-                                    type="submit"
-                                >
-                                    완료
-                                </Button>
+                                <form onSubmit={handlesubmitcomment}>
+                                    <input
+                                        type="text"
+                                        placeholder="댓글을 입력하세요"
+                                        className="flex-grow border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#BFFF00]"
+                                        value={commentContent}
+                                        onChange={handlechangeComment}
+                                    />
+                                    <Button
+                                        className="bg-[#BFFF00] text-white px-4 py-2 rounded-md hover:bg-[#aaff00] transition"
+                                        type="submit"
+                                    >
+                                        완료
+                                    </Button>
+                                </form>
                             </div>
                         </div>
                     </>

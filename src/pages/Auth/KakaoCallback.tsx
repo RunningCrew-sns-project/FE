@@ -30,7 +30,7 @@ const KakaoCallback = () => {
 						// 토큰 저장
 						localStorage.setItem("auth_token", response.data.success.responseData.accessToken);
 						// 메인 페이지로 이동
-						navigate("/main");
+						navigate("/");
 					}
 				} catch (error) {
 					console.error("카카오 로그인 처리 실패:", error);

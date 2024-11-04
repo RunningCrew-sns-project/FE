@@ -6,7 +6,6 @@ const BASE_PATH = "http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:
 const Instance = () => {
     const auth_token = localStorage.getItem("auth_token")
 
-    console.log('auth_token',"Bearer" + " " + auth_token)
     const instance: AxiosInstance = axios.create({
         baseURL: BASE_PATH,
         headers: {
