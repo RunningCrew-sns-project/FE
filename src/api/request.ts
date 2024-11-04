@@ -4,12 +4,14 @@ import { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from "ax
 const BASE_PATH = "http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080";
 
 const Instance = () => {
+    const auth_token = localStorage.getItem("auth_token")
 
+    console.log('auth_token',"Bearer" + " " + auth_token)
     const instance: AxiosInstance = axios.create({
         baseURL: BASE_PATH,
         headers: {
             "Content-type": "application/json",
-            accept: 'application/json',
+            Authorization: "Bearer" + " " + auth_token
         },
     })
 
