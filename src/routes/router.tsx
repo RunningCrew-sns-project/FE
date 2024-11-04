@@ -24,7 +24,7 @@ import KakaoCallback from "../pages/Auth/KakaoCallback";
 
 import CrewPage from "../pages/Crew";
 import RunningPage from "../pages/Running";
-
+import Running from "../pages/Running/running";
 
 const router = createBrowserRouter([
 	{
@@ -59,7 +59,8 @@ const router = createBrowserRouter([
 			{
 				path: "running",
 				element: <Running />,
-      },
+			},
+			{
 				path: "crew",
 				element: <CrewPage />,
 			},
