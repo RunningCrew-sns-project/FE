@@ -23,6 +23,7 @@ import KakaoCallback from "../pages/Auth/KakaoCallback";
 import CrewPage from "../pages/Crew";
 import RunningPage from "../pages/Running";
 import Running from "../pages/Running/running";
+import Join from "../pages/Auth/Join";
 
 const router = createBrowserRouter([
 	{
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
 			{
 				path: "login",
 				element: <Login />,
+			},
+			{
+				path: "join",
+				element: <Join />,
 			},
 			{
 				path: "auth/kakao/callback",

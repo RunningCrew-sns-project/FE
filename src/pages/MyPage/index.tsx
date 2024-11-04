@@ -11,6 +11,10 @@ const MyPage = (props: Props) => {
 	const handleClickEditProfile = () => {
 		navigate("/profile");
 	};
+	const handleLogout = () => {
+		localStorage.removeItem("auth_token");
+		navigate("/");
+	};
 	return (
 		<div className="flex bg-black flex-col tablet:flex-row h-full">
 			{isMenuOpen && (
@@ -31,7 +35,9 @@ const MyPage = (props: Props) => {
 					<Button theme="light" className="border">
 						회원탈퇴
 					</Button>
-					<Button theme="dark">로그아웃</Button>
+					<Button theme="dark" onClick={handleLogout}>
+						로그아웃
+					</Button>
 				</div>
 			</div>
 			<div className="w-full h-[160px] shrink-0 fixed z-10 px-4 pt-4 tablet:w-[220px] tablet:h-screen tablet:border-r border-white/30 bg-black">
