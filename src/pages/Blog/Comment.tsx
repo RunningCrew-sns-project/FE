@@ -5,7 +5,9 @@ import ApplicationModal from "../../components/ApplicationModal";
 import CommentDropdown from "./CommentDropdown";
 import CommentForm from "./CommentForm";
 import toast from 'react-hot-toast'
-
+import { useMutation } from "@tanstack/react-query";
+import { deleteComment } from "../../api/comment/api";
+import { useQueryClient } from '@tanstack/react-query';
 
 type CommentProps = {
     blogId: number;
@@ -17,6 +19,18 @@ type CommentProps = {
 }
 
 const Comment = (props: CommentProps) => {
+
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+        mutationFn: deleteComment,
+        onSuccess: (data) => {
+            console.log("댓글 삭제 성공:", data);
+            queryClient.invalidateQueries(['blogdetail', props.blogId]);
+        },
+        onError: (error) => {
+            console.error("댓글 삭제 실패:", error);
+        },
+    })
 
     const [isEdit, setisEdit] = useState(false)
     const [dropdownOpen, setdropdownOpen] = useState(false)
@@ -35,7 +49,6 @@ const Comment = (props: CommentProps) => {
     //수정 버튼 누를 때
     const handleEditComment = () => {
         setisEdit(true)
-        console.log(isEdit)
     }
 
     //삭제버튼 누르면 -> 삭제할래요! 취소 누르는 모달 뜨고 여기서 취소 누르는 경우
@@ -43,9 +56,10 @@ const Comment = (props: CommentProps) => {
         setconfirmDeleteOpen(false)
     }
 
-    //todo. 댓글삭제 
     const handleconfirmDeletecomment = () => {
+        mutate(props.commentId);
         toast.success('삭제되었습니다!')
+        setconfirmDeleteOpen(false)
     }
 
     const renderDropdownMenu = () => {
@@ -72,7 +86,7 @@ const Comment = (props: CommentProps) => {
                 </div>
             </div>
             <div>
-                <CommentForm isEdit={isEdit} setisEdit={setisEdit} content={props.content} setdropdownOpen={setdropdownOpen}></CommentForm>
+                <CommentForm commentId={props.commentId} blogId={props.blogId} isEdit={isEdit} setisEdit={setisEdit} content={props.content} setdropdownOpen={setdropdownOpen}></CommentForm>
             </div>
             <div className="text-gray-500">{props.createdAt}</div>
             {confirmDeleteOpen ? <ApplicationModal

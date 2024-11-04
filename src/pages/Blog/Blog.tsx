@@ -25,32 +25,9 @@ const Blog = () => {
     const [showModal, setshowModal] = useState(false)
     const { data: blogarray, isLoading, isError, error } = useQuery({ queryKey: ['blogs'], queryFn: getAllblogs })
 
-    // const blogarray: BloglistType = [{
-    //     userName: "user1",
-    //     userImg: "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/elderly-man-icon.png",
-    //     blogId: 93,
-    //     title: "블로그 제목 입력1",
-    //     content: "블로그 내용 입력1",
-    //     record: "00:15:00",
-    //     distance: "1.5km",
-    //     imageUrl: ["https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg", "https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg"],
-    //     likeCount: 0,
-    //     liked: false,
-    //     createdAt: "2024-10-24T16:26:13"
-    // }, {
-    //     userName: "user2",
-    //     userImg: "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/elderly-man-icon.png",
-    //     blogId: 94,
-    //     title: "블로그 제목 입력2",
-    //     content: "블로그 내용 입력2",
-    //     record: "00:15:00",
-    //     distance: "1.5km",
-    //     imageUrl: ["https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg", "https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg"],
-    //     likeCount: 0,
-    //     liked: false,
-    //     createdAt: "2024-10-24T16:26:13"
-    // },
-    // ]
+    if (!isLoading) {
+        console.log(blogarray)
+    }
 
     const navigate = useNavigate();
     const handleMovewriteBlogCardpage = () => {
