@@ -100,7 +100,7 @@ const router = createBrowserRouter([
 				element: <WriteBlogCard />,
 			},
 			{
-				path: "blog/:id",
+				path: "blog/:blogId",
 				element: <BlogDetail />,
 			},
 			{
