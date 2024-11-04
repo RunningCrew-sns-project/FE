@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { useDevice } from "../../hook/usedevice";
 import useStopWatch from "../../hook/useStopWatch";
 import Running from "./Running";
@@ -7,6 +8,8 @@ import RuningHeader from "./RunningHeader";
 
 const RunningContent = () => {
 	const { isMobile, isTablet } = useDevice();
+	const [isStop, setIsStop] = useState(false);
+	const [data , setData] = useState({})
 	const { stop } = useStopWatch();
 
 
@@ -24,10 +27,10 @@ const RunningContent = () => {
 			>
 				<RuningHeader />
 				<div className="absolute top-[160px] w-full ">
-					<Running />
+					<Running  isStop={isStop} setData={setData}/>
 				</div>
 				<div className={`absolute bottom-0 w-full z-20`}>
-					<RunningFooter  stop={stop}/>
+					<RunningFooter  stop={stop} setIsStop={setIsStop} data={data}/>
 				</div>
 			</div>
 		</>

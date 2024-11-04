@@ -22,7 +22,6 @@ import JoinCrewdetail from "../pages/Detailpage/JoinCrewdetail";
 import KakaoCallback from "../pages/Auth/KakaoCallback";
 import CrewPage from "../pages/Crew";
 import RunningPage from "../pages/Running";
-import Running from "../pages/Running/Running";
 
 
 const router = createBrowserRouter([
@@ -57,7 +56,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "running",
-				element: <Running />,
+				element: <RunningPage />,
 			},
 			{
 				path: "crew",

@@ -1,10 +1,17 @@
+import { useEffect } from "react";
 import MapPage from "../../components/Map/Map";
 import { useDevice } from "../../hook/usedevice";
 import useMovePercent from "../../hook/useMovePercent";
 import useStopWatch from "../../hook/useStopWatch";
 import ProgressBar from "./ProgressBar";
 
-const Running = () => {
+
+interface RunningProps {
+	isStop: boolean; // isStop의 타입은 boolean
+	setData: (data: { time: string; progress: number }) => void; // setData는 객체를 인수로 받는 함수
+}
+
+const Running = ({isStop,setData}:RunningProps) => {
 	const { start, formatTime, time, pause } = useStopWatch();
 	const { progress, currentlocation } = useMovePercent();
 	const { isMobile, isTablet } = useDevice();
@@ -16,6 +23,15 @@ const Running = () => {
 		endAddress: "국립재활원",
 	};
 
+
+	useEffect(() => {
+		if(isStop){
+			setData({
+				time : formatTime(time),
+				progress,
+			})
+		}
+	},[isStop])
 
 	return (
 		<>
