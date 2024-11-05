@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { socialJoin } from "../../api/auth/api";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 type Props = {};
 
@@ -76,7 +76,6 @@ const Join = (props: Props) => {
 					가입하기!
 				</Button>
 			</form>
-			<Toaster />
 		</div>
 	);
 };

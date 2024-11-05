@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { IoIosSettings } from "react-icons/io";
+import { getMySummary } from "../../api/profile/api";
 
 type Props = {};
 
 const MyPage = (props: Props) => {
+	const [nickName, setNickName] = useState("");
+	const [profileImg, setProfileImg] = useState("");
+
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const navigate = useNavigate();
 	const handleClickEditProfile = () => {
@@ -13,8 +17,20 @@ const MyPage = (props: Props) => {
 	};
 	const handleLogout = () => {
 		localStorage.removeItem("auth_token");
+		localStorage.removeItem("auth_refresh_token");
 		navigate("/");
 	};
+
+	const requestUserSummary = async () => {
+		const res = await getMySummary();
+		setNickName(res.data.success.responseData.nickname);
+		setProfileImg(res.data.success.responseData.profileImg);
+	};
+
+	useEffect(() => {
+		requestUserSummary();
+	}, []);
+
 	return (
 		<div className="flex bg-black flex-col tablet:flex-row h-full">
 			{isMenuOpen && (
@@ -43,10 +59,10 @@ const MyPage = (props: Props) => {
 			<div className="w-full h-[160px] shrink-0 fixed z-10 px-4 pt-4 tablet:w-[220px] tablet:h-screen tablet:border-r border-white/30 bg-black">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center tablet:flex-col">
-						<div className="w-[80px] h-[80px] bg-pink-100 rounded-full mr-4 tablet:mr-0 tablet:mb-4 tablet:mt-10">
-							<img src="url" />
+						<div className="w-[80px] h-[80px] rounded-full mr-4 tablet:mr-0 tablet:mb-4 tablet:mt-10">
+							<img src={profileImg} className="object-contain rounded-full" />
 						</div>
-						<h1 className="text-white">Nick name</h1>
+						<h1 className="text-white">{nickName}</h1>
 					</div>
 					<div
 						className="text-white tablet:absolute tablet:left-4 tablet:bottom-10 flex items-center cursor-pointer"

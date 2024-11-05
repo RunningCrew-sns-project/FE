@@ -1,10 +1,6 @@
-import { useEffect } from "react";
 import kakaoLoginWide from "../../assets/kakao_login_large_wide.png";
-import kakaoLoginNarrow from "../../assets/kakao_login_large_narrow.png";
 
-type Props = {};
-
-const Login = (props: Props) => {
+const Login = () => {
 	const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
 	const REDIRECT_URI = "http://localhost:5173/auth/kakao/callback"; // 카카오 개발자 센터에 등록한 URI
 
