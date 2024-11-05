@@ -44,7 +44,7 @@ const JoinCrewdetail = () => {
     return (
         <>
             {!isLoading && <div>
-                {/* <DetailHeader imgarray={crewInfo.data.success.responseData.crewImageUrl}></DetailHeader> */}
+                <DetailHeader imgarray={crewInfo.data.success.responseData.crewImageUrl}></DetailHeader>
                 <DetailInfo info={crewInfo.data.success.responseData} handlAskjoin={handlAskjoincrew} buttonText="크루 가입하기"></DetailInfo>
                 {isOpen ? <ApplicationModal
                     leftButtontext="가입할래요!"
