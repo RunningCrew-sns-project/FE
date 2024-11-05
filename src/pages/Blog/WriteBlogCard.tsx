@@ -16,7 +16,7 @@ type BlogCardInput = {
     content: string;
     record: string;
     distance: string;
-    imageUrl: string;
+    imageUrl: string[];
 }
 
 
@@ -52,6 +52,7 @@ const WriteBlogCard = () => {
                 { directory: 'blog_images', big: false }
             );
 
+            console.log(fileUrls)
             BlogCardData["imageUrl"] = fileUrls
             console.log('BlogData', BlogCardData)
 
@@ -60,8 +61,9 @@ const WriteBlogCard = () => {
                 content: BlogCardData.content,
                 distance: BlogCardData.distance,
                 record: BlogCardData.record,
-                imageUrll: BlogCardData.imageUrl
+                imageUrl: BlogCardData.imageUrl
             };
+            console.log('writeBlogData', writeBlogData)
 
             mutate(writeBlogData);
             toast.success('블로그 작성완료되었어요!')
