@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { kakaoAuth } from "../../api/auth/api";
+import toast from "react-hot-toast";
 
 const KakaoCallback = () => {
 	const navigate = useNavigate();
@@ -23,8 +23,13 @@ const KakaoCallback = () => {
 							"auth_token",
 							response.data.success.responseData.accessToken,
 						);
+						localStorage.setItem(
+							"auth_refresh_token",
+							response.data.success.responseData.refreshToken,
+						);
 						// 메인 페이지로 이동
-						navigate("/main");
+						toast("로그인 성공!");
+						navigate("/");
 					} else if (response.status === 201) {
 						navigate("/join", {
 							state: { ...response.data.success.responseData },
@@ -33,7 +38,6 @@ const KakaoCallback = () => {
 					}
 				} catch (error) {
 					console.error("카카오 로그인 처리 실패:", error);
-					//navigate("/login"); // 실패시 로그인 페이지로
 				}
 			};
 
