@@ -25,7 +25,7 @@ const JoinCrewdetail = () => {
         },
     })
 
-    const { data: joincrewarray, isLoading, isError, error } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
+    const { data: crewInfo, isLoading, isError, error } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
     const [isOpen, setIsOpen] = useState(false)
     const handlAskjoincrew = () => {
         setIsOpen((prev) => !prev)
