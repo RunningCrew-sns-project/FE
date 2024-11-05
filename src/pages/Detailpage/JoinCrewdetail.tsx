@@ -1,36 +1,40 @@
-import Button from '../../components/Button';
 import ApplicationModal from '../../components/ApplicationModal';
 import { useState } from 'react';
 import DetailHeader from './DetailHeader';
 import DetailInfo from './DetailInfo';
 import { GiRunningShoe } from "react-icons/gi";
 import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query'
+import { getCrewInfo, joinCrew } from '../../api/detail/crew/api';
+import { useQueryClient } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
+import toast from 'react-hot-toast'
 
 const JoinCrewdetail = () => {
 
-    let { runId } = useParams();
+    let { crewId } = useParams();
 
-    //runId에 해당하는 detail api 가져오기 
-    const joincrewarray = [{
-        crewname: 'firstrunnncrew',
-        intro: 'intro',
-        image: ["https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg",
-            "https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg"],
-        location: '서울',
-        now_crew: 3,
-        max_crew: 8,
-        min_crew: 2,
-        state: '모집중'
-    }]
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+        mutationFn: joinCrew,
+        onSuccess: (data) => {
+            console.error("크루 가입 성공:", data);
+        },
+        onError: (error) => {
+            console.error("크루 가입 실패:", error);
+        },
+    })
 
+    const { data: joincrewarray, isLoading, isError, error } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
     const [isOpen, setIsOpen] = useState(false)
     const handlAskjoincrew = () => {
         setIsOpen((prev) => !prev)
     }
 
     //크루에 가입하기 api
-    const handleJoincrew = () => {
-        console.log('가입완료')
+    const handleJoincrew = (crewId) => {
+        mutate(crewId);
+        toast.success('크루에 가입되었습니다')
     }
 
     const handlecloseModal = () => {
@@ -39,30 +43,28 @@ const JoinCrewdetail = () => {
 
     return (
         <>
-            <div>
-                <DetailHeader imgarray={joincrewarray[0].image}></DetailHeader>
-                <DetailInfo infoArray={joincrewarray} handlAskjoin={handlAskjoincrew} buttonText="크루 가입하기"></DetailInfo>
+            {!isLoading && <div>
+                {/* <DetailHeader imgarray={crewInfo.data.success.responseData.crewImageUrl}></DetailHeader> */}
+                <DetailInfo info={crewInfo.data.success.responseData} handlAskjoin={handlAskjoincrew} buttonText="크루 가입하기"></DetailInfo>
                 {isOpen ? <ApplicationModal
                     leftButtontext="가입할래요!"
                     rightbuttontext="취소"
                     leftButtonevent={handleJoincrew}
                     rightbuttonevent={handlecloseModal}
                 >
-                    {joincrewarray.map((crewintro) => (
-                        <>
-                            <div class="flex items-center justify-center">
-                                <div className="mr-2 text-xl" ><GiRunningShoe /></div>
-                                <div>
-                                    <div>크루명 : {joincrewarray.crewname}</div>
-                                    <div>지역 : {joincrewarray.location}</div>
-                                </div>
+                    <>
+                        <div class="flex items-center justify-center">
+                            <div className="mr-2 text-xl" ><GiRunningShoe /></div>
+                            <div>
+                                <div>크루명 : {crewInfo.data.success.responseData.crewName}</div>
+                                <div>지역 : {crewInfo.data.success.responseData.activityRegion}</div>
                             </div>
+                        </div>
 
-                            <span>{`${crewintro.crewname} 가입 안내사항을 확인하셨나요??`}</span>
-                        </>
-                    ))}
+                        <span>{`${crewInfo.data.success.responseData.crewName} 가입 안내사항을 확인하셨나요??`}</span>
+                    </>
                 </ApplicationModal> : ''}
-            </div>
+            </div>}
         </>
     );
 };
