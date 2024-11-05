@@ -7,8 +7,8 @@ import ProgressBar from "./ProgressBar";
 
 
 interface RunningProps {
-	isStop: boolean; // isStop의 타입은 boolean
-	setData: (data: { time: string; progress: number }) => void; // setData는 객체를 인수로 받는 함수
+	isStop: boolean; 
+	setData: (data: { time: string; progress: number }) => void; 
 }
 
 const Running = ({isStop,setData}:RunningProps) => {
