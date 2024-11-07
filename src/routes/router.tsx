@@ -24,6 +24,7 @@ import CrewPage from "../pages/Crew";
 import RunningPage from "../pages/Running";
 import Join from "../pages/Auth/Join";
 import Chat from "../pages/Chat";
+import ActiveChat from "../pages/Chat/ActiveChat";
 
 const router = createBrowserRouter([
 	{
@@ -121,9 +122,13 @@ const router = createBrowserRouter([
 				element: <JoinCrewdetail />,
 			},
 			{
-				path: 'chat',
-				element: <Chat/>
-			}
+				path: "chat",
+				element: <Chat />,
+			},
+			{
+				path: "chat/ActiveChatlist",
+				element: <ActiveChat />,
+			},
 		],
 		errorElement: <Errorpage />,
 	},

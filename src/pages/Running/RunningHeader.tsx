@@ -2,15 +2,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useDevice } from "../../hook/usedevice";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import ActiveChat from "../Chat/ActiveChat";
+
 
 const RuningHeader = () => {
 	const { isMobile, isTablet } = useDevice();
-	const navigate = useNavigate();
+	const [isOpen, setIsOpen] = useState(false);
 
-	const handleGoBack = () => {
-		navigate(-1);
-	};
+	const openList = () => {
+		setIsOpen(true)
+	}
+	const closeList = () => {
+		setIsOpen(false)
+	}
+
+
+
+
 
 	return (
 		<>
@@ -21,8 +30,8 @@ const RuningHeader = () => {
 					<FontAwesomeIcon
 						icon={faArrowLeft}
 						className={`${isMobile || isTablet ? "text-white" : "text-balck"} text-2xl cursor-pointer`}
-						onClick={handleGoBack}
 					/>
+
 					<div
 						className={`${isMobile || isTablet ? "text-white" : "text-balck"}`}
 					>
@@ -32,13 +41,15 @@ const RuningHeader = () => {
 							<p className="text-sm">도착장소 : </p>
 						</div>
 					</div>
-					<div className="">
+					<div className="" >
 						<FontAwesomeIcon
 							icon={faBars}
 							className={`${isMobile || isTablet ? "text-white" : "text-balck"} text-2xl cursor-pointer`}
+							onClick={openList}
 						/>
 					</div>
 				</div>
+				<ActiveChat isOpen={isOpen} onClose={closeList}/>
 			</div>
 		</>
 	);

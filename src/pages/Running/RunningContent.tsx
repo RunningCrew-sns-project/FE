@@ -14,8 +14,6 @@ const RunningContent = () => {
 
 
 
-
-
 	return (
 		<>
 			<div
@@ -25,7 +23,7 @@ const RunningContent = () => {
 						: "w-full max-w-[420px] h-[720px]"
 				} bg-white rounded-lg relative overflow-hidden`}
 			>
-				<RuningHeader />
+				<RuningHeader/>
 				<div className="absolute top-[160px] w-full ">
 					<Running  isStop={isStop} setData={setData}/>
 				</div>

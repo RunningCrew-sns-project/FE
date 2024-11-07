@@ -10,9 +10,10 @@ type UploadImageProps = {
     buttonClassName: string;
     imgClassName: string;
     buttonpositionClassName: string;
+    showPreview?: boolean; 
 };
 
-const UploadImage = ({ id, onUploadFiles, multiple, uploadfileLength, imgpreviewWidth, imgpreviewHeight, buttonClassName, imgClassName, buttonpositionClassName }: UploadImageProps) => {
+const UploadImage = ({ id, onUploadFiles, multiple, uploadfileLength, imgpreviewWidth, imgpreviewHeight, buttonClassName, imgClassName, buttonpositionClassName , showPreview = true }: UploadImageProps) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const ref = useRef(null);
 
@@ -55,7 +56,7 @@ const UploadImage = ({ id, onUploadFiles, multiple, uploadfileLength, imgpreview
                     ref={ref}
                 />
                 <div className="flex gap-x-[9px] flex-wrap">
-                    {uploadedFiles?.map((file, index) => (
+                    {showPreview && uploadedFiles?.map((file, index) => (
                         <div key={index}
                             className="relative "
                             style={{ width: `${imgpreviewWidth}px`, height: `${imgpreviewHeight}px` }}

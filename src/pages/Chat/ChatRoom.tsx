@@ -45,7 +45,7 @@ const message = [
 const ChatRoom = () => {
 	const { isMobile, isTablet } = useDevice();
   const [messages, setMessages ] = useState(message)
-  
+  const [imgUrl, setImageUrls] =useState([])
 
   useEffect(() => {
     // 요청 
@@ -67,12 +67,12 @@ const ChatRoom = () => {
 						: "w-full max-w-[420px] h-[720px]"
 				} bg-white rounded-lg relative overflow-hidden`}
 			>
-				<ChatHeader title="Team Unicorns" status="last seen 45 minutes ago" />
+				<ChatHeader title="Team Unicorns" status="last seen 45 minutes ago"  />
 				<div className="absolute top-[130px] w-full ">
-					<ChatList messages={messages}/>
+					<ChatList messages={messages} />
 				</div>
-				<div className={`absolute bottom-0 w-full z-20`}>
-					<ChatInput  handleSendMsg={handleSendMsg} />
+				<div className={`absolute bottom-0 w-full z-20`} >
+					<ChatInput  handleSendMsg={handleSendMsg} setImageUrls={setImageUrls} imgUrl={imgUrl}/>
 				</div>
 			</div>
 		</>
