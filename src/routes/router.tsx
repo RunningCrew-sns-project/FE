@@ -22,8 +22,8 @@ import JoinCrewdetail from "../pages/Detailpage/JoinCrewdetail";
 import KakaoCallback from "../pages/Auth/KakaoCallback";
 import CrewPage from "../pages/Crew";
 import RunningPage from "../pages/Running";
-import Running from "../pages/Running/running";
 import Join from "../pages/Auth/Join";
+import Chat from "../pages/Chat";
 
 const router = createBrowserRouter([
 	{
@@ -120,6 +120,10 @@ const router = createBrowserRouter([
 				path: "joinCrew/:crewId",
 				element: <JoinCrewdetail />,
 			},
+			{
+				path: 'chat',
+				element: <Chat/>
+			}
 		],
 		errorElement: <Errorpage />,
 	},

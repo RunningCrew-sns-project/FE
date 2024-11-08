@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import RunResultModal from "../../components/Modal/RunResult";
+import { useNavigate } from "react-router-dom";
 
 interface RunningFooterProps {
   stop: () => void;
@@ -13,6 +14,7 @@ interface RunningFooterProps {
 const RunningFooter = ({stop, setIsStop, data}:RunningFooterProps) => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
+	const navigate = useNavigate()
 
 	const handleOpneModal = () => {
 		stop()
@@ -25,6 +27,11 @@ const RunningFooter = ({stop, setIsStop, data}:RunningFooterProps) => {
 		setIsOpen(false);
 		setIsStop(false)
 	}
+
+
+	const hadleMoveChat = () => {
+		navigate('/chat')
+	}
   
 
 	return (
@@ -36,6 +43,7 @@ const RunningFooter = ({stop, setIsStop, data}:RunningFooterProps) => {
 				<div className="flex items-center justify-around h-full">
 					<div
 						className={`${isMobile || isTablet ? "text-white" : "text-black"} cursor-pointer flex flex-col items-center`}
+						onClick={hadleMoveChat}
 					>
 						<FontAwesomeIcon icon={faComments} className="text-2xl mb-1" />
 						<span className="text-xs">채팅하기</span>

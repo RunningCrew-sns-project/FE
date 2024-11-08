@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+
 import SlickSlider from "../../components/Slider/slider";
-import { useDevice } from "../../hook/usedevice";
+
 
 const MyCrewList = ({ mycrew, handleDetailCrew }) => {
-	const { isDesktop } = useDevice();
+
 
 	const sliderSettings = {
 		dots: false,
@@ -50,7 +50,7 @@ const MyCrewList = ({ mycrew, handleDetailCrew }) => {
 					<div
 						className="flex justify-center mx-2  desktop:mr-28 "
 						key={item.id}
-						onClick={() => handleDetailCrew(item.id)}
+						onClick={() => handleDetailCrew(item.id, item.crewMaster)}
 					>
 						<div className="relative text-center cursor-pointer">
 							<img

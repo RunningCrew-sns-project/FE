@@ -14,12 +14,18 @@ const PostList = ({
 	setSortOrder,
 	startDate,
 	currentDate,
-	sortOrder
+	sortOrder,
+	master,
+	setIsOpenManger,
 }) => {
 	const { isMobile } = useDevice();
 
 	const handleSort = (order: string) => {
 		setSortOrder(order);
+	};
+
+	const handleManager = () => {
+		setIsOpenManger(true);
 	};
 
 	return (
@@ -44,6 +50,18 @@ const PostList = ({
 							</Button>{" "}
 						</Link>
 					</div>
+					{master && (
+						<div className="">
+							<Button
+								type="button"
+								theme="primary"
+								onClick={handleManager}
+								className="w-full flex flex-col space-y-4 mr-6 mb-4 laptop:max-w-xs desktop:max-w-xs"
+							>
+								관리자 페이지
+							</Button>
+						</div>
+					)}
 				</div>
 
 				<div className="flex flex-col  w-full space-y-4 mt-4">
