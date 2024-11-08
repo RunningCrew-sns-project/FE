@@ -24,7 +24,7 @@ import CrewPage from "../pages/Crew";
 import RunningPage from "../pages/Running";
 import Join from "../pages/Auth/Join";
 import Chat from "../pages/Chat";
-import ActiveChat from "../pages/Chat/ActiveChat";
+import ActiveChat from "../components/Modal/ActiveChat";
 
 const router = createBrowserRouter([
 	{
