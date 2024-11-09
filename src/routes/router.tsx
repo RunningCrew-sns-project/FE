@@ -65,7 +65,7 @@ const router = createBrowserRouter([
 				element: <CrewPage />,
 			},
 			{
-				path: "running",
+				path: "running/:id",
 				element: <RunningPage />,
 			},
 			{

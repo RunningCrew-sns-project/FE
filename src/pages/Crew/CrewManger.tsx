@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
+import { getCrewMember } from "../../api/crew/api";
 
-const CrewManger = ({ setIsOpenManger }) => {
+const CrewManger = ({ setIsOpenManger, crewId }) => {
 	const [members, setMembers] = useState([]);
 	const [isout, setIsOut] = useState(true);
 
@@ -26,10 +27,17 @@ const CrewManger = ({ setIsOpenManger }) => {
 		},
 	];
 
+	const fetchCrewMember = async() => {
+		console.log('머ㅏ스터ㅡ ',typeof(crewId))
+		const res = await getCrewMember(crewId,null)
+		console.log(res)
+	}
+
+
+
 	useEffect(() => {
-		// api 요청
-		setMembers(members_Mock);
-	}, []);
+		fetchCrewMember()
+	}, [crewId]);
 
 	const handleWarning = (id) => {
 		const selectedMember = members.find((member) => member.id === id);

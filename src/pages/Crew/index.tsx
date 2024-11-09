@@ -2,12 +2,12 @@ import CrewBanner from "./CrewBanner";
 import MyCrewList from "./MyCrewList";
 import PostList from "./PostList";
 
-import { MY_CREWLIST } from "../../_Mock/crewlist";
 import { CREW_INFOLIST } from "../../_Mock/crewInfoList";
 import { useEffect, useState } from "react";
 import ThemWrapperBody from "../../components/ThemWrapper";
 import { ResponsiveContainer } from "../../components/Container";
 import CrewManger from "./CrewManger";
+import { getMyCrew } from "../../api/myPage/api";
 
 // 각 인터페이스 타입 정의
 interface CrewInfo {
@@ -39,9 +39,8 @@ interface CrewResponse {
 }
 
 const CrewPage = () => {
-	const [mycrew, setMyCrew] = useState<
-		{ id: string; name: string; imageUrl: string }[]
-	>([]);
+	const [mycrew, setMyCrew] = useState([]);
+	const [crewId, setCrewId] = useState<number>()
 	const [info, setInfo] = useState<CrewInfo | null>(null);
 	const [items, setItems] = useState<PostItem[]>([]);
 	const [selectedCrewId, setSelectedCrewId] = useState(null); // 선택된 크루 ID
@@ -56,15 +55,21 @@ const CrewPage = () => {
 	const [area, setArea] = useState("전체");
 	const [sortOrder, setSortOrder] = useState("latest"); // 기본값은 최신순
 
-	// 크루 목록을 불러오는 useEffect
-	useEffect(() => {
-		const res = MY_CREWLIST;
-		setMyCrew(res.data);
 
+	//내가 가입한 크루  불러오기 
+	const getMyRunningCrew = async() => {
+		const mycrews = await getMyCrew()
+		console.log('내가 가입한  크루 ', mycrews)
+		setMyCrew(mycrews.data.success.responseData)
+	}
+	// 크루 목록을 불러오는 useEffect
+	useEffect( () => {
+	
+		getMyRunningCrew()
 		if (mycrew.length > 0) {
 			setSelectedCrewId(mycrew[0].id); // 첫 번째 크루의 ID로 정보 요청
 		}
-	}, [mycrew]);
+	}, []);
 
 	//선택된 크루 바꾸기, 혹은 선택된 크루내 세시글 필터링 변화시 새 리스트 요청
 	useEffect(() => {
@@ -73,7 +78,7 @@ const CrewPage = () => {
 		}
 	}, [selectedCrewId, startDate, area, sortOrder]);
 
-	const fetchCrewDeatil = (crewId: string) => {
+	const fetchCrewDeatil = (crewId: number) => {
 		// const response = await fetch(`/api/crew/${crewId}?startDate=${startDate}&area=${area}&sortOrder=${sortOrder}`);
 		// const data = await response.json();
 
@@ -91,10 +96,12 @@ const CrewPage = () => {
 	//필터링을 교체하는 함수
 
 	// parmas를 전달받기
-	const handleDetailCrew = (crewId: string, crewMaster:boolean) => {
+	const handleDetailCrew = (crewId: number, crewMaster:boolean) => {
 		fetchCrewDeatil(crewId);
+		setCrewId(crewId)
 		setMaster(crewMaster);
-		console.log(crewId);
+		console.log('크루 아이디' , crewId);
+		console.log('마스터 여부' , master);
 	};
 
 	return (
@@ -108,7 +115,7 @@ const CrewPage = () => {
 				{info && <CrewBanner info={info} />}
 				<ResponsiveContainer>
 					{isOepnManger === true ? (
-						<CrewManger setIsOpenManger={setIsOpenManger} />
+						<CrewManger setIsOpenManger={setIsOpenManger}  crewId={crewId} />
 					) : (
 						items && (
 							<PostList
