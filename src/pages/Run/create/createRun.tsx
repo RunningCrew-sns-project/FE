@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { uploadCrewFiles } from "../../../api/image/api";
 import { useNavigate } from "react-router-dom";
 import { postGeneralRun } from "../../../api/run/api";
+import { dateFormatter } from "../../../util/dateFormatter";
 
 
 export interface LocationDataProps {
@@ -64,7 +65,7 @@ const Run = () => {
 
 
 	const handleSubmit = async (data: InputData) => {
-		console.log(data)
+		const date = dateFormatter(startDate)
 		try{
 			const imgurl = await uploadCrewFiles(
 				"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
@@ -80,16 +81,17 @@ const Run = () => {
 			const newData = {
 				title: data.crewName,
 				content: data.crewIntroduction, 
-				activityRegion: data.activityRegion,
+				location: data.activityRegion,
 				inputLocation: locationData.startAddress,
 				inputLatitude : locationData.startCoordinates?.lat,
 				inputLongitude: locationData.startCoordinates?.lng,
 				targetLocation: locationData.endAddress,
 				targetLatitude : locationData.endCoordinates?.lat,
 				targetLongitude: locationData.endCoordinates?.lng,
-				maxParticipants: Number(data.maxCapacity), 
+				maximumPeople: Number(data.maxCapacity), 
 				fileDtos: fileDtos ,
-				date: startDate
+				date : date.date,
+				startTime: date.startTime
 			}
 
 			mutate(newData)

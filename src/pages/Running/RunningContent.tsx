@@ -11,9 +11,10 @@ const RunningContent = () => {
 	const [isStop, setIsStop] = useState(false);
 	//결과데이터
 	const [data, setData] = useState({});
-	const [runData, setRunData] = useState([]);
+	// const [runData, setRunData] = useState([]);
 	const { stop } = useStopWatch();
-	const { id } = useParams();
+	const { id } = useParams<{ id: string }>();
+
 
 	const fetchRunData = (id) => {
 		// 데이터 요청 하기
@@ -22,6 +23,7 @@ const RunningContent = () => {
 
 	useEffect(() => {
 		fetchRunData(id);
+
 	}, []);
 
 	return (
@@ -35,10 +37,10 @@ const RunningContent = () => {
 			>
 				<RuningHeader />
 				<div className="absolute top-[160px] w-full ">
-					<Running isStop={isStop} setData={setData} />
+					<Running isStop={isStop} setData={setData}  />
 				</div>
 				<div className={`absolute bottom-0 w-full z-20`}>
-					<RunningFooter stop={stop} setIsStop={setIsStop} data={data} />
+					<RunningFooter stop={stop} setIsStop={setIsStop} data={data}  id={id}/>
 				</div>
 			</div>
 		</>

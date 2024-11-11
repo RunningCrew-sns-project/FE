@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const PostList = ({
 	items,
 	setPage,
-	setHasMore,
+	// setHasMore,
 	setStartDate,
 	setArea,
 	setSortOrder,
@@ -23,6 +23,7 @@ const PostList = ({
 	const handleSort = (order: string) => {
 		setSortOrder(order);
 	};
+
 
 	const handleManager = () => {
 		setIsOpenManger(true);
@@ -40,14 +41,14 @@ const PostList = ({
 					/>
 					<LocationFilter setArea={setArea} />
 					<div className="">
-						<Link to="/create/crewRun">
+						<Link to={`/create/crewRun/`}>
 							<Button
 								theme="light"
 								type="button"
 								className="w-full flex flex-col space-y-4 mr-6 mb-4 laptop:max-w-xs desktop:max-w-xs"
 							>
-								크루 달리기
-							</Button>{" "}
+								크루와 함께 Run 
+							</Button>
 						</Link>
 					</div>
 					{master && (

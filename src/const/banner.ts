@@ -17,6 +17,6 @@ export const BANNER_KEY: { [key: string]: BannerData } = {
   '/create/crew': { img: joinCrew, title: 'JOIN THE CREW' },
   '/create/crewRun': { img: todayRun, title: 'CREW_RUN' },
   '/running': { img: withTogeter, title: 'RUNNING' },
-  '/chat': { img: joinCrew, title: 'CHAT' },
+  '/chat/:id': { img: joinCrew, title: 'CHAT' },
 };
 

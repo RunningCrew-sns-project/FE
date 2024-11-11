@@ -2,7 +2,20 @@ import MainBtnItem from "./mainBtnItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
-const ScheduleList = ({ schedules,handleIsOpen, handleMoveBtn }) => {
+
+
+interface Schedule {
+  id: number;
+  title: string;
+}
+
+interface ScheduleListProps {
+  schedules: Schedule[]; // 스케줄 배열 타입 정의
+  handleIsOpen: () => void; // handleIsOpen은 인자가 없고 반환값이 없는 함수
+  handleMoveBtn: (id: number) => void; // handleMoveBtn은 숫자 인자를 받고 반환값이 없는 함수
+}
+
+const ScheduleList = ({ schedules,handleIsOpen, handleMoveBtn }:ScheduleListProps) => {
 	return (
 		<>
 			<div className=" bg-white  bg-opacity-40 text-black px-4 py-2 rounded-xl w-max-[320px] w-[340px] max-h-[200px] overflow-y-auto">

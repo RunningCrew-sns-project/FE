@@ -47,10 +47,6 @@ const router = createBrowserRouter([
 						element: <Run />,
 					},
 					{
-						path: "crewRun",
-						element: <CrewRun />,
-					},
-					{
 						path: "crew",
 						element: <Crew />,
 					},
@@ -61,8 +57,14 @@ const router = createBrowserRouter([
 				element: <RunningPage />,
 			},
 			{
-				path: "crew",
+				path: "crew/:crewId",
 				element: <CrewPage />,
+				children: [
+					{
+						path: "crewRun/:crewId",
+						element: <CrewRun />,
+					},
+				]
 			},
 			{
 				path: "running/:id",
@@ -122,7 +124,7 @@ const router = createBrowserRouter([
 				element: <JoinCrewdetail />,
 			},
 			{
-				path: "chat",
+				path: "chat/:id",
 				element: <Chat />,
 			},
 			{

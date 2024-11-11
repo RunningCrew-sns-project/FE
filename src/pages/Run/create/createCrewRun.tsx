@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { postCrewRun } from "../../../api/run/api";
+import { dateFormatter } from "../../../util/dateFormatter";
 
 export interface LocationDataProps {
 	startCoordinates: { lat: number; lng: number } | null;
@@ -63,6 +64,7 @@ const CrewRun = () => {
 
 
 	const handleSubmit = async (data: InputData) => {
+		const date = dateFormatter(startDate)
 		console.log(data)
 		try{
 			const imgurl = await uploadCrewFiles(
@@ -79,16 +81,17 @@ const CrewRun = () => {
 			const newData = {
 				title: data.crewName,
 				content: data.crewIntroduction, 
-				activityRegion: data.activityRegion,
+				location: data.activityRegion,
 				inputLocation: locationData.startAddress,
 				inputLatitude : locationData.startCoordinates?.lat,
 				inputLongitude: locationData.startCoordinates?.lng,
 				targetLocation: locationData.endAddress,
 				targetLatitude : locationData.endCoordinates?.lat,
 				targetLongitude: locationData.endCoordinates?.lng,
-				maxParticipants: Number(data.maxCapacity), 
+				maximumPeople: Number(data.maxCapacity), 
 				fileDtos: fileDtos ,
-				date: startDate
+				date: date.date,
+				startTime: date.startTime
 			}
 
 			mutate({ data: newData, crewId } )
