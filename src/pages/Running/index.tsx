@@ -1,7 +1,9 @@
+import { useState } from "react";
 import PathBanner from "../../components/Banner/PathBanner";
 import ThemWrapperBody from "../../components/ThemWrapper";
 import { useDevice } from "../../hook/usedevice";
 import RunningContent from "./RunningContent";
+
 
 const RunningPage = () => {
 	const { isMobile, isTablet } = useDevice();

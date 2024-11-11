@@ -3,9 +3,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import ActiveChat from "./ActiveChat";
+import { useState } from "react";
 
 const ChatHeader = ({ title, status }) => {
 	const { isMobile, isTablet } = useDevice();
+	const [isOpen, setIsOpen] = useState(false);
+
+	const openList = () => {
+		setIsOpen(true)
+	}
+	const closeList = () => {
+		setIsOpen(false)
+	}
+
 	const navigate = useNavigate();
 
 	const handleGoBack = () => {
@@ -35,9 +46,11 @@ const ChatHeader = ({ title, status }) => {
 						<FontAwesomeIcon
 							icon={faBars}
 							className={`${isMobile || isTablet ? "text-white" : "text-balck"} text-2xl cursor-pointer`}
+							onClick={openList}
 						/>
 					</div>
 				</div>
+				<ActiveChat  isOpen={isOpen} onClose={closeList}/>
 			</div>
 		</>
 	);

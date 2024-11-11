@@ -22,15 +22,15 @@ type BlogCardInput = {
 
 const WriteBlogCard = () => {
 
-    const { mutate, isLoading, isError, error, isSuccess } = useMutation({
-        mutationFn: writeBlog,
-        onSuccess: (data) => {
-            console.log("블로그 작성 성공:", data);
-        },
-        onError: (error) => {
-            console.error("블로그 작성 실패:", error);
-        },
-    })
+        const { mutate, isLoading, isError, error, isSuccess } = useMutation({
+            mutationFn: writeBlog,
+            onSuccess: (data) => {
+                console.log("블로그 작성 성공:", data);
+            },
+            onError: (error) => {
+                console.error("블로그 작성 실패:", error);
+            },
+        })
 
     const {
         register,
