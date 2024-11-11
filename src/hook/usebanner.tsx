@@ -7,10 +7,18 @@ const useBanner = () => {
   const [banner, setBanner] = useState<BannerData | null>(null);
 
   useEffect(() => {
-    // `/running`으로 시작하는 경로인지 확인
-    const isRunningPath = location.pathname.startsWith('/running');
-    const newBanner = isRunningPath ? BANNER_KEY['/running'] : BANNER_KEY[location.pathname] || null;
-    setBanner(newBanner);
+    const path = location.pathname;
+
+    // 특정 경로 패턴에 맞춰 배너를 설정
+    if (path.startsWith('/running')) {
+      setBanner(BANNER_KEY['/running']);
+    } else if (path.startsWith('/create/crewRun')) {
+      setBanner(BANNER_KEY['/create/crewRun:selectedCrewId']);
+    } else if (path.startsWith('/chat/')) {
+      setBanner(BANNER_KEY['/chat/:id']);
+    } else {
+      setBanner(BANNER_KEY[path] || null);
+    }
   }, [location.pathname]);
 
   return banner;

@@ -47,6 +47,10 @@ const router = createBrowserRouter([
 						element: <Run />,
 					},
 					{
+						path: "crewRun/:selectedCrewId",
+						element: <CrewRun />,
+					},
+					{
 						path: "crew",
 						element: <Crew />,
 					},
@@ -57,14 +61,8 @@ const router = createBrowserRouter([
 				element: <RunningPage />,
 			},
 			{
-				path: "crew/:crewId",
+				path: "crew",
 				element: <CrewPage />,
-				children: [
-					{
-						path: "crewRun/:crewId",
-						element: <CrewRun />,
-					},
-				]
 			},
 			{
 				path: "running/:id",

@@ -2,7 +2,6 @@
 
 import { http } from "../request"
 
-const email = '내이메일';
 
 
 // 일반달리기 생성 
@@ -15,6 +14,23 @@ export const  postGeneralRun = async (data) => {
 
 // 크루 끼리 달리기 생성 
 export const postCrewRun = async ({ data, crewId } ) => {
-  const res = await http.post(`/api/join-posts/crews/${crewid}/create`,data,)
+  const res = await http.post(`/api/join-posts/crews/${crewId}/create`,data,)
+  return res
+}
+
+
+//크루 리스트 
+export const getCrewListApi = async (CrewFilter) => {
+  const res = await http.get(`/api/crews`,{
+    params: CrewFilter
+  })
+  return res
+}
+
+//일반 달리기 리스트 
+export const getRunListApi = async (RunFilter) => {
+  const res = await http.get(`/api/join-posts/general/list`,{
+    params: RunFilter
+  })
   return res
 }

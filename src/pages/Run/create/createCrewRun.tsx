@@ -8,7 +8,7 @@ import { FileDto, InputData, UploadedFile } from "./createCrew";
 import { uploadCrewFiles } from "../../../api/image/api";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { postCrewRun } from "../../../api/run/api";
 import { dateFormatter } from "../../../util/dateFormatter";
 
@@ -37,7 +37,9 @@ export interface crewRunProps {
 }
 
 const CrewRun = () => {
-	const crewId = 123;
+	const { selectedCrewId : crewId } = useParams(); // URL에서 crewId 파라미터 추출
+
+  console.log("Crew ID:", crewId);
 	const currentDate = new Date();
 	const navigatge = useNavigate()
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
@@ -52,12 +54,12 @@ const CrewRun = () => {
 	const { mutate } = useMutation({
 		mutationFn: postCrewRun,
 		onSuccess: (data) => {
-			toast.success("크루 생성 성공!");
+			toast.success("크루 달리기 성공 성공!");
 			console.log("생성된 크루 데이터:", data);
 			navigatge('/crew')
 		},
 		onError: (error) => {
-			toast.error("크루 생성 실패!");
+			toast.error("크루 달리기 실패!");
 			console.error("에러 내용:", error);
 		},
 	});
@@ -66,6 +68,7 @@ const CrewRun = () => {
 	const handleSubmit = async (data: InputData) => {
 		const date = dateFormatter(startDate)
 		console.log(data)
+		console.log(crewId)
 		try{
 			const imgurl = await uploadCrewFiles(
 				"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 const PostList = ({
 	items,
 	setPage,
+	selectedCrewId,
 	// setHasMore,
 	setStartDate,
 	setArea,
@@ -41,7 +42,7 @@ const PostList = ({
 					/>
 					<LocationFilter setArea={setArea} />
 					<div className="">
-						<Link to={`/create/crewRun/`}>
+						<Link to={`/create/crewRun/${selectedCrewId}`}>
 							<Button
 								theme="light"
 								type="button"
