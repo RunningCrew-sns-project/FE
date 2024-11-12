@@ -6,8 +6,10 @@ import DateFilter from "../../components/Filter/DateFilter";
 import LocationFilter from "../../components/Filter/LocationFilter";
 import ItemList from "./ItemList";
 import { useEffect, useState } from "react";
-import { runData } from "../../_Mock/list";
+
 import { useSearchParams } from "react-router-dom";
+import { getCrewListApi, getRunListApi } from "../../api/run/api";
+import { dateFormatter } from "../../util/dateFormatter";
 // import { CrewTeamList } from "../../_Mock/crewteamlist";
 
 const RunListPage = () => {
@@ -23,16 +25,45 @@ const RunListPage = () => {
 	const [searchParms] = useSearchParams();
 	const category = searchParms.get("");
 
+
+	//크루 목록리스트 
+	const getCrewlist = async() => {
+		const CrewFilter = {
+			size: 30, 
+			cursor: null, 
+			cursorId: null, 
+			reverse: false, 
+			criteria: sortOrder
+	
+		}
+		const res = await getCrewListApi(CrewFilter)
+		console.log(res)
+		const listData = res.data.success.responseData;
+		const {currentScrollItems, lastScroll , nextCursor ,nextCursorId } = listData
+		console.log( currentScrollItems, lastScroll , nextCursor ,nextCursorId)
+		setItems(currentScrollItems)
+	}
+
+
+	//일반달리기 목록리스트 
+	const getRunlist = async () => {
+		const date = dateFormatter(startDate)
+		const RunFilter = {
+			cursor: null,
+			size: 30, 
+			location: area, 
+			date: date.date
+		}
+		const res = await getRunListApi(RunFilter)
+		console.log('일반달리기 ',res)
+	}
+
 	// 통신함수
 	useEffect(() => {
-		// 통신
-		const res = runData;
-		// const res2 = CrewTeamList;
-		setItems(res.itmes);
-		console.log(startDate);
-		console.log(area);
-		console.log(sortOrder);
-	}, [area, startDate, sortOrder, items, category]);
+		// getCrewlist()
+		getRunlist()
+
+	}, [area, startDate, sortOrder, category]);
 
 	const handleSort = (order: string) => {
 		setSortOrder(order);

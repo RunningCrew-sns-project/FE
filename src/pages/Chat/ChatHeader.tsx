@@ -3,19 +3,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import ActiveChat from "./ActiveChat";
+import ActiveChat from "../../components/Modal/ActiveChat";
 import { useState } from "react";
+import Modal from "../../components/Modal/Modal";
 
 const ChatHeader = ({ title, status }) => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const openList = () => {
-		setIsOpen(true)
-	}
+		setIsOpen(true);
+	};
 	const closeList = () => {
-		setIsOpen(false)
-	}
+		setIsOpen(false);
+	};
 
 	const navigate = useNavigate();
 
@@ -50,7 +51,11 @@ const ChatHeader = ({ title, status }) => {
 						/>
 					</div>
 				</div>
-				<ActiveChat  isOpen={isOpen} onClose={closeList}/>
+				{isOpen && (
+					<Modal isOpen={isOpen} onClose={closeList}>
+						<ActiveChat onClose={closeList} />
+					</Modal>
+				)}
 			</div>
 		</>
 	);

@@ -3,23 +3,19 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useDevice } from "../../hook/usedevice";
 import { useState } from "react";
-import ActiveChat from "../Chat/ActiveChat";
-
+import ActiveChat from "../../components/Modal/ActiveChat";
+import Modal from "../../components/Modal/Modal";
 
 const RuningHeader = () => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const openList = () => {
-		setIsOpen(true)
-	}
+		setIsOpen(true);
+	};
 	const closeList = () => {
-		setIsOpen(false)
-	}
-
-
-
-
+		setIsOpen(false);
+	};
 
 	return (
 		<>
@@ -41,7 +37,7 @@ const RuningHeader = () => {
 							<p className="text-sm">도착장소 : </p>
 						</div>
 					</div>
-					<div className="" >
+					<div className="">
 						<FontAwesomeIcon
 							icon={faBars}
 							className={`${isMobile || isTablet ? "text-white" : "text-balck"} text-2xl cursor-pointer`}
@@ -49,7 +45,12 @@ const RuningHeader = () => {
 						/>
 					</div>
 				</div>
-				<ActiveChat isOpen={isOpen} onClose={closeList}/>
+				{isOpen && (
+					<Modal isOpen={isOpen} onClose={closeList}>
+						<ActiveChat onClose={closeList} />
+					</Modal>
+				)}
+				
 			</div>
 		</>
 	);

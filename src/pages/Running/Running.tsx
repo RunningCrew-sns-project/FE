@@ -6,6 +6,7 @@ import useStopWatch from "../../hook/useStopWatch";
 import ProgressBar from "./ProgressBar";
 
 
+
 interface RunningProps {
 	isStop: boolean; 
 	setData: (data: { time: string; progress: number }) => void; 
@@ -16,12 +17,15 @@ const Running = ({isStop,setData}:RunningProps) => {
 	const { progress, currentlocation } = useMovePercent();
 	const { isMobile, isTablet } = useDevice();
 
+
+
 	const locationData = {
 		startCoordinates: { lat: 37.6428999322418, lng: 127.009680856107 },
 		endCoordinates: { lat: 37.63887785974017, lng: 127.01058220054608 },
 		startAddress: "서울인수초등학교",
 		endAddress: "국립재활원",
 	};
+
 
 
 	useEffect(() => {

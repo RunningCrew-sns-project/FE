@@ -1,18 +1,30 @@
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDevice } from "../../hook/usedevice";
 import useStopWatch from "../../hook/useStopWatch";
 import Running from "./Running";
 import RunningFooter from "./RunningFooter";
 import RuningHeader from "./RunningHeader";
+import { useParams } from "react-router-dom";
 
 const RunningContent = () => {
 	const { isMobile, isTablet } = useDevice();
 	const [isStop, setIsStop] = useState(false);
-	const [data , setData] = useState({})
+	//결과데이터
+	const [data, setData] = useState({});
+	// const [runData, setRunData] = useState([]);
 	const { stop } = useStopWatch();
+	const { id } = useParams<{ id: string }>();
 
 
+	const fetchRunData = (id) => {
+		// 데이터 요청 하기
+		console.log('요청아이디값',id);
+	};
+
+	useEffect(() => {
+		fetchRunData(id);
+
+	}, []);
 
 	return (
 		<>
@@ -23,12 +35,12 @@ const RunningContent = () => {
 						: "w-full max-w-[420px] h-[720px]"
 				} bg-white rounded-lg relative overflow-hidden`}
 			>
-				<RuningHeader/>
+				<RuningHeader />
 				<div className="absolute top-[160px] w-full ">
-					<Running  isStop={isStop} setData={setData}/>
+					<Running isStop={isStop} setData={setData}  />
 				</div>
 				<div className={`absolute bottom-0 w-full z-20`}>
-					<RunningFooter  stop={stop} setIsStop={setIsStop} data={data}/>
+					<RunningFooter stop={stop} setIsStop={setIsStop} data={data}  id={id}/>
 				</div>
 			</div>
 		</>

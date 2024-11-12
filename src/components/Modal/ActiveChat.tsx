@@ -1,12 +1,14 @@
 import { useDevice } from "../../hook/usedevice";
-import ActiveChatItem from "./ActiveChatItem";
+import ActiveChatItem from "../../pages/Chat/ActiveChatItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import Modal from "../../components/Modal/Modal";
 
 
-const ActiveChat = ({isOpen, onClose}) => {
+
+const ActiveChat = ( ) => {
 	const { isMobile, isTablet } = useDevice();
+
+
 
 	const chatData = [
 		{ title: "Talk Title", time: "6:12 AM", content: "Talk content" },
@@ -14,10 +16,9 @@ const ActiveChat = ({isOpen, onClose}) => {
 		{ title: "Talk Title", time: "6:12 AM", content: "Talk content" },
 	];
 
-
 	return (
 		<>
-			<Modal isOpen={isOpen}  onClose={onClose}>
+
 				<div
 					className={`${
 						isMobile || isTablet
@@ -26,11 +27,7 @@ const ActiveChat = ({isOpen, onClose}) => {
 					} bg-white rounded-lg relative overflow-hidden`}
 				>
 					<div className="flex items-center p-4 bg-gray-200">
-						<FontAwesomeIcon
-							icon={faArrowLeft}
-							className={`${isMobile || isTablet ? "text-white" : "text-balck"} text-2xl cursor-pointer`}
-							onClick={onClose}
-						/>
+
 						<h1 className="text-lg font-bold">chat</h1>
 					</div>
 					<div>
@@ -44,7 +41,6 @@ const ActiveChat = ({isOpen, onClose}) => {
 						))}
 					</div>
 				</div>
-			</Modal>
 		</>
 	);
 };

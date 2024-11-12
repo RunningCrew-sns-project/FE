@@ -9,9 +9,10 @@ interface RunningFooterProps {
   stop: () => void;
   setIsStop: (value: boolean) => void;
   data: { time: string; progress: number }; // data의 구조에 따라 수정 필요
+	id: string; // id prop 추가
 }
 
-const RunningFooter = ({stop, setIsStop, data}:RunningFooterProps) => {
+const RunningFooter = ({stop, setIsStop, data, id}:RunningFooterProps) => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
 	const navigate = useNavigate()
@@ -30,7 +31,7 @@ const RunningFooter = ({stop, setIsStop, data}:RunningFooterProps) => {
 
 
 	const hadleMoveChat = () => {
-		navigate('/chat')
+		navigate(`/chat/${id}`);
 	}
   
 
