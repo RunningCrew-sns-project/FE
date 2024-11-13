@@ -2,6 +2,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { CATEGORYS } from "../../const/category";
 import Button from "../Button";
 import { ResponsiveContainer } from "../Container";
+import { FaRegBell } from "react-icons/fa";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faBars } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,7 +12,7 @@ const Header = () => {
 	const handleMovePage = (keyword: string) => {
 		navigate("runlist");
 		setSearchParams({ category: keyword });
-		if(keyword ==='/crew'){
+		if (keyword === '/crew') {
 			navigate('/crew')
 		}
 	};
@@ -42,6 +43,9 @@ const Header = () => {
 									로그인
 								</Button>
 							</Link>
+						</div>
+						<div>
+							<FaRegBell />
 						</div>
 					</div>
 				</ResponsiveContainer>
