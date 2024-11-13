@@ -111,7 +111,7 @@ const MainBanner = ({ slide }: Props) => {
 
 	return (
 		<>
-			<div className="relative  h-screen flex items-center  justify-start">
+			<div className="relative h-screen flex items-center  justify-start overflow-hidden w-full">
 				{/* 배경이미지 */}
 				<img
 					src={slide.bgimg}

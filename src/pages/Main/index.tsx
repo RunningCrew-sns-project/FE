@@ -3,7 +3,8 @@ import todayRun from '../../assets/mianBanner1_bg.jpg';
 import withTogeter from '../../assets/mianBanner2_bg.jpg';
 import joinCrew from '../../assets/mianBanner3_bg.jpg';
 import {  useState } from "react";
-import MainBanner from "./mainbanner";
+import MainBanner from "./Mainbanner";
+
 
 
 
@@ -43,7 +44,7 @@ const MainPage = () => {
 
   return (
     <>
-      <SlickSlider settings={sliderSettings}>
+      <SlickSlider settings={sliderSettings} className="overflow-hidden w-[100%]">
         {slidesData.map(slide => (
           <div key={slide.id}>
             <MainBanner slide={slide} state={state}/>

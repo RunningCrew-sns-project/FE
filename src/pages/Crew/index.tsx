@@ -51,10 +51,12 @@ const CrewPage = () => {
 	// const [hasMore, setHasMore] = useState<boolean>(false);
 
 	const currentDate = new Date();
-	const [startDate, setStartDate] = useState<Date | null>(currentDate);
+	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [area, setArea] = useState("전체");
 	const [sortOrder, setSortOrder] = useState("latest"); // 기본값은 최신순
 
+
+	console.log('업데이트된 친구 ',items)
 	//내가 가입한 크루  불러오기
 	const getMyRunningCrew = async () => {
 		try {
@@ -84,6 +86,7 @@ const CrewPage = () => {
 	useEffect(() => {
 		if (selectedCrewId) {
 			fetchCrewDeatil();
+			
 		}
 	}, [selectedCrewId, startDate, area, sortOrder]);
 	
@@ -103,6 +106,9 @@ const CrewPage = () => {
 			const { content, countPerScroll, lastScroll, nextCursor } = resData;
 			console.log(content, countPerScroll, lastScroll, nextCursor);
 			if (content) {
+				console.log('작동중')
+				console.log('리스트' , content[0].items)
+
 				setInfo(content[0].crewInfo);
 				setItems(content[0].items);
 			} else {

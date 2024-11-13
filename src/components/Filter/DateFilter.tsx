@@ -8,8 +8,8 @@ import Button from "../Button";
 
 
 type DateFilterProps = {
-  startDate: Date | null;
-  setStartDate: (date: Date | null) => void;
+	startDate: Date | null; 
+  setStartDate: (date: Date | null) => void; 
   currentDate: Date;
 };
 
@@ -30,6 +30,11 @@ const DateFilter = ({startDate, setStartDate, currentDate}: DateFilterProps) => 
   const handleColor = (time: Date) => {
     return time.getHours() > 12 ? "text-success" : "text-error";
   };
+
+
+	const hadnleReset =() => {
+		setStartDate(null)
+	}
 
 	useEffect(() => {
     if (isCreatePath) {
@@ -68,6 +73,7 @@ const DateFilter = ({startDate, setStartDate, currentDate}: DateFilterProps) => 
 					showTimeSelect={isCreatePath} 
 					timeClassName={isCreatePath ? handleColor : undefined}
 				/>
+				<Button type="button" theme="primary" onClick={hadnleReset}>초기화</Button>
 			</Modal>
 		</>
 	);
