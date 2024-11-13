@@ -110,7 +110,7 @@ const router = createBrowserRouter([
 				element: <BlogDetail />,
 			},
 			{
-				path: "joinRun/:id",
+				path: "joinRun/:runId",
 				element: <JoinRundetail />,
 			},
 			{

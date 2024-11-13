@@ -2,7 +2,6 @@ import { http } from "../../request";
 
 
 export const getCrewInfo= async (crewId) => {
-    console.log('crewId',crewId)
     const response = await http.get(`/api/crews/${crewId}`);
     return response;
 } 
