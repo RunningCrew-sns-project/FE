@@ -26,6 +26,11 @@ const JoinCrewdetail = () => {
     })
 
     const { data: crewInfo, isLoading, isError, error } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
+
+    if (!isLoading) {
+        console.log('joincrewdetail crewinfo', crewInfo)
+    }
+
     const [isOpen, setIsOpen] = useState(false)
     const handlAskjoincrew = () => {
         setIsOpen((prev) => !prev)
@@ -44,7 +49,7 @@ const JoinCrewdetail = () => {
     return (
         <>
             {!isLoading && <div>
-                <DetailHeader imgarray={crewInfo.data.success.responseData.crewImageUrl}></DetailHeader>
+                <DetailHeader imgarray={crewInfo.data.success.responseData.crewImageUrls}></DetailHeader>
                 <DetailInfo info={crewInfo.data.success.responseData} handlAskjoin={handlAskjoincrew} buttonText="크루 가입하기"></DetailInfo>
                 {isOpen ? <ApplicationModal
                     leftButtontext="가입할래요!"
