@@ -22,7 +22,6 @@ type BlogType = {
 
 const Blog = () => {
 
-    const [showModal, setshowModal] = useState(false)
     const { data: blogarray, isLoading, isError, error } = useQuery({ queryKey: ['blogs'], queryFn: getAllblogs })
 
     if (!isLoading) {
@@ -33,7 +32,6 @@ const Blog = () => {
     const handleMovewriteBlogCardpage = () => {
         navigate(`/writeBlogCard`);
     }
-
 
     return (
         <>

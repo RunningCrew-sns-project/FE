@@ -47,8 +47,9 @@ const RunBox = (props: RunProps | CrewProps) => {
 		console.log('runbox props', props)
 		if (postType === "일반") {
 			navigate(`/joinRun/${runId}`);
+		} else if (postType === "크루") {
+			navigate(`/joinCrewRun/${runId}`);
 		} else {
-			console.log('크루생성페이지')
 			navigate(`/joinCrew/${crewId}`);
 		}
 	}
