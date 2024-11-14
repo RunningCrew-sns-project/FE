@@ -38,8 +38,10 @@ const JoinCrewdetail = () => {
 
     //크루에 가입하기 api
     const handleJoincrew = (crewId) => {
-        mutate(crewId);
+        const parsedCrewId = Number(crewId);
+        mutate(parsedCrewId);
         toast.success('크루에 가입되었습니다')
+        setIsOpen(false)
     }
 
     const handlecloseModal = () => {
@@ -54,7 +56,7 @@ const JoinCrewdetail = () => {
                 {isOpen ? <ApplicationModal
                     leftButtontext="가입할래요!"
                     rightbuttontext="취소"
-                    leftButtonevent={handleJoincrew}
+                    leftButtonevent={() => handleJoincrew(crewId)}
                     rightbuttonevent={handlecloseModal}
                 >
                     <>

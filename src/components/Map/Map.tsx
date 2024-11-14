@@ -9,11 +9,11 @@ interface MapPageProps {
 	width?: string;
 	height?: string;
 	className?: string;
-	currentlocation?: { latitude: number | null; longitude: number | null }; 
+	currentlocation?: { latitude: number | null; longitude: number | null };
 }
 
 const MapPage = ({
-	setLocationData = () => {},
+	setLocationData = () => { },
 	locationData,
 	width = "100%", // 기본값 설정
 	height = "360px",
@@ -33,7 +33,7 @@ const MapPage = ({
 				}
 				style={{ width, height }}
 				level={3}
-				className={className} 
+				className={className}
 			>
 				{locationData.startCoordinates && (
 					<MapMarker position={locationData.startCoordinates}>
