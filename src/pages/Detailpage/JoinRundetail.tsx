@@ -20,6 +20,8 @@ const JoinRundetail = () => {
 
     console.log('generalrunningarray', generalrunningdata)
 
+
+
     const [isOpen, setIsOpen] = useState(false)
     const handlAskonedayrunning = () => {
         setIsOpen((prev) => !prev)
