@@ -54,6 +54,7 @@ const CrewPage = () => {
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [area, setArea] = useState("전체");
 	const [sortOrder, setSortOrder] = useState("latest"); // 기본값은 최신순
+	const [cusor, setCusor ] = useState(null)
 
 
 	console.log('업데이트된 친구 ',items)
@@ -93,7 +94,7 @@ const CrewPage = () => {
 	const fetchCrewDeatil = async () => {
 		const date = dateFormatter(startDate);
 		const filter = {
-			cursor: null,
+			cursor: cusor,
 			size: page,
 			location: area,
 			date: date.date,
@@ -111,6 +112,7 @@ const CrewPage = () => {
 
 				setInfo(content[0].crewInfo);
 				setItems(content[0].items);
+				setCusor(nextCursor)
 			} else {
 				console.log("데이터가  없습니다. ");
 			}

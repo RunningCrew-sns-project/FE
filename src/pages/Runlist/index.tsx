@@ -22,6 +22,8 @@ const RunListPage = () => {
 	const [sortOrder, setSortOrder] = useState("latest"); // 기본값은 최신순
 	const [items, setItems] = useState([]);
 	const [cursor, setCursor ] = useState(null)
+	const [runCursor, setRunCursor ] = useState(null)
+	const [cursorNext, setNextCursor] = useState(1) 
 	const [isLastPage, setIsLastPage] = useState(false)
 
 	//카테고리
@@ -32,9 +34,9 @@ const RunListPage = () => {
 	//크루 목록리스트 
 	const getCrewlist = async() => {
 		const CrewFilter = {
-			size: 30, 
+			size: 5, 
 			cursor: cursor, 
-			cursorId: null, 
+			cursorId: cursorNext, 
 			reverse: false, 
 			criteria: sortOrder
 	
@@ -46,7 +48,8 @@ const RunListPage = () => {
 		console.log( currentScrollItems, lastScroll , nextCursor ,nextCursorId)
 		setCursor(nextCursor)
 		setIsLastPage(lastScroll)
-		setItems(currentScrollItems)
+		setItems((prevItems) =>[...prevItems, ...currentScrollItems] )
+		setNextCursor(nextCursorId)
 	}
 
 
@@ -54,22 +57,24 @@ const RunListPage = () => {
 	const getRunlist = async () => {
 		const date = dateFormatter(startDate)
 		const RunFilter = {
-			cursor: cursor,
-			size: 30, 
+			cursor: runCursor,
+			size: 4, 
 			location: area, 
 			date: date.date
 		}
 		const res = await getRunListApi(RunFilter)
-		const runlist = res.data.responseData
+		const runlist = res.data.responseData ; 
 		const {content, countPerScroll, lastScroll, nextCursor} =runlist;
-		console.log(content, countPerScroll, lastScroll, nextCursor)
-		setItems(content)
-		setCursor(nextCursor)
+		console.log('일반달리기 ',content, countPerScroll, lastScroll,'넥스트 ', nextCursor)
+		setItems((prevContent) => [...prevContent , ...content])
+		setRunCursor(nextCursor)
 		setIsLastPage(lastScroll)
 		console.log('일반달리기 ',res)
 	}
 
 	const fetchList = async () => {
+
+		
 		if (category === 'run') {
 			await getRunlist();
 		} else {
@@ -80,9 +85,13 @@ const RunListPage = () => {
 		if (sortOrder === 'oldest') {
 			setItems((prevItems) => [...prevItems].reverse());
 		}
+
+		
 	};
 	// 통신함수
 	useEffect(() => {
+		setItems([]); // 카테고리 변경 시 기존 데이터를 리셋
+		setCursor(null)
 		fetchList();
 	}, [area, startDate, sortOrder, category]);
 
