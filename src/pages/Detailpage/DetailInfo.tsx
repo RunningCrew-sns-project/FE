@@ -10,7 +10,7 @@ interface DetailInfoProps {
 
 
 const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProps) => {
-    console.log('info', info)
+    console.log('buttonText', buttonText)
 
     const locationData = {
         startCoordinates: { lat: info.inputLatitude, lng: info.inputLongitude },
@@ -109,7 +109,7 @@ const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProp
                                 </div>
 
                                 <div className="absolute bottom-4 left-0 w-full flex justify-center z-10">
-                                    <Button className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin} disabled={buttonText === ('가입 대기' || '가입 완료')}>
+                                    <Button className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin} disabled={buttonText === '가입 완료' || buttonText === '가입 대기'}>
                                         {buttonText}
                                     </Button>
                                 </div>

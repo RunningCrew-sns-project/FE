@@ -13,8 +13,6 @@ const Like = ({ blogId, liked }: LikeProps) => {
 
     //todo. 좋아요 api
     const handlelike = (blogId: number) => {
-        console.log('좋아요눌러')
-        console.log(liked)
         mutate(blogId);
     }
     return (
