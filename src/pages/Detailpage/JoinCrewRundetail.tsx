@@ -4,28 +4,26 @@ import { useState } from 'react';
 import DetailInfo from './DetailInfo';
 import DetailHeader from './DetailHeader';
 import { GiRunningShoe } from "react-icons/gi";
+import { getcrewrunInfo } from '../../api/detail/crewrun/api';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
 
 const JoinCrewrundetail = () => {
 
-    const joincrewrunarray = [{
-        crewname: 'firstrunnncrew',
-        intro: 'intro',
-        image: ["https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg",
-            "https://running-crew.s3.ap-northeast-2.amazonaws.com/default_image/blog_default.jpg"],
-        location: '서울',
-        now_crew: 3,
-        max_crew: 8,
-        min_crew: 2,
-        state: '모집중'
-    }]
+    let { runId } = useParams();
+    console.log('runId', runId)
+    const { data: joincrewrundata, isLoading, isError, error } = useQuery({ queryKey: ['crewrunInfo', runId], queryFn: () => getcrewrunInfo(runId) })
 
+    if (!isLoading) {
+        console.log('joincrewrundata', joincrewrundata)
+    }
     const [isOpen, setIsOpen] = useState(false)
 
     const handleAskcrewrunjoin = () => {
         setIsOpen((prev) => !prev)
     }
 
-    //크루에 가입하기 api
+    //크루달리기에 가입하기 api
     const handleJoincrew = () => {
         console.log('가입완료')
     }
@@ -34,12 +32,12 @@ const JoinCrewrundetail = () => {
         setIsOpen(false)
     }
 
-    console.log(joincrewrunarray[0].image)
-
     return (
         <>
-            <DetailHeader imgarray={joincrewrunarray[0].image}></DetailHeader>
-            <DetailInfo infoArray={joincrewrunarray} handlAskjoin={handleAskcrewrunjoin} buttonText="크루달리기 참여하기"></DetailInfo>
+            {/* <DetailHeader imgarray={joincrewrundata[0].image}></DetailHeader> */}
+            {!isLoading &&
+                <DetailInfo info={joincrewrundata} handlAskjoin={handleAskcrewrunjoin} buttonText="크루달리기 참여하기"></DetailInfo>
+            }
             {
                 isOpen ? <ApplicationModal
                     leftButtontext="크루달리기에 참여할래요!"
@@ -47,19 +45,17 @@ const JoinCrewrundetail = () => {
                     leftButtonevent={handleJoincrew}
                     rightbuttonevent={handlecloseModal}
                 >
-                    {joincrewrunarray.map((crewrunintro) => (
-                        <>
-                            <div class="flex items-center justify-center">
-                                <div className="mr-2 text-xl" ><GiRunningShoe /></div>
-                                <div>
-                                    <div>크루명 : {joincrewrunarray.crewname}</div>
-                                    <div>지역 : {joincrewrunarray.location}</div>
-                                </div>
+                    <>
+                        <div class="flex items-center justify-center">
+                            <div className="mr-2 text-xl" ><GiRunningShoe /></div>
+                            <div>
+                                <div>크루명 : {joincrewrundata.crewname}</div>
+                                <div>지역 : {joincrewrundata.location}</div>
                             </div>
+                        </div>
 
-                            <span>{`${crewrunintro.crewname} 가입 안내사항을 확인하셨나요??`}</span>
-                        </>
-                    ))}
+                        <span>{`${joincrewrundata.crewname} 가입 안내사항을 확인하셨나요??`}</span>
+                    </>
                 </ApplicationModal> : ''
             }
         </>
