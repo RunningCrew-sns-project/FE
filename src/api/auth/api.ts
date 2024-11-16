@@ -17,3 +17,12 @@ export const socialJoin = async (data) => {
 	});
 	return response;
 };
+//토큰 재발급
+export const getRefreshToken = async (data) => {
+	const response = await http.post(`/api/auth/refresh`, data, {
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+	return response;
+};
