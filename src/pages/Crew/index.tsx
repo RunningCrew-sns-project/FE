@@ -8,6 +8,7 @@ import CrewManger from "./CrewManger";
 import { getMyCrew } from "../../api/myPage/api";
 import { getCrewInfoList } from "../../api/crew/api";
 import { dateFormatter } from "../../util/dateFormatter";
+import { useSearchParams } from "react-router-dom";
 
 // 각 인터페이스 타입 정의
 interface CrewInfo {
@@ -39,6 +40,8 @@ interface CrewResponse {
 }
 
 const CrewPage = () => {
+	const [,  setSearchParams] = useSearchParams()
+
 	const [mycrew, setMyCrew] = useState([]);
 	// const [crewId, setCrewId] = useState<number>();
 	const [info, setInfo] = useState<CrewInfo | null>(null);
@@ -57,7 +60,6 @@ const CrewPage = () => {
 	const [cusor, setCusor ] = useState(null)
 
 
-	console.log('업데이트된 친구 ',items)
 	//내가 가입한 크루  불러오기
 	const getMyRunningCrew = async () => {
 		try {
@@ -68,6 +70,7 @@ const CrewPage = () => {
 			if (crewList.length > 0) {
 				const firstCrewId = crewList[0].crewId;
 				console.log("첫 번째 크루", firstCrewId);
+				setSearchParams({ crewId : firstCrewId})
 
 				setMyCrew(crewList);
 				setSelectedCrewId(firstCrewId);
@@ -87,7 +90,7 @@ const CrewPage = () => {
 	useEffect(() => {
 		if (selectedCrewId) {
 			fetchCrewDeatil();
-			
+			setSearchParams({crewId:selectedCrewId })
 		}
 	}, [selectedCrewId, startDate, area, sortOrder]);
 	
