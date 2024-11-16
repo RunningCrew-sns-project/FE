@@ -20,6 +20,8 @@ const JoinRundetail = () => {
 
     console.log('generalrunningarray', generalrunningdata)
 
+
+
     const [isOpen, setIsOpen] = useState(false)
     const handlAskonedayrunning = () => {
         setIsOpen((prev) => !prev)
@@ -30,20 +32,17 @@ const JoinRundetail = () => {
         console.log('참여완료')
     }
 
-    //todo. 런닝에 참여취소하는 api 
-    const handledeleteOnedayrunning = () => {
-        console.log('참여취소')
-    }
-
     const handlecloseModal = () => {
         setIsOpen(false)
     }
 
     return (
         <>
-            {/* <DetailHeader imgarray={generalrunningarray[0].image}></DetailHeader> */}
             {!isLoading &&
-                <DetailInfo info={generalrunningdata.data.responseData} handlAskjoin={handlAskonedayrunning} buttonText="일반달리기 참여하기"></DetailInfo>
+                <>
+                    <DetailHeader imgarray={generalrunningdata.data.responseData.banners}></DetailHeader>
+                    <DetailInfo info={generalrunningdata.data.responseData} handlAskjoin={handlAskonedayrunning} buttonText="일반달리기 참여하기"></DetailInfo>
+                </>
             }
             {isOpen ? <ApplicationModal
                 leftButtontext={"참여할래요!"}
@@ -60,8 +59,6 @@ const JoinRundetail = () => {
                         </div>
                     </div>
                     <div class="top-11 flex">
-                        {/* <div class="top-10">{isJoin ? `${generalrunning.crewname} 달리기 참여 안내사항을 확인하셨나요??`
-                                : `${generalrunning.crewname} 달리기 참여를 취소하시겠습니까?`}</div> */}
                         <div class="top-10"> `${generalrunningdata.data.responseData.title} 달리기 참여 안내사항을 확인하셨나요??`</div>
                     </div>
                 </>

@@ -125,7 +125,7 @@ const router = createBrowserRouter([
 				element: <JoinRundetail />,
 			},
 			{
-				path: "joinCrewRun/:id",
+				path: "joinCrewRun/:runId",
 				element: <JoinCrewrundetail />,
 			},
 			{

@@ -5,7 +5,7 @@ import DetailInfo from './DetailInfo';
 import { GiRunningShoe } from "react-icons/gi";
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
-import { getCrewInfo, joinCrew } from '../../api/detail/crew/api';
+import { getaboutUser, getCrewInfo, joinCrew } from '../../api/detail/crew/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast'
@@ -18,46 +18,65 @@ const JoinCrewdetail = () => {
     const { mutate } = useMutation({
         mutationFn: joinCrew,
         onSuccess: (data) => {
-            console.error("크루 가입 성공:", data);
+            console.log('data', data)
+            if (data.data.success.code === 200) {
+                toast.success('크루에 가입 요청되었습니다.')
+                queryClient.invalidateQueries(['aboutUser', crewId]);
+            }
         },
         onError: (error) => {
-            console.error("크루 가입 실패:", error);
+            console.log('error', error)
+            console.log(error)
         },
     })
 
     const { data: crewInfo, isLoading, isError, error } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
-
-    if (!isLoading) {
-        console.log('joincrewdetail crewinfo', crewInfo)
-    }
+    const { data: aboutUser, isLoading: isaboutUserLoading } = useQuery({ queryKey: ['aboutUser', crewId], queryFn: () => getaboutUser(crewId) })
 
     const [isOpen, setIsOpen] = useState(false)
     const handlAskjoincrew = () => {
         setIsOpen((prev) => !prev)
     }
 
+    if (!isaboutUserLoading) {
+        console.log(aboutUser)
+    }
+
     //크루에 가입하기 api
     const handleJoincrew = (crewId) => {
-        mutate(crewId);
-        toast.success('크루에 가입되었습니다')
+        const parsedCrewId = Number(crewId);
+        mutate(parsedCrewId);
+        setIsOpen(false)
     }
 
     const handlecloseModal = () => {
         setIsOpen(false)
     }
 
+    let statustext = '';
+
+    if (!isaboutUserLoading && aboutUser?.data?.success?.responseData !== undefined) {
+        statustext = aboutUser.data.success.responseData.status;
+        // if (!aboutUser.data.success.responseData.releaseDate && aboutUser.data.success.responseData.releaseDate <= '') {
+        //     statustext = '크루 가입하기';
+        // }
+    }
+
+
     return (
         <>
             {!isLoading && <div>
                 <DetailHeader imgarray={crewInfo.data.success.responseData.crewImageUrls}></DetailHeader>
-                <DetailInfo info={crewInfo.data.success.responseData} handlAskjoin={handlAskjoincrew} buttonText="크루 가입하기"></DetailInfo>
-                {isOpen ? <ApplicationModal
+                <DetailInfo info={crewInfo.data.success.responseData} handlAskjoin={handlAskjoincrew}
+                    buttonText={aboutUser?.data?.success?.responseData === undefined
+                        ? '크루 가입하기' : aboutUser.data.success.responseData.isMaster === true
+                            ? '크루 담당자' : statustext}></DetailInfo>
+                {isOpen ? aboutUser?.data?.success?.responseData === undefined ? <ApplicationModal
                     leftButtontext="가입할래요!"
                     rightbuttontext="취소"
-                    leftButtonevent={handleJoincrew}
+                    leftButtonevent={() => handleJoincrew(crewId)}
                     rightbuttonevent={handlecloseModal}
-                >
-                    <>
+                > <>
                         <div class="flex items-center justify-center">
                             <div className="mr-2 text-xl" ><GiRunningShoe /></div>
                             <div>
@@ -68,7 +87,13 @@ const JoinCrewdetail = () => {
 
                         <span>{`${crewInfo.data.success.responseData.crewName} 가입 안내사항을 확인하셨나요??`}</span>
                     </>
-                </ApplicationModal> : ''}
+                </ApplicationModal> :
+                    <ApplicationModal
+                        rightbuttontext='닫기'
+                        rightbuttonevent={handlecloseModal}
+                        leftvisible={false} >
+                        <span>{`현재 ${aboutUser.data.success.responseData.status} 상태로 ${aboutUser.data.success.responseData.releaseDate} 이후부터 가입가능합니다. `}</span>
+                    </ApplicationModal> : ''}
             </div>}
         </>
     );
