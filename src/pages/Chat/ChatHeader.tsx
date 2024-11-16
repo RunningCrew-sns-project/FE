@@ -11,6 +11,9 @@ const ChatHeader = ({ title, status }) => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
 
+	const queryParams = new URLSearchParams(location.search);
+  const roomId = queryParams.get("roomId"); 
+
 	const openList = () => {
 		setIsOpen(true);
 	};
@@ -21,7 +24,7 @@ const ChatHeader = ({ title, status }) => {
 	const navigate = useNavigate();
 
 	const handleGoBack = () => {
-		navigate(-1);
+		navigate(`/running?roomId=${roomId}`);
 	};
 
 	return (

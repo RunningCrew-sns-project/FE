@@ -1,7 +1,36 @@
 import RunBox from "../../components/RunBox";
 import React from 'react';
 
-const ItemList = React.memo(({ runData }) => {
+// Item의 타입 정의
+interface Item {
+  runId: number;
+  crewId: number;
+  title: string;
+  location: string;
+  activityRegion: string;
+  date: string;
+  startTime: string;
+  banner?: string; // 선택적 프로퍼티
+  crewImageUrl?: string; // 선택적 프로퍼티
+  people: number;
+  memberCount: number;
+  maximumPeople: number;
+  maxCapacity: number;
+  status: "시작전" | "진행중" | "완료" | "모집중" | "만원"; // status 값을 제한된 문자열로 정의
+  postType: string;
+  crewName?: string; // crewName 추가
+}
+
+// ItemList의 props 타입 정의
+interface ItemListProps {
+  runData: Item[];
+}
+
+
+
+
+
+const ItemList = React.memo(({ runData } : ItemListProps) => {
 
 
 
@@ -15,11 +44,11 @@ const ItemList = React.memo(({ runData }) => {
 						<RunBox
 							boxVerticalWidth="200px" // 세로 너비
 							boxHorizontalWidth="450px" // 가로 너비
-							title={item.title || item.crewName}
+							title={item.title || item.crewName || ''}
 							location={item.location || item.activityRegion}
 							date={item.date}
 							startTime={item.startTime}
-							banner={item.banner || item.crewImageUrl}
+							banner={item.banner || item.crewImageUrl || ''}
 							people={item.people || item.memberCount}
 							maximumPeople={item.maximumPeople || item.maxCapacity}
 							status={item.status}

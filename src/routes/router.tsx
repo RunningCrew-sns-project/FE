@@ -25,6 +25,9 @@ import RunningPage from "../pages/Running";
 import Join from "../pages/Auth/Join";
 import Chat from "../pages/Chat";
 import ActiveChat from "../components/Modal/ActiveChat";
+import EditRun from "../pages/Run/create/EditRun";
+import EditCrewRun from "../pages/Run/create/EditCrewRun";
+import EditCrew from "../pages/Run/create/EditCrew";
 
 const router = createBrowserRouter([
 	{
@@ -53,6 +56,14 @@ const router = createBrowserRouter([
 					{
 						path: "crew",
 						element: <Crew />,
+					},
+					{
+						path: 'editRun/:id',
+						element: <EditRun/>
+					},
+					{
+						path: 'editCrewRun/:id',
+						element: <EditCrewRun/>
 					},
 				],
 			},
@@ -122,7 +133,7 @@ const router = createBrowserRouter([
 				element: <JoinCrewdetail />,
 			},
 			{
-				path: "chat/:id",
+				path: "chat",
 				element: <Chat />,
 			},
 			{

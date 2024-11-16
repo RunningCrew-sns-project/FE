@@ -11,19 +11,22 @@ import { useSearchParams } from "react-router-dom";
 import { getCrewListApi, getRunListApi } from "../../api/run/api";
 import { dateFormatter } from "../../util/dateFormatter";
 import InfiniteScroll from "../../components/InfiniteScroll";
-// import { CrewTeamList } from "../../_Mock/crewteamlist";
+
+
+
 
 const RunListPage = () => {
 	const { isMobile } = useDevice();
 
 	const currentDate = new Date();
 	const [startDate, setStartDate] = useState<Date | null>(null);
-	const [area, setArea] = useState("전체");
-	const [sortOrder, setSortOrder] = useState("latest"); // 기본값은 최신순
+	const [area, setArea] = useState();
+	const [sortOrder, setSortOrder] = useState("newest"); // 기본값은 최신순
+	const [reversem , setReverse] = useState(false)
 	const [items, setItems] = useState([]);
 	const [cursor, setCursor ] = useState(null)
 	const [runCursor, setRunCursor ] = useState(null)
-	const [cursorNext, setNextCursor] = useState(1) 
+	const [cursorNext, setNextCursor] = useState() 
 	const [isLastPage, setIsLastPage] = useState(false)
 
 	//카테고리
@@ -34,11 +37,12 @@ const RunListPage = () => {
 	//크루 목록리스트 
 	const getCrewlist = async() => {
 		const CrewFilter = {
-			size: 5, 
+			size: 20, 
 			cursor: cursor, 
 			cursorId: cursorNext, 
-			reverse: false, 
-			criteria: sortOrder
+			reverse: reversem, 
+			criteria: 'latest',
+			crewRegion : area
 	
 		}
 		const res = await getCrewListApi(CrewFilter)
@@ -58,18 +62,19 @@ const RunListPage = () => {
 		const date = dateFormatter(startDate)
 		const RunFilter = {
 			cursor: runCursor,
-			size: 4, 
+			size: 20, 
 			location: area, 
-			date: date.date
+			date: date.date,
+			sortType: sortOrder
 		}
 		const res = await getRunListApi(RunFilter)
 		const runlist = res.data.responseData ; 
+		console.log(res)
 		const {content, countPerScroll, lastScroll, nextCursor} =runlist;
 		console.log('일반달리기 ',content, countPerScroll, lastScroll,'넥스트 ', nextCursor)
 		setItems((prevContent) => [...prevContent , ...content])
 		setRunCursor(nextCursor)
 		setIsLastPage(lastScroll)
-		console.log('일반달리기 ',res)
 	}
 
 	const fetchList = async () => {
@@ -81,12 +86,8 @@ const RunListPage = () => {
 			await getCrewlist();
 		}
 
-		// sortOrder에 따라 정렬 적용
-		if (sortOrder === 'oldest') {
-			setItems((prevItems) => [...prevItems].reverse());
-		}
 
-		
+	
 	};
 	// 통신함수
 	useEffect(() => {
@@ -97,6 +98,13 @@ const RunListPage = () => {
 
 	const handleSort = (order: string) => {
 		setSortOrder(order);
+		console.log(' 오더 왁인', order)
+	
+		if(order === 'oldest'){
+			setReverse(true)
+		}else{
+			setReverse(false)
+		}
 	};
 
 	return (
@@ -104,7 +112,7 @@ const RunListPage = () => {
 			<ThemWrapperBody theme="dark">
 				<PathBanner />
 				<ResponsiveContainer>
-					<div className="flex flex-col mt-8 tablet:flex-col laptop:flex-row desktop:flex-row ">
+					<div className=" flex flex-col mt-8 tablet:flex-col laptop:flex-row desktop:flex-row ">
 						{/* 필터 */}
 						<div className="w-full flex flex-col space-y-4 mr-6 mb-4 laptop:max-w-xs desktop:max-w-xs">
 							<DateFilter
@@ -126,13 +134,13 @@ const RunListPage = () => {
 								)}
 								<div>
 									<button
-										className={`text-sm ${sortOrder === "latest" ? "text-primary" : "text-white"}`}
-										onClick={() => handleSort("latest")}
+										className={`text-sm ${sortOrder === "asc" ? "text-primary" : "text-white"}`}
+										onClick={() => handleSort("newest")}
 									>
 										최신순
 									</button>
 									<button
-										className={`text-sm  ml-4 ${sortOrder === "oldest" ? "text-primary font-bold" : "text-white"}`}
+										className={`text-sm  ml-4 ${sortOrder === "desc" ? "text-primary font-bold" : "text-white"}`}
 										onClick={() => handleSort("oldest")}
 									>
 										오래된순

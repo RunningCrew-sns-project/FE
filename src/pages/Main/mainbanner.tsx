@@ -28,7 +28,7 @@ const MainBanner = ({ slide }: Props) => {
 	const [rooms, setRooms] = useRecoilState(roomsState);
 	const [neaer, setNeaer] = useState({})
 	const navigate = useNavigate();
-
+	const general = "general_";
 	const handleMoveBtn = async  (id?: number) => {
 		switch (slide.subTitle) {
 			case "SCHEDULE":
@@ -39,31 +39,25 @@ const MainBanner = ({ slide }: Props) => {
 				break;
 			case "TODAY":
 				if (id) {
-					const existingRoom = rooms.find((room) => room.roomName === id.toString());
-					console.log(rooms)
-					console.log('체크 존재여부 ',existingRoom)
+					const existingRoom = rooms.find((room) => room.roomName ===  general+id.toString());
+					console.log('존재하는 룸', existingRoom)
 					if (existingRoom) {
-						console.log("이미 생성된 방입니다:", existingRoom);
-						navigate(`/running/${id}`);
+						navigate(`/chat?roomId=${existingRoom.roomId}`);
+						console.log('이미존재 ')
 					} else {
-						const res = await createRoomNameApi({ roomName: id.toString() });
-						console.log(res)
-						// JSON 파싱을 통해 roomName 추출
-						const match = res.data.match(/채팅방 생성 : (.*)/);
-						const jsonString = match[1]; 
-						const cleanedJsonString = jsonString.trim(); // 공백 제거
-						const parsedData = JSON.parse(cleanedJsonString); // JSON 파싱
-						console.log('파싱데이터',parsedData) 
-						console.log('파싱데이터 값',typeof(parsedData.roomName)) 
-
-						if ( parsedData.roomName) {
+						const res = await createRoomNameApi({ roomName: general + id.toString()} );
+						const tilte = res.data.success.responseData.title;
+						const parsedData = JSON.parse(tilte); // JSON 파싱
+						console.log(parsedData)
+						const roomId = res.data.success.responseData.roomId;
+						console.log("Room ID:", res.data.success.responseData.roomId);
+						if ( parsedData) {
 							setRooms((prevRooms) => {
-								const newRooms = [...prevRooms, { roomName: parsedData.roomName }];
-								console.log("업데이트된 방 목록:", newRooms); // 업데이트된 방 목록 출력
+								const newRooms = [...prevRooms, { roomName: parsedData, roomId: roomId }];
 								return newRooms;
 						});
-							navigate(`/running/${id}`);
-							console.log('룸확인', rooms)
+						navigate(`/chat?roomId=${roomId}`);
+
 						} else {
 							console.log("생성 실패");
 						}
@@ -78,12 +72,15 @@ const MainBanner = ({ slide }: Props) => {
 
 
 	const scheduleData = [
-		{ id: 7, title: "아침 달리기", time:'2024-11-10T10:00:00' },
-		{ id: 8, title: "저녁 조깅", time: '2024-11-10T10:560:00' },
-		{ id: 9, title: "저녁 조깅2", time: '2024-11-10T11:00:00' },
-		{ id: 10, title: "저녁 조깅3", time: '2024-11-10T11:20:00' },
-		{ id: 11, title: "저녁 조깅4", time: '2024-11-10T12:00:00' },
-		{ id: 12, title: "저녁 조깅5", time: '2024-11-10T12:35:00' },
+		{ id: 7, title: "아침 달리기", time:'2024-16-10T10:00:00' },
+		{ id: 8, title: "저녁 조깅", time: '2024-16-10T10:560:00' },
+		{ id: 14, title: "저녁 조깅2", time: '2024-16-10T11:00:00' },
+		{ id: 10, title: "저녁 조깅3", time: '2024-16-10T11:20:00' },
+		{ id: 11, title: "저녁 조깅4", time: '2024-16-10T12:00:00' },
+		{ id: 12, title: "저녁 조깅5", time: '2024-16-10T12:35:00' },
+		{ id: 42, title: "헤이", time: '2024-16-10T12:35:00' },
+		{ id: 18, title: "감자돌이가 달려요 ", time: '2024-16-10T12:35:00' },
+		{ id: 25, title: "릴리달리기 ", time: '2024-16-10T12:35:00' },
 		// 추가 일정들...
 	];
 
@@ -99,15 +96,8 @@ const MainBanner = ({ slide }: Props) => {
 		setNeaer(neaerDate);
 	}, []);
 
-	useEffect(() => {
-		if (neaer && neaer.time){
-			const scheduleDate = neaer.time.split("T")[0];
-			const today = new Date().toISOString().split("T")[0]; 
-			if( today !== scheduleDate){
-				setRooms([])
-			}
-		}
-	},[neaer])
+
+
 
 	return (
 		<>
