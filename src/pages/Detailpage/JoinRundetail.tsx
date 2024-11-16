@@ -38,32 +38,34 @@ const JoinRundetail = () => {
 
     return (
         <>
-            {!isLoading &&
-                <>
-                    <DetailHeader imgarray={generalrunningdata.data.responseData.banners}></DetailHeader>
-                    <DetailInfo info={generalrunningdata.data.responseData} handlAskjoin={handlAskonedayrunning} buttonText="일반달리기 참여하기"></DetailInfo>
-                </>
-            }
-            {isOpen ? <ApplicationModal
-                leftButtontext={"참여할래요!"}
-                rightbuttontext="닫기"
-                leftButtonevent={handleOnedayrunning}
-                rightbuttonevent={handlecloseModal}
-            >
-                <>
-                    <div class="flex items-center justify-center">
-                        <div className="mr-2 text-xl" ><GiRunningShoe /></div>
-                        <div>
-                            <div>달리기명 : {generalrunningdata.data.responseData.title}</div>
-                            <div>지역 : {generalrunningdata.data.responseData.location}</div>
+            <div className="pt-16">
+                {!isLoading &&
+                    <>
+                        <DetailHeader imgarray={generalrunningdata.data.responseData.banners}></DetailHeader>
+                        <DetailInfo info={generalrunningdata.data.responseData} handlAskjoin={handlAskonedayrunning} buttonText="일반달리기 참여하기"></DetailInfo>
+                    </>
+                }
+                {isOpen ? <ApplicationModal
+                    leftButtontext={"참여할래요!"}
+                    rightbuttontext="닫기"
+                    leftButtonevent={handleOnedayrunning}
+                    rightbuttonevent={handlecloseModal}
+                >
+                    <>
+                        <div class="flex items-center justify-center">
+                            <div className="mr-2 text-xl" ><GiRunningShoe /></div>
+                            <div>
+                                <div>달리기명 : {generalrunningdata.data.responseData.title}</div>
+                                <div>지역 : {generalrunningdata.data.responseData.location}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="top-11 flex">
-                        <div class="top-10"> `${generalrunningdata.data.responseData.title} 달리기 참여 안내사항을 확인하셨나요??`</div>
-                    </div>
-                </>
-            </ApplicationModal> : ''
-            }
+                        <div class="top-11 flex">
+                            <div class="top-10"> `${generalrunningdata.data.responseData.title} 달리기 참여 안내사항을 확인하셨나요?`</div>
+                        </div>
+                    </>
+                </ApplicationModal> : ''
+                }
+            </div>
         </>
     );
 };
