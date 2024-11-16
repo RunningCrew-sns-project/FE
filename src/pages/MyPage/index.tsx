@@ -65,7 +65,7 @@ const MyPage = (props: Props) => {
 						<h1 className="text-white">{nickName}</h1>
 					</div>
 					<div
-						className="text-white tablet:absolute tablet:left-4 tablet:bottom-10 flex items-center cursor-pointer"
+						className="text-white tablet:absolute tablet:left-4 tablet:bottom-20 flex items-center cursor-pointer"
 						onClick={() => setIsMenuOpen(!isMenuOpen)}
 					>
 						<IoIosSettings

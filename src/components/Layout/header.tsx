@@ -3,6 +3,7 @@ import { CATEGORYS } from "../../const/category";
 import Button from "../Button";
 import { ResponsiveContainer } from "../Container";
 import { FaRegBell } from "react-icons/fa";
+import { MdOutlinePersonOutline } from "react-icons/md";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faBars } from "@fortawesome/free-solid-svg-icons";
 
@@ -12,8 +13,8 @@ const Header = () => {
 	const handleMovePage = (keyword: string) => {
 		navigate("runlist");
 		setSearchParams({ category: keyword });
-		if (keyword === '/crew') {
-			navigate('/crew')
+		if (keyword === "/crew") {
+			navigate("/crew");
 		}
 	};
 
@@ -44,8 +45,13 @@ const Header = () => {
 								</Button>
 							</Link>
 						</div>
-						<div>
+						<div className="flex gap-2 items-center">
 							<FaRegBell />
+							<MdOutlinePersonOutline
+								size={20}
+								className="cursor-pointer"
+								onClick={() => navigate("/myPage")}
+							/>
 						</div>
 					</div>
 				</ResponsiveContainer>

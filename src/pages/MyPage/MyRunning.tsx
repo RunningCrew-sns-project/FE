@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RunBox from "../../components/RunBox";
 import InfiniteScroll from "../../components/InfiniteScroll";
+import { getMyRunning } from "../../api/myPage/api";
 
 type Props = {};
 
@@ -15,6 +16,15 @@ const MyRunning = (props: Props) => {
 		maximumPeople: 10,
 		status: "시작전",
 	};
+
+	const requestMyRunning = async () => {
+		const res = await getMyRunning();
+		console.log(res, "res");
+	};
+
+	useEffect(() => {
+		requestMyRunning();
+	}, []);
 
 	const num = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	const requestData = () => {};
