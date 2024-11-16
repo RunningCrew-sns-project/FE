@@ -22,15 +22,7 @@ const ChatInput = ({ handleSendMsg, setImageUrls, imgUrl }) => {
 	const handleSend = async () => {
 		const images = await getImgURL();
 		if (writeMsg.trim() || images.length > 0) { // 메시지 또는 이미지가 있으면 전송
-			const newMsg = {
-				id: 1,
-				sender: "감자돌이",
-				content: writeMsg.trim(), // 사용자가 입력한 메시지로 설정
-				date: "2023-11-06",
-				// type: "text",
-				// isSentByUser: true,
-				image: images.length > 0 ? images : undefined // 이미지가 없으면 필드 생략
-			};
+			const newMsg = writeMsg.trim()
 			handleSendMsg(newMsg);
 			setWriteMsg("");
 			setImageUrls([]);

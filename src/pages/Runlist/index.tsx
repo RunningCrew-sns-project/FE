@@ -11,7 +11,9 @@ import { useSearchParams } from "react-router-dom";
 import { getCrewListApi, getRunListApi } from "../../api/run/api";
 import { dateFormatter } from "../../util/dateFormatter";
 import InfiniteScroll from "../../components/InfiniteScroll";
-// import { CrewTeamList } from "../../_Mock/crewteamlist";
+
+
+
 
 const RunListPage = () => {
 	const { isMobile } = useDevice();
@@ -23,7 +25,7 @@ const RunListPage = () => {
 	const [items, setItems] = useState([]);
 	const [cursor, setCursor ] = useState(null)
 	const [runCursor, setRunCursor ] = useState(null)
-	const [cursorNext, setNextCursor] = useState(1) 
+	const [cursorNext, setNextCursor] = useState() 
 	const [isLastPage, setIsLastPage] = useState(false)
 
 	//카테고리
@@ -58,18 +60,18 @@ const RunListPage = () => {
 		const date = dateFormatter(startDate)
 		const RunFilter = {
 			cursor: runCursor,
-			size: 4, 
+			size: 2, 
 			location: area, 
 			date: date.date
 		}
 		const res = await getRunListApi(RunFilter)
 		const runlist = res.data.responseData ; 
+		console.log(res)
 		const {content, countPerScroll, lastScroll, nextCursor} =runlist;
 		console.log('일반달리기 ',content, countPerScroll, lastScroll,'넥스트 ', nextCursor)
 		setItems((prevContent) => [...prevContent , ...content])
 		setRunCursor(nextCursor)
 		setIsLastPage(lastScroll)
-		console.log('일반달리기 ',res)
 	}
 
 	const fetchList = async () => {

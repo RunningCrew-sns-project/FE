@@ -3,6 +3,7 @@ import { recoilPersist } from "recoil-persist";
 
 interface Room {
   roomName: string;
+  roomId: string; 
 }
 
 const { persistAtom } = recoilPersist();

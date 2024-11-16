@@ -16,6 +16,8 @@ const RunningFooter = ({stop, setIsStop, data, id}:RunningFooterProps) => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
 	const navigate = useNavigate()
+	const queryParams = new URLSearchParams(location.search);
+  const roomId = queryParams.get("roomId"); 
 
 	const handleOpneModal = () => {
 		stop()
@@ -31,7 +33,7 @@ const RunningFooter = ({stop, setIsStop, data, id}:RunningFooterProps) => {
 
 
 	const hadleMoveChat = () => {
-		navigate(`/chat/${id}`);
+		navigate(`/chat?roomId=${roomId}`);
 	}
   
 

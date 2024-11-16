@@ -13,9 +13,10 @@ interface FormLayoutProps {
   onSubmit: SubmitHandler<InputData>;
   children?: React.ReactNode; // 추가 자식 요소
   setImageUrls?: (urls: string[]) => void; // 이미지 URL을 설정하는 함수
+	isEdit? : boolean
 }
 
-const FormLayout = ({ title, fields, onSubmit, children, setImageUrls }:FormLayoutProps) => {
+const FormLayout = ({ title, fields, onSubmit, children, setImageUrls, isEdit }:FormLayoutProps) => {
 
 	const methods = useForm<InputData>();
 	const location = useLocation(); // 현재 경로 가져오기
@@ -57,7 +58,7 @@ const FormLayout = ({ title, fields, onSubmit, children, setImageUrls }:FormLayo
 						theme="primary"
 						className="w-[320px] tablet:w-[320px] laptop:w-[400px] desktop:w-[400px]"
 					>
-						등록하기
+						{isEdit ? '수정하기' : '등록하기'}
 					</Button>
 					<Link
 						to={cancelLink}
