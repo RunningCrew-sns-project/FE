@@ -22,7 +22,7 @@ const DetailHeader = ({ imgarray }) => {
                             <img
                                 src={img}
                                 alt="배경이미지"
-                                className="w-full h-72 object-cover"
+                                className="w-full h-96 object-cover"
                             />
                         </div>
                     )) : <div>이미지없음</div>}
