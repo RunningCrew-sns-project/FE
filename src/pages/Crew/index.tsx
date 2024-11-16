@@ -1,13 +1,13 @@
 import CrewBanner from "./CrewBanner";
 import MyCrewList from "./MyCrewList";
 import PostList from "./PostList";
-
-import { MY_CREWLIST } from "../../_Mock/crewlist";
-import { CREW_INFOLIST } from "../../_Mock/crewInfoList";
 import { useEffect, useState } from "react";
 import ThemWrapperBody from "../../components/ThemWrapper";
 import { ResponsiveContainer } from "../../components/Container";
 import CrewManger from "./CrewManger";
+import { getMyCrew } from "../../api/myPage/api";
+import { getCrewInfoList } from "../../api/crew/api";
+import { dateFormatter } from "../../util/dateFormatter";
 
 // 각 인터페이스 타입 정의
 interface CrewInfo {
@@ -39,62 +39,92 @@ interface CrewResponse {
 }
 
 const CrewPage = () => {
-	const [mycrew, setMyCrew] = useState<
-		{ id: string; name: string; imageUrl: string }[]
-	>([]);
+	const [mycrew, setMyCrew] = useState([]);
+	// const [crewId, setCrewId] = useState<number>();
 	const [info, setInfo] = useState<CrewInfo | null>(null);
 	const [items, setItems] = useState<PostItem[]>([]);
 	const [selectedCrewId, setSelectedCrewId] = useState(null); // 선택된 크루 ID
 	const [master, setMaster] = useState(true);
-	const [isOepnManger, setIsOpenManger] = useState(false)
+	const [isOepnManger, setIsOpenManger] = useState(false);
 
-	const [page, setPage] = useState<number>(1);
-	const [hasMore, setHasMore] = useState<boolean>(false);
+	const [page, setPage] = useState<number>(30);
+	// const [hasMore, setHasMore] = useState<boolean>(false);
 
 	const currentDate = new Date();
-	const [startDate, setStartDate] = useState<Date | null>(currentDate);
+	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [area, setArea] = useState("전체");
 	const [sortOrder, setSortOrder] = useState("latest"); // 기본값은 최신순
+	const [cusor, setCusor ] = useState(null)
 
-	// 크루 목록을 불러오는 useEffect
-	useEffect(() => {
-		const res = MY_CREWLIST;
-		setMyCrew(res.data);
 
-		if (mycrew.length > 0) {
-			setSelectedCrewId(mycrew[0].id); // 첫 번째 크루의 ID로 정보 요청
+	console.log('업데이트된 친구 ',items)
+	//내가 가입한 크루  불러오기
+	const getMyRunningCrew = async () => {
+		try {
+			const mycrews = await getMyCrew();
+			console.log("내가 가입한 크루", mycrews);
+			const crewList = mycrews.data.success.responseData;
+
+			if (crewList.length > 0) {
+				const firstCrewId = crewList[0].crewId;
+				console.log("첫 번째 크루", firstCrewId);
+
+				setMyCrew(crewList);
+				setSelectedCrewId(firstCrewId);
+			} else {
+				console.log("가입한 크루가 없습니다.");
+			}
+		} catch (error) {
+			console.error("크루 목록 불러오기 실패:", error);
 		}
-	}, [mycrew]);
-
-	//선택된 크루 바꾸기, 혹은 선택된 크루내 세시글 필터링 변화시 새 리스트 요청
-	useEffect(() => {
-		if (selectedCrewId) {
-			fetchCrewDeatil(selectedCrewId);
-		}
-	}, [selectedCrewId, startDate, area, sortOrder]);
-
-	const fetchCrewDeatil = (crewId: string) => {
-		// const response = await fetch(`/api/crew/${crewId}?startDate=${startDate}&area=${area}&sortOrder=${sortOrder}`);
-		// const data = await response.json();
-
-		// if (response.ok) {
-		// 	setInfo(data.info); // 크루 정보 업데이트
-		// 	setItems(data.items); // 목록 리스트 업데이트
-		// } else {
-		// 	console.error("크루 정보 요청 실패:", data.message);
-		// }
-		const res: CrewResponse = CREW_INFOLIST;
-		setInfo(res.info);
-		setItems(res.items);
 	};
 
-	//필터링을 교체하는 함수
+	useEffect(() => {
+		getMyRunningCrew();
+	}, []);
+
+	// selectedCrewId가 변경될 때마다 크루 세부 정보를 가져옴
+	useEffect(() => {
+		if (selectedCrewId) {
+			fetchCrewDeatil();
+			
+		}
+	}, [selectedCrewId, startDate, area, sortOrder]);
+	
+	const fetchCrewDeatil = async () => {
+		const date = dateFormatter(startDate);
+		const filter = {
+			cursor: cusor,
+			size: page,
+			location: area,
+			date: date.date,
+		};
+
+		try {
+			const res = await getCrewInfoList(selectedCrewId, filter);
+			console.log("인포랑데이터응답", res.data.success.responseData);
+			const resData = res.data.success.responseData;
+			const { content, countPerScroll, lastScroll, nextCursor } = resData;
+			console.log(content, countPerScroll, lastScroll, nextCursor);
+			if (content) {
+				console.log('작동중')
+				console.log('리스트' , content[0].items)
+
+				setInfo(content[0].crewInfo);
+				setItems(content[0].items);
+				setCusor(nextCursor)
+			} else {
+				console.log("데이터가  없습니다. ");
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	// parmas를 전달받기
-	const handleDetailCrew = (crewId: string, crewMaster:boolean) => {
-		fetchCrewDeatil(crewId);
+	const handleDetailCrew = (crewId: number, crewMaster: boolean) => {
+		setSelectedCrewId(crewId);
 		setMaster(crewMaster);
-		console.log(crewId);
 	};
 
 	return (
@@ -108,13 +138,14 @@ const CrewPage = () => {
 				{info && <CrewBanner info={info} />}
 				<ResponsiveContainer>
 					{isOepnManger === true ? (
-						<CrewManger setIsOpenManger={setIsOpenManger} />
+						<CrewManger setIsOpenManger={setIsOpenManger} crewId={selectedCrewId} />
 					) : (
 						items && (
 							<PostList
 								items={items}
 								setPage={setPage}
-								setHasMore={setHasMore}
+								// setHasMore={setHasMore}
+								selectedCrewId={selectedCrewId}
 								setStartDate={setStartDate}
 								setArea={setArea}
 								setSortOrder={setSortOrder}

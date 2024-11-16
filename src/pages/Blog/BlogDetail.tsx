@@ -5,7 +5,7 @@ import Button from "../../components/Button";
 import { useQuery } from '@tanstack/react-query'
 import { getBlogdetail } from "../../api/blog/api";
 import { useMutation } from "@tanstack/react-query";
-import { writeComment } from "../../api/comment/api";
+import { getComment, writeComment } from "../../api/comment/api";
 import { useState } from "react";
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -51,6 +51,17 @@ const BlogDetail = () => {
 
     const [commentContent, setcommentContent] = useState('')
     const { data: blogdetailarray, isLoading, isError, error } = useQuery({ queryKey: ['blogdetail', blogId], queryFn: () => getBlogdetail(blogId) })
+    const { data: commentarray, isLoading: commentloading } = useQuery({ queryKey: ['comment', blogId], queryFn: () => getComment(Number(blogId)) })
+
+
+    if (!isLoading) {
+        console.log(blogdetailarray)
+    }
+
+    if (!commentloading) {
+        console.log(commentarray.data.success.responseData.currentScrollItems)
+    }
+
 
     const handlechangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         setcommentContent(e.target.value)
@@ -85,7 +96,7 @@ const BlogDetail = () => {
                                 blogId={blogdetailarray.data.success.responseData.blogId}
                             />
                             <div className="pt-4">
-                                {blogdetailarray.data.success.responseData.comments.map((comment: Comment) => (
+                                {!commentloading && commentarray.data.success.responseData.currentScrollItems.map((comment: Comment) => (
                                     <div key={comment.commentId} className="mb-2 w-full bg-gray-100 rounded-lg p-4">
                                         <Comment
                                             content={comment.content}

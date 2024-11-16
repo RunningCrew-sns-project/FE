@@ -5,7 +5,7 @@ const DetailHeader = ({ imgarray }) => {
 
     const sliderSettings = {
         dots: true,
-        infinite: true,
+        infinite: imgarray.length > 1,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,

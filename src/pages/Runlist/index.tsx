@@ -6,33 +6,94 @@ import DateFilter from "../../components/Filter/DateFilter";
 import LocationFilter from "../../components/Filter/LocationFilter";
 import ItemList from "./ItemList";
 import { useEffect, useState } from "react";
-import { runData } from "../../_Mock/list";
+
 import { useSearchParams } from "react-router-dom";
+import { getCrewListApi, getRunListApi } from "../../api/run/api";
+import { dateFormatter } from "../../util/dateFormatter";
+import InfiniteScroll from "../../components/InfiniteScroll";
 // import { CrewTeamList } from "../../_Mock/crewteamlist";
 
 const RunListPage = () => {
 	const { isMobile } = useDevice();
 
 	const currentDate = new Date();
-	const [startDate, setStartDate] = useState<Date | null>(currentDate);
+	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [area, setArea] = useState("전체");
 	const [sortOrder, setSortOrder] = useState("latest"); // 기본값은 최신순
 	const [items, setItems] = useState([]);
+	const [cursor, setCursor ] = useState(null)
+	const [runCursor, setRunCursor ] = useState(null)
+	const [cursorNext, setNextCursor] = useState(1) 
+	const [isLastPage, setIsLastPage] = useState(false)
 
 	//카테고리
 	const [searchParms] = useSearchParams();
-	const category = searchParms.get("");
+	const category = searchParms.get("category");
 
+
+	//크루 목록리스트 
+	const getCrewlist = async() => {
+		const CrewFilter = {
+			size: 5, 
+			cursor: cursor, 
+			cursorId: cursorNext, 
+			reverse: false, 
+			criteria: sortOrder
+	
+		}
+		const res = await getCrewListApi(CrewFilter)
+		console.log(res)
+		const listData = res.data.success.responseData;
+		const {currentScrollItems, lastScroll , nextCursor ,nextCursorId } = listData
+		console.log( currentScrollItems, lastScroll , nextCursor ,nextCursorId)
+		setCursor(nextCursor)
+		setIsLastPage(lastScroll)
+		setItems((prevItems) =>[...prevItems, ...currentScrollItems] )
+		setNextCursor(nextCursorId)
+	}
+
+
+	//일반달리기 목록리스트 
+	const getRunlist = async () => {
+		const date = dateFormatter(startDate)
+		const RunFilter = {
+			cursor: runCursor,
+			size: 4, 
+			location: area, 
+			date: date.date
+		}
+		const res = await getRunListApi(RunFilter)
+		const runlist = res.data.responseData ; 
+		const {content, countPerScroll, lastScroll, nextCursor} =runlist;
+		console.log('일반달리기 ',content, countPerScroll, lastScroll,'넥스트 ', nextCursor)
+		setItems((prevContent) => [...prevContent , ...content])
+		setRunCursor(nextCursor)
+		setIsLastPage(lastScroll)
+		console.log('일반달리기 ',res)
+	}
+
+	const fetchList = async () => {
+
+		
+		if (category === 'run') {
+			await getRunlist();
+		} else {
+			await getCrewlist();
+		}
+
+		// sortOrder에 따라 정렬 적용
+		if (sortOrder === 'oldest') {
+			setItems((prevItems) => [...prevItems].reverse());
+		}
+
+		
+	};
 	// 통신함수
 	useEffect(() => {
-		// 통신
-		const res = runData;
-		// const res2 = CrewTeamList;
-		setItems(res.itmes);
-		console.log(startDate);
-		console.log(area);
-		console.log(sortOrder);
-	}, [area, startDate, sortOrder, items, category]);
+		setItems([]); // 카테고리 변경 시 기존 데이터를 리셋
+		setCursor(null)
+		fetchList();
+	}, [area, startDate, sortOrder, category]);
 
 	const handleSort = (order: string) => {
 		setSortOrder(order);
@@ -74,8 +135,7 @@ const RunListPage = () => {
 										className={`text-sm  ml-4 ${sortOrder === "oldest" ? "text-primary font-bold" : "text-white"}`}
 										onClick={() => handleSort("oldest")}
 									>
-										{" "}
-										오래된순{" "}
+										오래된순
 									</button>
 								</div>
 							</div>
@@ -85,6 +145,7 @@ const RunListPage = () => {
 							</div>
 						</div>
 					</div>
+					<InfiniteScroll fetch={fetchList} isLastPage={isLastPage}/>
 				</ResponsiveContainer>
 			</ThemWrapperBody>
 		</>

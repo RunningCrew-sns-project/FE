@@ -2,9 +2,16 @@ import { useState } from "react";
 import DateFilter from "../../../components/Filter/DateFilter";
 import { fields } from "../../../const/inputfileds";
 import FormLayout from "../commonForm";
-import { InputFieldProps } from "../inputField";
 import MapPage from "../../../components/Map/Map";
 import SearchKeword from "../serachKeword";
+import { FileDto, InputData, UploadedFile } from "./createCrew";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { uploadCrewFiles } from "../../../api/image/api";
+import { useNavigate } from "react-router-dom";
+import { postGeneralRun } from "../../../api/run/api";
+import { dateFormatter } from "../../../util/dateFormatter";
+
 
 export interface LocationDataProps {
 	startCoordinates: { lat: number; lng: number } | null;
@@ -13,10 +20,28 @@ export interface LocationDataProps {
 	endAddress: string;
 }
 
+export interface GeneralRunProps {
+  title: string; // 크루 이름
+  content: string; // 크루 소개
+  activityRegion: string; // 활동 지역
+	inputLocation: string;
+	inputLatitude : number;
+	inputLongitude: number;
+	targetLocation: string;
+	targetLatitude : number;
+	targetLongitude: number;
+  maxParticipants: number; // 최대 수용 인원
+  fileDtos: FileDto[]; // 파일 정보 목록
+	date: string;
+
+}
+
+
 const Run = () => {
 	const currentDate = new Date();
+	const navigatge = useNavigate()
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
-	const [imgfiile, setImgFile] = useState<FormData | null>(null);
+	const [imgfiile, setImageUrls] = useState<string[]>([]);
 	const [locationData, setLocationData] = useState<LocationDataProps>({
 		startCoordinates: null,
 		endCoordinates: null,
@@ -24,16 +49,55 @@ const Run = () => {
 		endAddress: "",
 	});
 
-	const handleSubmit = (data: InputFieldProps) => {
-		const submittedData = {
-			...data,
-			startDate: startDate,
-			locationData: {
-				...locationData,
-			},
-			imgFile: imgfiile,
-		};
-		console.log(submittedData);
+
+	const { mutate } = useMutation({
+		mutationFn: postGeneralRun,
+		onSuccess: (data) => {
+			toast.success("크루 생성 성공!");
+			console.log("생성된 크루 데이터:", data);
+			navigatge('/runlist')
+		},
+		onError: (error) => {
+			toast.error("크루 생성 실패!");
+			console.error("에러 내용:", error);
+		},
+	});
+
+
+	const handleSubmit = async (data: InputData) => {
+		const date = dateFormatter(startDate)
+		try{
+			const imgurl = await uploadCrewFiles(
+				"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
+				imgfiile,
+				{ directory: "General_runImg", big: false },
+			);
+
+			const fileDtos: FileDto[] = imgurl.map((file:UploadedFile) => ({
+				fileName: file.fileName,
+				fileUrl: file.fileUrl,
+			}));
+
+			const newData = {
+				title: data.crewName,
+				content: data.crewIntroduction, 
+				location: data.activityRegion,
+				inputLocation: locationData.startAddress,
+				inputLatitude : locationData.startCoordinates?.lat,
+				inputLongitude: locationData.startCoordinates?.lng,
+				targetLocation: locationData.endAddress,
+				targetLatitude : locationData.endCoordinates?.lat,
+				targetLongitude: locationData.endCoordinates?.lng,
+				maximumPeople: Number(data.maxCapacity), 
+				fileDtos: fileDtos ,
+				date : date.date,
+				startTime: date.startTime
+			}
+
+			mutate(newData)
+		}
+		catch(error){ console.log(error)}
+	
 	};
 
 
@@ -42,8 +106,8 @@ const Run = () => {
 			<FormLayout
 				title="사람들과 함께 달려보세요!"
 				fields={fields}
-				onSubmit={(e) => handleSubmit(e)}
-				setImgFile={setImgFile}
+				onSubmit={handleSubmit}
+				setImageUrls={setImageUrls}
 			>
 				{/* 날짜 */}
 				<div className="mb-5 w-[320px] tablet:w-[640px] laptop:w-[800px] desktop:w-[800px]">

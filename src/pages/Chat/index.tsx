@@ -6,15 +6,13 @@ import ChatRoom from "./ChatRoom";
 const Chat = () => {
 	const { isMobile, isTablet } = useDevice();
 
-
-
 	return (
 		<>
 			{isMobile || isTablet ? (
 				<div className="">
 					<div className="flex items-center justify-center min-h-screen">
 						<div className="w-full h-full">
-              <ChatRoom/>
+							<ChatRoom />
 						</div>
 					</div>
 				</div>
@@ -23,7 +21,7 @@ const Chat = () => {
 					<div className="">
 						<PathBanner />
 						<div className="flex items-center justify-center min-h-screen">
-              <ChatRoom/>
+							<ChatRoom />
 						</div>
 					</div>
 				</ThemWrapperBody>

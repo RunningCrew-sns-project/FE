@@ -1,33 +1,31 @@
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm , SubmitHandler  } from "react-hook-form";
 import { Link, useLocation } from "react-router-dom";
 import InputField, { InputFieldProps } from "./inputField";
 import Button from "../../components/Button";
 import UploadImage from "../../components/UploadImage";
+import { InputData } from "./create/createCrew";
 
+
+// FormLayout의 props 인터페이스 정의
 interface FormLayoutProps {
-	title: string;
-	fields: InputFieldProps[];
-	onSubmit: (data: InputFieldProps) => void;
-	children?: React.ReactNode; // children 추가
-	setImgFile: (formData: FormData) => void; 
+  title: string; // 제목
+  fields: InputFieldProps[]; // InputFieldProps 배열
+  onSubmit: SubmitHandler<InputData>;
+  children?: React.ReactNode; // 추가 자식 요소
+  setImageUrls?: (urls: string[]) => void; // 이미지 URL을 설정하는 함수
 }
 
+const FormLayout = ({ title, fields, onSubmit, children, setImageUrls }:FormLayoutProps) => {
 
-const FormLayout = ({ title, fields, onSubmit, children, setImgFile }: FormLayoutProps) => {
-
-	const methods = useForm<InputFieldProps>();
+	const methods = useForm<InputData>();
 	const location = useLocation(); // 현재 경로 가져오기
 	const cancelLink = location.pathname === "/create/crewRun" ? "/crew" : "/";
-
-	const handleUploadFiles = (formData: FormData) => {
-		setImgFile(formData)
-};
 
 	return (
 		<FormProvider {...methods}>
 			<h2 className="mb-10 font-black text-[20px]">{title}</h2>
 			<UploadImage
-				onUploadFiles={handleUploadFiles}
+				onUploadFiles={(formData ) => setImageUrls(formData)}
 				multiple={true}
 				uploadfileLength={5}
 				id="file-upload"

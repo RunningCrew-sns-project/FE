@@ -2,14 +2,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useDevice } from "../../hook/usedevice";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import ActiveChat from "../../components/Modal/ActiveChat";
+import Modal from "../../components/Modal/Modal";
 
 const RuningHeader = () => {
 	const { isMobile, isTablet } = useDevice();
-	const navigate = useNavigate();
+	const [isOpen, setIsOpen] = useState(false);
 
-	const handleGoBack = () => {
-		navigate(-1);
+	const openList = () => {
+		setIsOpen(true);
+	};
+	const closeList = () => {
+		setIsOpen(false);
 	};
 
 	return (
@@ -21,8 +26,8 @@ const RuningHeader = () => {
 					<FontAwesomeIcon
 						icon={faArrowLeft}
 						className={`${isMobile || isTablet ? "text-white" : "text-balck"} text-2xl cursor-pointer`}
-						onClick={handleGoBack}
 					/>
+
 					<div
 						className={`${isMobile || isTablet ? "text-white" : "text-balck"}`}
 					>
@@ -36,9 +41,16 @@ const RuningHeader = () => {
 						<FontAwesomeIcon
 							icon={faBars}
 							className={`${isMobile || isTablet ? "text-white" : "text-balck"} text-2xl cursor-pointer`}
+							onClick={openList}
 						/>
 					</div>
 				</div>
+				{isOpen && (
+					<Modal isOpen={isOpen} onClose={closeList}>
+						<ActiveChat onClose={closeList} />
+					</Modal>
+				)}
+				
 			</div>
 		</>
 	);

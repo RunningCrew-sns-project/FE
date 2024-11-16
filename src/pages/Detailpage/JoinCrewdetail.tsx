@@ -5,7 +5,7 @@ import DetailInfo from './DetailInfo';
 import { GiRunningShoe } from "react-icons/gi";
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
-import { getCrewInfo, joinCrew } from '../../api/detail/crew/api';
+import { getaboutUser, getCrewInfo, joinCrew } from '../../api/detail/crew/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast'
@@ -19,6 +19,7 @@ const JoinCrewdetail = () => {
         mutationFn: joinCrew,
         onSuccess: (data) => {
             console.error("크루 가입 성공:", data);
+            queryClient.invalidateQueries(['aboutUser', crewId]);
         },
         onError: (error) => {
             console.error("크루 가입 실패:", error);
@@ -26,6 +27,14 @@ const JoinCrewdetail = () => {
     })
 
     const { data: crewInfo, isLoading, isError, error } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
+    const { data: aboutUser, isLoading: isaboutUserLoading } = useQuery({ queryKey: ['aboutUser', crewId], queryFn: () => getaboutUser(crewId) })
+
+    if (!isLoading) {
+        console.log('joincrewdetail crewinfo', crewInfo)
+        console.log('aboutUser', aboutUser)
+    }
+
+
     const [isOpen, setIsOpen] = useState(false)
     const handlAskjoincrew = () => {
         setIsOpen((prev) => !prev)
@@ -33,23 +42,27 @@ const JoinCrewdetail = () => {
 
     //크루에 가입하기 api
     const handleJoincrew = (crewId) => {
-        mutate(crewId);
-        toast.success('크루에 가입되었습니다')
+        const parsedCrewId = Number(crewId);
+        mutate(parsedCrewId);
+        toast.success('크루에 가입 요청되었습니다.')
+        setIsOpen(false)
     }
 
     const handlecloseModal = () => {
         setIsOpen(false)
     }
 
+
     return (
         <>
             {!isLoading && <div>
-                <DetailHeader imgarray={crewInfo.data.success.responseData.crewImageUrl}></DetailHeader>
-                <DetailInfo info={crewInfo.data.success.responseData} handlAskjoin={handlAskjoincrew} buttonText="크루 가입하기"></DetailInfo>
+                <DetailHeader imgarray={crewInfo.data.success.responseData.crewImageUrls}></DetailHeader>
+                <DetailInfo info={crewInfo.data.success.responseData} handlAskjoin={handlAskjoincrew}
+                    buttonText={aboutUser?.data?.success?.responseData === undefined ? '크루 가입하기' : aboutUser.data.success.responseData.isMaster === true ? '크루 담당자' : aboutUser.data.success.responseData.status}></DetailInfo>
                 {isOpen ? <ApplicationModal
                     leftButtontext="가입할래요!"
-                    rightbuttontext="취소"
-                    leftButtonevent={handleJoincrew}
+                    rightbuttontext={aboutUser?.data?.success?.responseData === undefined ? "취소" : '닫기'}
+                    leftButtonevent={() => handleJoincrew(crewId)}
                     rightbuttonevent={handlecloseModal}
                 >
                     <>

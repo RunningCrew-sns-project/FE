@@ -24,6 +24,7 @@ import CrewPage from "../pages/Crew";
 import RunningPage from "../pages/Running";
 import Join from "../pages/Auth/Join";
 import Chat from "../pages/Chat";
+import ActiveChat from "../components/Modal/ActiveChat";
 
 const router = createBrowserRouter([
 	{
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
 						element: <Run />,
 					},
 					{
-						path: "crewRun",
+						path: "crewRun/:selectedCrewId",
 						element: <CrewRun />,
 					},
 					{
@@ -64,7 +65,7 @@ const router = createBrowserRouter([
 				element: <CrewPage />,
 			},
 			{
-				path: "running",
+				path: "running/:id",
 				element: <RunningPage />,
 			},
 			{
@@ -109,11 +110,11 @@ const router = createBrowserRouter([
 				element: <BlogDetail />,
 			},
 			{
-				path: "joinRun/:id",
+				path: "joinRun/:runId",
 				element: <JoinRundetail />,
 			},
 			{
-				path: "joinCrewRun/:id",
+				path: "joinCrewRun/:runId",
 				element: <JoinCrewrundetail />,
 			},
 			{
@@ -121,9 +122,13 @@ const router = createBrowserRouter([
 				element: <JoinCrewdetail />,
 			},
 			{
-				path: 'chat',
-				element: <Chat/>
-			}
+				path: "chat/:id",
+				element: <Chat />,
+			},
+			{
+				path: "chat/ActiveChatlist",
+				element: <ActiveChat />,
+			},
 		],
 		errorElement: <Errorpage />,
 	},

@@ -18,6 +18,7 @@ interface PlaceConverterProps {
 }
 
 const PlaceConverter = ({ locationData, setLocationData }: PlaceConverterProps) => {
+
   const { startAddress, endAddress } = locationData;
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const PlaceConverter = ({ locationData, setLocationData }: PlaceConverterProps) 
   }, [startAddress, endAddress]); // startAddress와 endAddress만 의존성 배열에 추가
 
 
-  
+
 
   return null;
 };
