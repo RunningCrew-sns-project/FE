@@ -2,8 +2,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { http } from "../request"; 
 
 export const changeblogLike = async (blogId: number) => {
+  console.log('change blogId',blogId)
   const response = await http.post(`/api/blog/like?blogId=${blogId}`);
   return response;
+  // console.log(response)
 };
 
 export const useLikeMutation = () => {
@@ -12,8 +14,10 @@ export const useLikeMutation = () => {
   return useMutation({
     mutationFn: changeblogLike, 
     onMutate: async (blogId) => {
-      await queryClient.cancelQueries('blogs');
-      const previousBlogs = queryClient.getQueryData('blogs');
+      await queryClient.cancelQueries({queryKey:['blogs']});
+
+      const previousBlogs = queryClient.getQueryData(['blogs']);
+
       queryClient.setQueryData('blogs', (old: any = []) =>
         old.map((blog: any) =>
           blog.id === blogId
@@ -27,10 +31,11 @@ export const useLikeMutation = () => {
       return { previousBlogs };
     },
     onError: (err, blogId, context) => {
-      queryClient.setQueryData('blogs', context.previousBlogs);
+      queryClient.setQueryData({queryKey:['blogs']}, context.previousBlogs);
+      console.log(err)
     },
     onSettled: () => {
-      queryClient.invalidateQueries('blogs');
+      queryClient.invalidateQueries(['blogs']);
     },
   });
 };
