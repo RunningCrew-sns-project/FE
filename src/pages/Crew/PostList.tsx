@@ -76,7 +76,7 @@ const PostList = ({
 						<div>
 							<button
 								className={`text-sm ${sortOrder === "latest" ? "text-primary" : "text-white"}`}
-								onClick={() => handleSort("latest")}
+								onClick={() => handleSort("newest")}
 							>
 								최신순
 							</button>
@@ -84,8 +84,7 @@ const PostList = ({
 								className={`text-sm  ml-4 ${sortOrder === "oldest" ? "text-primary font-bold" : "text-white"}`}
 								onClick={() => handleSort("oldest")}
 							>
-								{" "}
-								오래된순{" "}
+								오래된순
 							</button>
 						</div>
 					</div>

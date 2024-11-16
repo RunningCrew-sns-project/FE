@@ -53,7 +53,7 @@ const CrewPage = () => {
 	const currentDate = new Date();
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [area, setArea] = useState("전체");
-	const [sortOrder, setSortOrder] = useState("latest"); // 기본값은 최신순
+	const [sortOrder, setSortOrder] = useState("newest"); // 기본값은 최신순
 	const [cusor, setCusor ] = useState(null)
 
 
@@ -98,6 +98,7 @@ const CrewPage = () => {
 			size: page,
 			location: area,
 			date: date.date,
+			sortType : sortOrder
 		};
 
 		try {

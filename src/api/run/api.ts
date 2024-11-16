@@ -3,7 +3,7 @@
 import { http } from "../request"
 
 
-
+const email = 'ssnu3007@naver.com';
 // 일반달리기 생성 
 export const  postGeneralRun = async (data) => {
   const res = await http.post(`/api/join-posts/general/create`, data)
@@ -31,7 +31,7 @@ export const getCrewListApi = async (CrewFilter) => {
 export const getRunListApi = async (RunFilter) => {
   const res = await http.get(`/api/join-posts/general/list`,{
     params: RunFilter
-  })
+  },)
   return res
 }
 
