@@ -9,7 +9,7 @@ import { FileDto, InputData, UploadedFile } from "./createCrew";
 import { uploadCrewFiles } from "../../../api/image/api";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {postEditCrewRunAPi } from "../../../api/run/api";
 import { dateFormatter } from "../../../util/dateFormatter";
 

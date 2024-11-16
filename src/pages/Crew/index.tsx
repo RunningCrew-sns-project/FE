@@ -11,7 +11,7 @@ import { dateFormatter } from "../../util/dateFormatter";
 import { useSearchParams } from "react-router-dom";
 
 // 각 인터페이스 타입 정의
-interface CrewInfo {
+export interface CrewInfo {
 	id: string;
 	name: string;
 	description: string;
@@ -32,21 +32,20 @@ interface PostItem {
 	people: number;
 }
 
-interface CrewResponse {
-	info: CrewInfo;
-	page: number;
-	hasMore: boolean;
-	items: PostItem[];
-}
+// interface CrewResponse {
+// 	info: CrewInfo;
+// 	page: number;
+// 	hasMore: boolean;
+// 	items: PostItem[];
+// }
 
 const CrewPage = () => {
 	const [,  setSearchParams] = useSearchParams()
 
 	const [mycrew, setMyCrew] = useState([]);
-	// const [crewId, setCrewId] = useState<number>();
 	const [info, setInfo] = useState<CrewInfo | null>(null);
 	const [items, setItems] = useState<PostItem[]>([]);
-	const [selectedCrewId, setSelectedCrewId] = useState(null); // 선택된 크루 ID
+	const [selectedCrewId, setSelectedCrewId] = useState<string | null>(null); // 선택된 크루 ID
 	const [master, setMaster] = useState(true);
 	const [isOepnManger, setIsOpenManger] = useState(false);
 
@@ -56,7 +55,7 @@ const CrewPage = () => {
 	const currentDate = new Date();
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [area, setArea] = useState("전체");
-	const [sortOrder, setSortOrder] = useState("newest"); // 기본값은 최신순
+	const [sortOrder, setSortOrder] = useState("newest");
 	const [cusor, setCusor ] = useState(null)
 
 
@@ -90,7 +89,7 @@ const CrewPage = () => {
 	useEffect(() => {
 		if (selectedCrewId) {
 			fetchCrewDeatil();
-			setSearchParams({crewId:selectedCrewId })
+			setSearchParams({ crewId: selectedCrewId ? selectedCrewId.toString() : '' });
 		}
 	}, [selectedCrewId, startDate, area, sortOrder]);
 	
@@ -107,7 +106,7 @@ const CrewPage = () => {
 		try {
 			const res = await getCrewInfoList(selectedCrewId, filter);
 			console.log("인포랑데이터응답", res.data.success.responseData);
-			const resData = res.data.success.responseData;
+			const resData  = res.data.success.responseData;
 			const { content, countPerScroll, lastScroll, nextCursor } = resData;
 			console.log(content, countPerScroll, lastScroll, nextCursor);
 			if (content) {
@@ -126,7 +125,7 @@ const CrewPage = () => {
 	};
 
 	// parmas를 전달받기
-	const handleDetailCrew = (crewId: number, crewMaster: boolean) => {
+	const handleDetailCrew = (crewId: string, crewMaster: boolean) => {
 		setSelectedCrewId(crewId);
 		setMaster(crewMaster);
 	};

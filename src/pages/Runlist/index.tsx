@@ -4,7 +4,7 @@ import ThemWrapperBody from "../../components/ThemWrapper";
 import { useDevice } from "../../hook/usedevice";
 import DateFilter from "../../components/Filter/DateFilter";
 import LocationFilter from "../../components/Filter/LocationFilter";
-import ItemList from "./ItemList";
+import ItemList, { Item } from "./ItemList";
 import { useEffect, useState } from "react";
 
 import { useSearchParams } from "react-router-dom";
@@ -15,15 +15,16 @@ import InfiniteScroll from "../../components/InfiniteScroll";
 
 
 
+
 const RunListPage = () => {
 	const { isMobile } = useDevice();
 
 	const currentDate = new Date();
 	const [startDate, setStartDate] = useState<Date | null>(null);
-	const [area, setArea] = useState();
+	const [area, setArea] = useState('');
 	const [sortOrder, setSortOrder] = useState("newest"); // 기본값은 최신순
 	const [reversem , setReverse] = useState(false)
-	const [items, setItems] = useState([]);
+	const [items, setItems] = useState<Item[]>([]);
 	const [cursor, setCursor ] = useState(null)
 	const [runCursor, setRunCursor ] = useState(null)
 	const [cursorNext, setNextCursor] = useState() 

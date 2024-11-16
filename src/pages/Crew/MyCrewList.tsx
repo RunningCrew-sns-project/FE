@@ -1,6 +1,22 @@
 import SlickSlider from "../../components/Slider/slider";
 
-const MyCrewList = ({ mycrew, handleDetailCrew }) => {
+
+
+// 각 크루의 정보 타입 정의
+interface Crew {
+  crewId: string;
+  crewImageUrl: string;
+  crewName: string;
+  crewMaster: boolean;
+}
+
+// MyCrewList의 props 타입 정의
+interface MyCrewListProps {
+  mycrew: Crew[]; // mycrew는 Crew 객체 배열
+  handleDetailCrew: (crewId: string, crewMaster: boolean) => void; // handleDetailCrew는 crewId와 crewMaster를 받는 함수
+}
+
+const MyCrewList = ({ mycrew, handleDetailCrew }: MyCrewListProps) => {
   const isSliderActive = mycrew.length >= 5; // 크루가 5개 이상일 경우만 슬라이더가 활성화됨
 
   // 슬라이더 설정
