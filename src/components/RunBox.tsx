@@ -1,4 +1,3 @@
-import runCrew from "../assets/runCrew.jpg";
 import { IoPeopleSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
@@ -21,15 +20,17 @@ interface RunProps {
 interface CrewProps {
 	title: string;
 	location: string;
-	banner: string;
+	banner: string | null;
 	people: number;
 	maximumPeople: number;
-	status: "모집중" | "만원";
+	status: string;
 	crewId: number;
+	crewIntroduction?: string;
 	boxVerticalWidth?: string;
 	boxHorizontalWidth?: string;
 }
 const RunBox = (props: RunProps | CrewProps) => {
+	console.log("propsss", props);
 	const isRunProps = (props: any): props is RunProps => {
 		return (props as CrewProps).postType !== undefined; // date 아니고 Posttype이 있는 경우 RunProps로 간주
 	};
@@ -66,15 +67,20 @@ const RunBox = (props: RunProps | CrewProps) => {
 		>
 			<div className={`w-[170px]  h-[160px] relative shrink-0`}>
 				{/* TODO:이미지 url로 교체 */}
-				<img src={runCrew} className="object-cover w-full h-full rounded-lg" />
+				<img
+					src={props.banner}
+					className="object-cover w-full h-full rounded-lg"
+				/>
 				<div
 					className={`absolute right-2 top-2 rounded-xl ${statusStyle[props.status]}`}
 				>
-					<span className="px-3 truncate">{props.status}</span>
+					<span className="px-3 truncate">
+						{isRunProps(props) ? props.status : ""}
+					</span>
 				</div>
 				<div className="absolute bottom-2 left-2 flex items-center gap-1">
-					<IoPeopleSharp color="" />
-					<div className=" bg-black rounded-xl text-white text-sm px-3">
+					<div className=" bg-black rounded-xl text-white text-sm px-3 flex items-center gap-2">
+						<IoPeopleSharp color="white" />
 						{props.people}/{props.maximumPeople}
 					</div>
 				</div>
@@ -87,6 +93,11 @@ const RunBox = (props: RunProps | CrewProps) => {
 				</h1>
 				<div className="flex text-sm justify-between laptop:flex-col laptop:justify-between laptop:h-full">
 					<span className="text-white truncate">{props.location}</span>
+					{!isRunProps(props) && (
+						<p className="text-white hidden laptop:block">
+							{props.crewIntroduction}
+						</p>
+					)}
 					{isRunProps(props) && (
 						<div className="flex laptop:flex-col laptop:gap-2">
 							<div className="bg-white rounded-xl px-2 mr-1 truncate w-[50px] laptop:w-fit">

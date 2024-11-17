@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import RunBox from "../../components/RunBox";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import { getMyRunning } from "../../api/myPage/api";
 
 const MyRunning = () => {
+	const [runHistory, setRunHistory] = useState([]);
 	const data = {
 		title: "오늘의 갓생ㅓ아ㅓㄹ 너ㅏ러ㅣ너리나ㅓ리ㅓㄹ이나ㅓ리나ㅓㅇ리ㅏㄴㄹ",
 		location: "무슨동 ㅓ아ㅓㄹㄴ ㅓ나 러ㅏ니ㅓ라밀 djksjfksjfsljdflsj",
@@ -28,10 +29,16 @@ const MyRunning = () => {
 	const requestData = () => {};
 	return (
 		<div className="flex flex-wrap gap-6 justify-center">
-			{num.map(() => {
-				return <RunBox {...data} />;
-			})}
-			<InfiniteScroll fetch={requestData} isLastPage={false} />
+			{runHistory.length > 1 ? (
+				<>
+					{num.map(() => {
+						return <RunBox {...data} />;
+					})}
+					<InfiniteScroll fetch={requestData} isLastPage={false} />
+				</>
+			) : (
+				<span className="text-white">런닝 기록이 없습니다.</span>
+			)}
 		</div>
 	);
 };

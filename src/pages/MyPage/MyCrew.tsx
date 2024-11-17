@@ -4,13 +4,28 @@ import InfiniteScroll from "../../components/InfiniteScroll";
 import { getMyCrew } from "../../api/myPage/api";
 
 interface CrewData {
-	crewId: 20;
-	crewName: "Mountain Explorers";
-	crewImageUrl: null;
-	crewIntroduction: "A crew for mountain hiking enthusiasts.";
-	requestOrCompletionDate: "2024-11-07T06:53:29";
-	status: "가입 완료";
-	crewMaster: false;
+	crewId: number;
+	crewName: string;
+	crewImageUrl: null | string;
+	crewIntroduction: string;
+	activityRegion: string;
+	memberCount: number;
+	maxCapacity: number;
+	requestOrCompletionDate: string;
+	status: string;
+	crewMaster: boolean;
+}
+
+interface CrewProps {
+	title: string;
+	location: string;
+	banner: string;
+	people: number;
+	maximumPeople: number;
+	status: string;
+	crewId: number;
+	boxVerticalWidth?: string;
+	boxHorizontalWidth?: string;
 }
 const MyCrew = () => {
 	const [crewData, setCrewData] = useState<CrewData[]>([]);
@@ -26,9 +41,19 @@ const MyCrew = () => {
 		requestMyCrew();
 	}, []);
 	return (
-		<div className="flex flex-wrap gap-6">
+		<div className="flex flex-wrap gap-6 justify-center">
 			{crewData.map((data: CrewData) => {
-				return <RunBox {...data} />;
+				const props = {
+					title: data.crewName,
+					location: data.activityRegion,
+					banner: data.crewImageUrl,
+					people: data.memberCount,
+					maximumPeople: data.maxCapacity,
+					status: data.status,
+					crewId: data.crewId,
+					crewIntroduction: data.crewIntroduction,
+				};
+				return <RunBox {...props} />;
 			})}
 			<InfiniteScroll fetch={requestMyCrew} isLastPage={false} />
 		</div>

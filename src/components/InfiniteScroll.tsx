@@ -6,8 +6,6 @@ interface Props {
 	fetch: () => void; // 페이지 하단에 도달시 실행할 함수
 }
 
-//
-
 const InfiniteScroll = (props: Props) => {
 	const handleScroll = useCallback(() => {
 		if (
@@ -21,7 +19,7 @@ const InfiniteScroll = (props: Props) => {
 	}, [props]);
 
 	const debounce = (func: Function, delay: number) => {
-		let timeoutId = null;
+		let timeoutId: any = null;
 		return (...args: any[]) => {
 			if (timeoutId) {
 				clearTimeout(timeoutId);
@@ -43,7 +41,7 @@ const InfiniteScroll = (props: Props) => {
 	return (
 		<div className="w-full flex justify-center py-4">
 			{props.isLastPage ? (
-				"--End--"
+				<span className="text-white">--End--</span>
 			) : (
 				<BeatLoader loading={true} color="#C0FF00" />
 			)}

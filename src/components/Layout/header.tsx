@@ -30,7 +30,7 @@ const Header = () => {
 
 	return (
 		<>
-			<div className=" h-[60px] bg-primary z-[2000] pt-2.5 shadow-lg">
+			<div className=" h-[60px] bg-primary z-[2000] pt-2.5 shadow-lg fixed top-0 left-0 right-0 bottom-0">
 				<ResponsiveContainer>
 					<div className="flex justify-between items-center h-full">
 						<Link to={"/"}>
