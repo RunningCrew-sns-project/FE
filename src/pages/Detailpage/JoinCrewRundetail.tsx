@@ -54,7 +54,7 @@ const JoinCrewrundetail = () => {
                             </div>
                         </div>
 
-                        <span>{`${joincrewrundata.crewname} 가입 안내사항을 확인하셨나요??`}</span>
+                        <span>{joincrewrundata.crewname} 가입 안내사항을 확인해주세요</span>
                     </>
                 </ApplicationModal> : ''
             }

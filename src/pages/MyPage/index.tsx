@@ -101,6 +101,15 @@ const MyPage = () => {
 					>
 						피드
 					</NavLink>
+					<NavLink
+						to="myRequest"
+						className={({ isActive }) =>
+							"flex justify-center items-center w-[100px] h-[30px] transition-colors rounded-full hover:opacity-80 text-md font-bold " +
+							(isActive ? "bg-primary text-[#000]" : "bg-white text-[#000]")
+						}
+					>
+						요청내역
+					</NavLink>
 				</div>
 			</div>
 			{/* scroll area */}
