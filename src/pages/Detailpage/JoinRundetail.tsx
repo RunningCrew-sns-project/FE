@@ -60,7 +60,7 @@ const JoinRundetail = () => {
                             </div>
                         </div>
                         <div class="top-11 flex">
-                            <div class="top-10"> `${generalrunningdata.data.responseData.title} 달리기 참여 안내사항을 확인하셨나요?`</div>
+                            <div class="top-10"> {generalrunningdata.data.responseData.title} 달리기 참여 안내사항을 확인해주세요</div>
                         </div>
                     </>
                 </ApplicationModal> : ''

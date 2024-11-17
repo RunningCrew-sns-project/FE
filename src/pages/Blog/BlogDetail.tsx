@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { getComment, writeComment } from "../../api/comment/api";
 import { useState } from "react";
 import { useQueryClient } from '@tanstack/react-query';
+import toast from "react-hot-toast";
 
 type BlogDetailprops = {
     userName: string;
@@ -42,7 +43,7 @@ const BlogDetail = () => {
         mutationFn: writeComment,
         onSuccess: () => {
             queryClient.invalidateQueries(['blogdetail', blogId]);
-            toast.success('댓글이 삭제되었습니다!');
+            toast.success('댓글이 작성되었습니다!');
         },
         onError: (error) => {
             console.error("댓글 작성 실패:", error);
@@ -50,18 +51,8 @@ const BlogDetail = () => {
     })
 
     const [commentContent, setcommentContent] = useState('')
-    const { data: blogdetailarray, isLoading, isError, error } = useQuery({ queryKey: ['blogdetail', blogId], queryFn: () => getBlogdetail(blogId) })
+    const { data: blogdetailarray, isLoading } = useQuery({ queryKey: ['blogdetail', blogId], queryFn: () => getBlogdetail(blogId) })
     const { data: commentarray, isLoading: commentloading } = useQuery({ queryKey: ['comment', blogId], queryFn: () => getComment(Number(blogId)) })
-
-
-    if (!isLoading) {
-        console.log(blogdetailarray)
-    }
-
-    if (!commentloading) {
-        console.log(commentarray.data.success.responseData.currentScrollItems)
-    }
-
 
     const handlechangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         setcommentContent(e.target.value)
@@ -96,7 +87,10 @@ const BlogDetail = () => {
                                 blogId={blogdetailarray.data.success.responseData.blogId}
                             />
                             <div className="pt-4">
-                                {!commentloading && commentarray.data.success.responseData.currentScrollItems.map((comment: Comment) => (
+                                {!commentloading &&
+                                    commentarray.length === 0 ? (
+                                    <div className="text-center text-gray-500">댓글이 없습니다.</div>
+                                ) : commentarray?.success?.responseData?.currentScrollItems?.map((comment: Comment) => (
                                     <div key={comment.commentId} className="mb-2 w-full bg-gray-100 rounded-lg p-4">
                                         <Comment
                                             content={comment.content}
