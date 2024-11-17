@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import Button from "../../components/Button";
 import { getMyProfile, updateMyProfile } from "../../api/profile/api";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface MyInfo {
 	email: string;
@@ -15,6 +17,7 @@ interface MyInfo {
 	roles: [];
 }
 const Profile = () => {
+	const navigate = useNavigate();
 	const [profileData, setProfileData] = useState<MyInfo>({
 		email: "",
 		nickname: "",
@@ -40,8 +43,16 @@ const Profile = () => {
 		getProfile();
 	}, []);
 
-	const handleUpdate = () => {
-		updateMyProfile({ ...profileData, nickname, phoneNumber });
+	const handleUpdate = async () => {
+		const res = await updateMyProfile({
+			...profileData,
+			nickname,
+			phoneNumber,
+		});
+		if (res.status === 200) {
+			toast("저장되었습니다.");
+			navigate(-1);
+		}
 	};
 	return (
 		<div className="flex flex-col w-full h-screen px-4">
