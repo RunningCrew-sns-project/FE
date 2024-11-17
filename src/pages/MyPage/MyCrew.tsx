@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import RunBox from "../../components/RunBox";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import { getMyCrew } from "../../api/myPage/api";
 
-type Props = {};
-
-const MyCrew = (props: Props) => {
-	const [crewData, setCrewData] = useState([]);
-	const data = {
-		title: "오늘의 갓생",
-		location: "무슨동",
-		banner: "url",
-		people: 2,
-		maximumPeople: 10,
-		status: "모집중",
-	};
+interface CrewData {
+	crewId: 20;
+	crewName: "Mountain Explorers";
+	crewImageUrl: null;
+	crewIntroduction: "A crew for mountain hiking enthusiasts.";
+	requestOrCompletionDate: "2024-11-07T06:53:29";
+	status: "가입 완료";
+	crewMaster: false;
+}
+const MyCrew = () => {
+	const [crewData, setCrewData] = useState<CrewData[]>([]);
 
 	const requestMyCrew = async () => {
 		const res = await getMyCrew();
@@ -28,7 +27,7 @@ const MyCrew = (props: Props) => {
 	}, []);
 	return (
 		<div className="flex flex-wrap gap-6">
-			{crewData.map((data) => {
+			{crewData.map((data: CrewData) => {
 				return <RunBox {...data} />;
 			})}
 			<InfiniteScroll fetch={requestMyCrew} isLastPage={false} />

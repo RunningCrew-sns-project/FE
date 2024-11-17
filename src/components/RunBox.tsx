@@ -1,4 +1,3 @@
-import React from "react";
 import runCrew from "../assets/runCrew.jpg";
 import { IoPeopleSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -43,8 +42,12 @@ const RunBox = (props: RunProps | CrewProps) => {
 	};
 
 	const navigate = useNavigate();
-	const handlemovedetail = (postType, runId, crewId) => {
-		console.log('runbox props', props)
+	const handlemovedetail = (
+		postType: string,
+		runId: string | number,
+		crewId: string | number,
+	) => {
+		console.log("runbox props", props);
 		if (postType === "일반") {
 			navigate(`/joinRun/${runId}`);
 		} else if (postType === "크루") {
@@ -52,10 +55,13 @@ const RunBox = (props: RunProps | CrewProps) => {
 		} else {
 			navigate(`/joinCrew/${crewId}`);
 		}
-	}
+	};
 
 	return (
-		<div onClick={() => handlemovedetail(props.postType, props.runId, props.crewId)}
+		<div
+			onClick={() =>
+				handlemovedetail(props.postType, props.runId, props.crewId)
+			}
 			className={`w-[170px] cursor-pointer flex flex-col laptop:flex-row laptop:w-[400px] rounded-lg bg-gray-900`}
 		>
 			<div className={`w-[170px]  h-[160px] relative shrink-0`}>

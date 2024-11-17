@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { socialJoin } from "../../api/auth/api";
 import toast from "react-hot-toast";
 
-type Props = {};
-
-const Join = (props: Props) => {
+const Join = () => {
 	const navigate = useNavigate();
 	const { state } = useLocation();
 	const { email, nickname, profileImg, provider, socialId } = state;
