@@ -12,106 +12,104 @@ import { getCrewListApi, getRunListApi } from "../../api/run/api";
 import { dateFormatter } from "../../util/dateFormatter";
 import InfiniteScroll from "../../components/InfiniteScroll";
 
-
-
-
-
 const RunListPage = () => {
 	const { isMobile } = useDevice();
 
 	const currentDate = new Date();
 	const [startDate, setStartDate] = useState<Date | null>(null);
-	const [area, setArea] = useState('');
+	const [area, setArea] = useState("");
 	const [sortOrder, setSortOrder] = useState("newest"); // 기본값은 최신순
-	const [reversem , setReverse] = useState(false)
+	const [reversem, setReverse] = useState(false);
 	const [items, setItems] = useState<Item[]>([]);
-	const [cursor, setCursor ] = useState(null)
-	const [runCursor, setRunCursor ] = useState(null)
-	const [cursorNext, setNextCursor] = useState() 
-	const [isLastPage, setIsLastPage] = useState(false)
+	const [cursor, setCursor] = useState(null);
+	const [runCursor, setRunCursor] = useState(null);
+	const [cursorNext, setNextCursor] = useState();
+	const [isLastPage, setIsLastPage] = useState(false);
 
 	//카테고리
 	const [searchParms] = useSearchParams();
 	const category = searchParms.get("category");
 
-
-	//크루 목록리스트 
-	const getCrewlist = async() => {
+	//크루 목록리스트
+	const getCrewlist = async () => {
 		const CrewFilter = {
-			size: 20, 
-			cursor: cursor, 
-			cursorId: cursorNext, 
-			reverse: reversem, 
-			criteria: 'latest',
-			crewRegion : area
-	
-		}
-		const res = await getCrewListApi(CrewFilter)
-		console.log(res)
+			size: 20,
+			cursor: cursor,
+			cursorId: cursorNext,
+			reverse: reversem,
+			criteria: "latest",
+			crewRegion: area,
+		};
+		const res = await getCrewListApi(CrewFilter);
+		console.log(res);
 		const listData = res.data.success.responseData;
-		const {currentScrollItems, lastScroll , nextCursor ,nextCursorId } = listData
-		console.log( currentScrollItems, lastScroll , nextCursor ,nextCursorId)
-		setCursor(nextCursor)
-		setIsLastPage(lastScroll)
-		setItems((prevItems) =>[...prevItems, ...currentScrollItems] )
-		setNextCursor(nextCursorId)
-	}
+		const { currentScrollItems, lastScroll, nextCursor, nextCursorId } =
+			listData;
+		console.log(currentScrollItems, lastScroll, nextCursor, nextCursorId);
+		setCursor(nextCursor);
+		setIsLastPage(lastScroll);
+		setItems((prevItems) => [...prevItems, ...currentScrollItems]);
+		setNextCursor(nextCursorId);
+	};
 
-
-	//일반달리기 목록리스트 
+	//일반달리기 목록리스트
 	const getRunlist = async () => {
-		const date = dateFormatter(startDate)
+		const date = dateFormatter(startDate);
 		const RunFilter = {
 			cursor: runCursor,
-			size: 20, 
-			location: area, 
+			size: 20,
+			location: area,
 			date: date.date,
-			sortType: sortOrder
-		}
-		const res = await getRunListApi(RunFilter)
-		const runlist = res.data.responseData ; 
-		console.log(res)
-		const {content, countPerScroll, lastScroll, nextCursor} =runlist;
-		console.log('일반달리기 ',content, countPerScroll, lastScroll,'넥스트 ', nextCursor)
-		setItems((prevContent) => [...prevContent , ...content])
-		setRunCursor(nextCursor)
-		setIsLastPage(lastScroll)
-	}
+			sortType: sortOrder,
+		};
+		const res = await getRunListApi(RunFilter);
+		const runlist = res.data.responseData;
+		console.log(res);
+		const { content, countPerScroll, lastScroll, nextCursor } = runlist;
+		console.log(
+			"일반달리기 ",
+			content,
+			countPerScroll,
+			lastScroll,
+			"넥스트 ",
+			nextCursor,
+		);
+		setItems((prevContent) => [...prevContent, ...content]);
+		setRunCursor(nextCursor);
+		setIsLastPage(lastScroll);
+	};
 
 	const fetchList = async () => {
-
-		
-		if (category === 'run') {
+		if (category === "run") {
 			await getRunlist();
 		} else {
 			await getCrewlist();
 		}
-
-
-	
 	};
 	// 통신함수
 	useEffect(() => {
 		setItems([]); // 카테고리 변경 시 기존 데이터를 리셋
-		setCursor(null)
+		setCursor(null);
 		fetchList();
 	}, [area, startDate, sortOrder, category]);
 
 	const handleSort = (order: string) => {
 		setSortOrder(order);
-		console.log(' 오더 왁인', order)
-	
-		if(order === 'oldest'){
-			setReverse(true)
-		}else{
-			setReverse(false)
+		console.log(" 오더 왁인", order);
+
+		if (order === "oldest") {
+			setReverse(true);
+		} else {
+			setReverse(false);
 		}
 	};
 
 	return (
 		<>
 			<ThemWrapperBody theme="dark">
-				<PathBanner />
+				<div className="pt-10">
+					<PathBanner />
+				</div>
 				<ResponsiveContainer>
 					<div className=" flex flex-col mt-8 tablet:flex-col laptop:flex-row desktop:flex-row ">
 						{/* 필터 */}
@@ -154,7 +152,7 @@ const RunListPage = () => {
 							</div>
 						</div>
 					</div>
-					<InfiniteScroll fetch={fetchList} isLastPage={isLastPage}/>
+					<InfiniteScroll fetch={fetchList} isLastPage={isLastPage} />
 				</ResponsiveContainer>
 			</ThemWrapperBody>
 		</>

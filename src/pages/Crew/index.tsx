@@ -134,7 +134,7 @@ const CrewPage = () => {
 		<>
 			<ThemWrapperBody theme="dark">
 				<ResponsiveContainer>
-					<div className="mb-16 mt-8">
+					<div className="mb-16 pt-24">
 						<MyCrewList mycrew={mycrew} handleDetailCrew={handleDetailCrew} />
 					</div>
 				</ResponsiveContainer>
