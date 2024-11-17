@@ -1,30 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDevice } from "../../hook/usedevice";
 import useStopWatch from "../../hook/useStopWatch";
 import Running from "./Running";
 import RunningFooter from "./RunningFooter";
 import RuningHeader from "./RunningHeader";
-import { useParams } from "react-router-dom";
+
+
+// 데이터 형태 정의
+interface Data {
+  time: string;
+  progress: number;
+}
+
 
 const RunningContent = () => {
 	const { isMobile, isTablet } = useDevice();
 	const [isStop, setIsStop] = useState(false);
 	//결과데이터
-	const [data, setData] = useState({});
+	const [data, setData] = useState<Data>({ time: "", progress: 0 });
 	// const [runData, setRunData] = useState([]);
 	const { stop } = useStopWatch();
-	const { id } = useParams<{ id: string }>();
 
-
-	const fetchRunData = (id) => {
-		// 데이터 요청 하기
-		console.log('요청아이디값',id);
-	};
-
-	useEffect(() => {
-		fetchRunData(id);
-
-	}, []);
 
 	return (
 		<>
@@ -40,7 +36,7 @@ const RunningContent = () => {
 					<Running isStop={isStop} setData={setData}  />
 				</div>
 				<div className={`absolute bottom-0 w-full z-20`}>
-					<RunningFooter stop={stop} setIsStop={setIsStop} data={data}  id={id}/>
+					<RunningFooter stop={stop} setIsStop={setIsStop} data={data} />
 				</div>
 			</div>
 		</>

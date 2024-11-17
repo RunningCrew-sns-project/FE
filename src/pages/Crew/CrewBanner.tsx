@@ -1,11 +1,26 @@
-import { useEffect } from "react";
+
 import Button from "../../components/Button";
 import creImg from '../../assets/mianBanner2_bg.jpg'
 
-const CrewBanner = ({ info }) => {
-	useEffect(() => {
-		console.log("크루정보", info);
-	}, []);
+
+interface CrewInfo {
+  crewImageUrl?: string;
+  crewName: string;
+  crewIntroduction: string;
+  activityRegion: string;
+  memberCount: number;
+  maxCapacity: number;
+}
+
+// CrewBanner의 props 타입 정의
+interface CrewBannerProps {
+  info: CrewInfo;  // `info` 속성을 CrewInfo 타입으로 지정
+}
+
+
+
+const CrewBanner = ({ info } : CrewBannerProps ) => {
+
 
 	return (
 		<>

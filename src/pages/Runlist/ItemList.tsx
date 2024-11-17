@@ -2,7 +2,7 @@ import RunBox from "../../components/RunBox";
 import React from 'react';
 
 // Item의 타입 정의
-interface Item {
+export interface Item {
   runId: number;
   crewId: number;
   title: string;

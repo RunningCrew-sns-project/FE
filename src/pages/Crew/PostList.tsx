@@ -1,13 +1,29 @@
 import { useDevice } from "../../hook/usedevice";
 import DateFilter from "../../components/Filter/DateFilter";
 import LocationFilter from "../../components/Filter/LocationFilter";
-import ItemList from "../Runlist/ItemList";
+import ItemList, { Item } from "../Runlist/ItemList";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
 
+
+
+
+interface PostListProps {
+  items: Item[];
+  setPage: (page: number) => void;
+  selectedCrewId: number;
+  setStartDate: (startDate: Date | null) => void;
+  setArea: (area: string) => void;
+  setSortOrder: (sortOrder: string) => void;
+  startDate: Date | null;
+  currentDate: Date;
+  sortOrder: string;
+  master: boolean;
+  setIsOpenManger: (isOpen: boolean) => void;
+}
+
 const PostList = ({
 	items,
-	setPage,
 	selectedCrewId,
 	// setHasMore,
 	setStartDate,
@@ -18,7 +34,7 @@ const PostList = ({
 	sortOrder,
 	master,
 	setIsOpenManger,
-}) => {
+}: PostListProps) => {
 	const { isMobile } = useDevice();
 
 	const handleSort = (order: string) => {
