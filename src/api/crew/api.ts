@@ -20,8 +20,8 @@ export const getCrewInfoList = async(crewId, filter) => {
 
 
 //크루원 조회 
-export const getCrewMember = async (crewId , all = null ) => {
-  const res = await http.get(`/api/crews/${crewId}/users`, {
+export const getCrewMember = async (crewId , all = true ) => {
+  const res = await http.get(`/api/crews/${crewId}/admin/users`, {
     params: {
       all: all 
     }

@@ -19,7 +19,6 @@ interface SlideProps {
 
 interface Props {
 	slide: SlideProps;
-	state: string;
 }
 
 const MainBanner = ({ slide }: Props) => {
@@ -101,12 +100,12 @@ const MainBanner = ({ slide }: Props) => {
 
 	return (
 		<>
-			<div className="relative h-screen flex items-center  justify-start overflow-hidden w-full">
+			<div className="relative h-screen flex items-center  justify-start  overflow-x-hidden w-full ">
 				{/* 배경이미지 */}
 				<img
 					src={slide.bgimg}
 					alt="배경이미지 "
-					className="inset-0 w-full h-full object-cover  object-center object-right-bottom tablet:object-cover laptop:object-cover"
+					className="inset-0 w-full h-full object-cover tablet:object-cover laptop:object-cover"
 				/>
 				<div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70" />
 

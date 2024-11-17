@@ -47,7 +47,7 @@ const RuningHeader = () => {
 				</div>
 				{isOpen && (
 					<Modal isOpen={isOpen} onClose={closeList}>
-						<ActiveChat onClose={closeList} />
+						<ActiveChat />
 					</Modal>
 				)}
 				

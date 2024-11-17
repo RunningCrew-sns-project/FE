@@ -4,15 +4,19 @@ import Button from "../Button";
 import { ResponsiveContainer } from "../Container";
 import { FaRegBell } from "react-icons/fa";
 import { MdOutlinePersonOutline } from "react-icons/md";
+import { useDevice } from "../../hook/usedevice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import Mheader from "./Mheader";
 import useAuthStore from "../../store/useAuthStore";
 import toast from "react-hot-toast";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
+	const { isMobile, isTablet } = useDevice();
 	const navigate = useNavigate();
 	const [, setSearchParams] = useSearchParams();
-
+	const [isOpen, setIsOpen] = useState(false);
 	const { isLoggedIn, logout } = useAuthStore();
 
 	const handleMovePage = (keyword: string) => {
@@ -20,7 +24,15 @@ const Header = () => {
 		setSearchParams({ category: keyword });
 		if (keyword === "/crew") {
 			navigate("/crew");
+		} else if (keyword === "blog") {
+			navigate("/blog");
 		}
+		setIsOpen(false);
+	};
+
+	//모바일 메뉴 적용
+	const handleMbMenu = () => {
+		setIsOpen((prev) => !prev);
 	};
 
 	const handleLogout = () => {
@@ -36,8 +48,8 @@ const Header = () => {
 						<Link to={"/"}>
 							<h1 className="cursor-pointer">로고</h1>
 						</Link>
-						<div>
-							<ul className="flex space-x-4 items-center  ">
+						<div className="">
+							{(isMobile || isTablet) ? ' ' : (		<ul className="flex space-x-4 items-center  ml-[250px]">
 								{CATEGORYS.map((category) => (
 									<li
 										className="cursor-pointer font-black"
@@ -46,9 +58,15 @@ const Header = () => {
 										{category.value}
 									</li>
 								))}
-							</ul>
+								<li
+									className="cursor-pointer font-black"
+									onClick={() => navigate("/blog")}
+								>
+									커뮤니티
+								</li>
+							</ul>)}
 						</div>
-						<div>
+						<div className="flex gap-2 items-center mr-6">
 							{isLoggedIn ? (
 								<Button type="button" theme="light" onClick={handleLogout}>
 									로그아웃
@@ -60,8 +78,6 @@ const Header = () => {
 									</Button>
 								</Link>
 							)}
-						</div>
-						<div className="flex gap-2 items-center">
 							<FaRegBell />
 							<MdOutlinePersonOutline
 								size={20}
@@ -71,6 +87,27 @@ const Header = () => {
 						</div>
 					</div>
 				</ResponsiveContainer>
+				{isOpen && (
+					<div className="">
+						<Mheader handleMovePage={handleMovePage} isOpen={isOpen} />
+					</div>
+				)}{" "}
+				{(isMobile || isTablet) && (
+					<div
+						className="cursor-pointer fixed z-[60] right-8 top-[18px]"
+						onClick={handleMbMenu}
+					>
+						<FontAwesomeIcon
+							icon={isOpen ? faTimes : faBars}
+							className="text-xl"
+						/>
+					</div>
+				)}
+				{isOpen && (
+					<div className="fixed z-[40]">
+						<Mheader handleMovePage={handleMovePage} isOpen={isOpen} />
+					</div>
+				)}
 			</div>
 		</>
 	);
