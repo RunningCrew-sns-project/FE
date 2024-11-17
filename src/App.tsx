@@ -1,5 +1,4 @@
 import { Outlet, useLocation } from "react-router";
-import Footer from "./components/Layout/footer";
 import Header from "./components/Layout/header";
 import { Toaster } from "react-hot-toast";
 import { useDevice } from "./hook/usedevice";
@@ -14,7 +13,6 @@ function App() {
 		<>
 			{!hideHeaderFooter && <Header />}
 			<Outlet />
-			{!hideHeaderFooter && <Footer />}
 			<div>
 				<Toaster />
 			</div>

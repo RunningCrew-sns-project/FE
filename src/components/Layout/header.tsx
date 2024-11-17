@@ -4,18 +4,28 @@ import Button from "../Button";
 import { ResponsiveContainer } from "../Container";
 import { FaRegBell } from "react-icons/fa";
 import { MdOutlinePersonOutline } from "react-icons/md";
+import useAuthStore from "../../store/useAuthStore";
+import toast from "react-hot-toast";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
 	const navigate = useNavigate();
 	const [, setSearchParams] = useSearchParams();
+
+	const { isLoggedIn, logout } = useAuthStore();
+
 	const handleMovePage = (keyword: string) => {
 		navigate("runlist");
 		setSearchParams({ category: keyword });
 		if (keyword === "/crew") {
 			navigate("/crew");
 		}
+	};
+
+	const handleLogout = () => {
+		logout();
+		toast("로그아웃되었습니다.");
 	};
 
 	return (
@@ -39,11 +49,17 @@ const Header = () => {
 							</ul>
 						</div>
 						<div>
-							<Link to={"/login"}>
-								<Button type="button" theme="light">
-									로그인
+							{isLoggedIn ? (
+								<Button type="button" theme="light" onClick={handleLogout}>
+									로그아웃
 								</Button>
-							</Link>
+							) : (
+								<Link to={"/login"}>
+									<Button type="button" theme="light">
+										로그인
+									</Button>
+								</Link>
+							)}
 						</div>
 						<div className="flex gap-2 items-center">
 							<FaRegBell />

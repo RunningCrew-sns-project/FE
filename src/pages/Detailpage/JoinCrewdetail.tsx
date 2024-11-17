@@ -5,16 +5,18 @@ import DetailInfo from './DetailInfo';
 import { GiRunningShoe } from "react-icons/gi";
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
-import { getaboutUser, getCrewInfo, joinCrew } from '../../api/detail/crew/api';
+import { getaboutUser, getCrewInfo, joinCrew, selfWithdrawlCrew } from '../../api/detail/crew/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast'
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const JoinCrewdetail = () => {
 
     let { crewId } = useParams();
 
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: joinCrew,
@@ -26,8 +28,21 @@ const JoinCrewdetail = () => {
             }
         },
         onError: (error) => {
-            console.log('error', error)
-            console.log(error)
+            console.log('Error object:', error);
+        },
+    })
+
+    const { mutate: selfWithdrawlmutate } = useMutation({
+        mutationFn: selfWithdrawlCrew,
+        onSuccess: (data) => {
+            console.log('data', data)
+            if (data.data.success.code === 200) {
+                toast.success('탈퇴처리되었습니다.')
+                queryClient.invalidateQueries(['aboutUser', crewId]);
+            }
+        },
+        onError: (error) => {
+            console.log('Error object:', error);
         },
     })
 
@@ -54,6 +69,13 @@ const JoinCrewdetail = () => {
         setIsOpen(false)
     }
 
+    //크루 탈퇴 api
+    const handleselfWithdrawlCrew = (crewId) => {
+        const parsedCrewId = Number(crewId);
+        selfWithdrawlmutate(parsedCrewId);
+        setIsOpen(false)
+    }
+
     let statustext = '';
 
     if (!isaboutUserLoading && aboutUser?.data?.success?.responseData !== undefined) {
@@ -61,6 +83,9 @@ const JoinCrewdetail = () => {
         const currentDate = moment().format('YYYY-MM-DD');
         if (!aboutUser.data.success.responseData.releaseDay && aboutUser.data.success.responseData.releaseDay <= currentDate) {
             statustext = '크루 가입하기';
+        }
+        else if (statustext === '가입 완료') {
+            statustext = '탈퇴하기';
         }
     }
 
@@ -89,10 +114,30 @@ const JoinCrewdetail = () => {
                             </div>
 
                             <span className="block text-center text-gray-800 font-medium mt-4">
-                                {`${crewInfo.data.success.responseData.crewName} 가입 안내사항을 확인하셨나요?`}
+                                {crewInfo.data.success.responseData.crewName} 가입 안내사항을 확인해주세요
                             </span>
                         </>
-                    </ApplicationModal> :
+                    </ApplicationModal> : statustext === '탈퇴하기' ?
+                        <ApplicationModal
+                            leftButtontext="탈퇴할래요!"
+                            rightbuttontext="취소"
+                            leftButtonevent={() => handleselfWithdrawlCrew(crewId)}
+                            rightbuttonevent={handlecloseModal}
+                        > <>
+                                <div className="flex items-center justify-center mb-4">
+                                    <div className="mr-2 text-2xl"><GiRunningShoe /></div>
+                                    <div className="text-lg">
+                                        <div className="font-semibold mb-1">크루명 : {crewInfo.data.success.responseData.crewName}</div>
+                                        <div className="text-gray-700">지역 : {crewInfo.data.success.responseData.activityRegion}</div>
+                                    </div>
+                                </div>
+
+                                <span className="block text-center text-gray-800 font-medium mt-4">
+                                    {crewInfo.data.success.responseData.crewName} 탈퇴하면 하루 뒤 재가입 가능합니다.
+                                </span>
+                            </>
+                        </ApplicationModal>
+                        :
                         <ApplicationModal
                             rightbuttontext='닫기'
                             rightbuttonevent={handlecloseModal}
