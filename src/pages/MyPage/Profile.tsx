@@ -1,12 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import Button from "../../components/Button";
 import { getMyProfile, updateMyProfile } from "../../api/profile/api";
 
-type Props = {};
-
-const Profile = (props: Props) => {
-	const [profileData, setProfileData] = useState({});
+interface MyInfo {
+	email: string;
+	nickname: string;
+	phoneNumber: string;
+	gender: string;
+	dateOfBirth: null | string;
+	profileImg: string;
+	lastLogin: string;
+	status: string;
+	roles: [];
+}
+const Profile = () => {
+	const [profileData, setProfileData] = useState<MyInfo>({
+		email: "",
+		nickname: "",
+		phoneNumber: "",
+		gender: "",
+		dateOfBirth: "",
+		profileImg: "",
+		lastLogin: "",
+		status: "",
+		roles: [],
+	});
 	const [nickname, setNickName] = useState("");
 	const [phoneNumber, setPhoneNumber] = useState("");
 

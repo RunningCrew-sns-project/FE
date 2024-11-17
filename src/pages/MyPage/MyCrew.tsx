@@ -1,20 +1,34 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import RunBox from "../../components/RunBox";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import { getMyCrew } from "../../api/myPage/api";
 
-type Props = {};
+interface CrewData {
+	crewId: number;
+	crewName: string;
+	crewImageUrl: null | string;
+	crewIntroduction: string;
+	activityRegion: string;
+	memberCount: number;
+	maxCapacity: number;
+	requestOrCompletionDate: string;
+	status: string;
+	crewMaster: boolean;
+}
 
-const MyCrew = (props: Props) => {
-	const [crewData, setCrewData] = useState([]);
-	const data = {
-		title: "오늘의 갓생",
-		location: "무슨동",
-		banner: "url",
-		people: 2,
-		maximumPeople: 10,
-		status: "모집중",
-	};
+interface CrewProps {
+	title: string;
+	location: string;
+	banner: string;
+	people: number;
+	maximumPeople: number;
+	status: string;
+	crewId: number;
+	boxVerticalWidth?: string;
+	boxHorizontalWidth?: string;
+}
+const MyCrew = () => {
+	const [crewData, setCrewData] = useState<CrewData[]>([]);
 
 	const requestMyCrew = async () => {
 		const res = await getMyCrew();
@@ -27,9 +41,19 @@ const MyCrew = (props: Props) => {
 		requestMyCrew();
 	}, []);
 	return (
-		<div className="flex flex-wrap gap-6">
-			{crewData.map((data) => {
-				return <RunBox {...data} />;
+		<div className="flex flex-wrap gap-6 justify-center">
+			{crewData.map((data: CrewData) => {
+				const props = {
+					title: data.crewName,
+					location: data.activityRegion,
+					banner: data.crewImageUrl,
+					people: data.memberCount,
+					maximumPeople: data.maxCapacity,
+					status: data.status,
+					crewId: data.crewId,
+					crewIntroduction: data.crewIntroduction,
+				};
+				return <RunBox {...props} />;
 			})}
 			<InfiniteScroll fetch={requestMyCrew} isLastPage={false} />
 		</div>
