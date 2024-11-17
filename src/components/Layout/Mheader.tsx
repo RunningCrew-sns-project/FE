@@ -1,4 +1,5 @@
 
+
 import { CATEGORYS } from "../../const/category";
 
 interface MHeaderProps {
@@ -8,7 +9,6 @@ interface MHeaderProps {
 
 
 const Mheader = ({ handleMovePage , isOpen } : MHeaderProps) => {
-
 
 
 	return (

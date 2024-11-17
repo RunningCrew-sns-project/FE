@@ -28,6 +28,7 @@ import ActiveChat from "../components/Modal/ActiveChat";
 import EditRun from "../pages/Run/create/EditRun";
 import EditCrewRun from "../pages/Run/create/EditCrewRun";
 import EditCrew from "../pages/Run/create/EditCrew";
+import MyRequest from "../pages/MyPage/MyRequest";
 
 const router = createBrowserRouter([
 	{
@@ -59,11 +60,11 @@ const router = createBrowserRouter([
 					},
 					{
 						path: 'editRun/:id',
-						element: <EditRun/>
+						element: <EditRun />
 					},
 					{
 						path: 'editCrewRun/:id',
-						element: <EditCrewRun/>
+						element: <EditCrewRun />
 					},
 				],
 			},
@@ -102,6 +103,7 @@ const router = createBrowserRouter([
 					{ path: "myCrew", element: <MyCrew /> },
 					{ path: "myRunning", element: <MyRunning /> },
 					{ path: "myFeed", element: <MyFeed /> },
+					{ path: "myRequest", element: <MyRequest /> },
 				],
 			},
 			{

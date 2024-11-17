@@ -17,7 +17,6 @@ export const useLikeMutation = () => {
       await queryClient.cancelQueries({queryKey:['blogs']});
 
       const previousBlogs = queryClient.getQueryData(['blogs']);
-
       queryClient.setQueryData('blogs', (old: any = []) =>
         old.map((blog: any) =>
           blog.id === blogId

@@ -20,3 +20,8 @@ export const getaboutUser= async (crewId) => {
     const response = await http.get(`/api/crews/${crewId}/about-user`);
     return response;
 } 
+
+export const selfWithdrawlCrew = async (crewId) => {
+    const response = await http.delete(`/api/crews/${crewId}/users`);
+    return response;
+} 

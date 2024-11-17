@@ -2,9 +2,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { kakaoAuth } from "../../api/auth/api";
 import toast from "react-hot-toast";
+import useAuthStore from "../../store/useAuthStore";
 
 const KakaoCallback = () => {
 	const navigate = useNavigate();
+	const setUserId = useAuthStore((state) => state.setUserId);
+	const setLoginState = useAuthStore((state) => state.setLoginState);
 
 	useEffect(() => {
 		// URL에서 인증 코드 추출
@@ -27,6 +30,8 @@ const KakaoCallback = () => {
 							"auth_refresh_token",
 							response.data.success.responseData.refreshToken,
 						);
+						setUserId(response.data.success.responseData.userId);
+						setLoginState(true);
 						// 메인 페이지로 이동
 						toast("로그인 성공!");
 						navigate("/");
@@ -43,7 +48,7 @@ const KakaoCallback = () => {
 
 			kakaoLogin();
 		}
-	}, [navigate]);
+	}, [navigate, setUserId, setLoginState]);
 
 	return (
 		<div className="w-full h-screen flex justify-center items-center">
