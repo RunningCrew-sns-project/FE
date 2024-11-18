@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BiLike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa";
-import { IoIosMore } from "react-icons/io";
 import InfiniteScroll from "../../components/InfiniteScroll";
 import { deleteMyFeed, getMyFeed } from "../../api/myPage/api";
 import { FaRegEdit } from "react-icons/fa";
@@ -9,8 +8,6 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-type Props = {};
 
 const settings = {
 	dots: true,
@@ -24,7 +21,22 @@ const settings = {
 	centerPadding: "0",
 };
 
-const MyFeed = (props: Props) => {
+interface FeedData {
+	blogId: number | string;
+	content: string;
+	createdAt: string;
+	distance: string;
+	imageUrl: [];
+	likeCount: number;
+	liked: boolean;
+	record: string;
+	title: string;
+	userId: number;
+	userImg: string;
+	userName: string;
+}
+
+const MyFeed = () => {
 	const [feedData, setFeedData] = useState([]);
 
 	const requestPost = async () => {
@@ -35,25 +47,24 @@ const MyFeed = (props: Props) => {
 		}
 	};
 
-	const deletePost = (id) => {
+	const deletePost = (id: string | number) => {
 		deleteMyFeed(id);
-		setFeedData((prev) => prev.filter((feed) => feed.blogId !== id));
+		setFeedData((prev) => prev.filter((feed: any) => feed.blogId !== id));
 	};
 
 	useEffect(() => {
 		requestPost();
 	}, []);
 
-	const Post = (data) => {
-		console.log("data", data);
+	const Post = ({ data }: { data: FeedData }) => {
 		return (
 			<div className="bg-white rounded-lg p-6">
 				<div className="flex justify-between items-center mb-2">
-					<h1 className="font-bold text-xl">{data.data.title}</h1>
+					<h1 className="font-bold text-xl">{data.title}</h1>
 					<RiDeleteBin5Line
 						size={20}
 						className="cursor-pointer"
-						onClick={() => deletePost(data.data.blogId)}
+						onClick={() => deletePost(data.blogId)}
 					/>
 				</div>
 
@@ -61,7 +72,7 @@ const MyFeed = (props: Props) => {
 					{...settings}
 					className="w-[400px] h-[400px] bg-gray-400 overflow-hidden"
 				>
-					{data.data.imageUrl.map((image) => (
+					{data.imageUrl.map((image: string) => (
 						<img src={image} className="object-cover w-full h-full" />
 					))}
 				</Slider>
@@ -69,22 +80,23 @@ const MyFeed = (props: Props) => {
 				<div className="flex gap-2 py-4 items-center">
 					<div className="flex items-center">
 						<BiLike />
-						<span className="text-gray-400">
-							{data.data.likeCount === 0 ? "" : data.data.likeCount}
+						<span className="">
+							{data.likeCount === 0 ? "" : data.likeCount}
 						</span>
 					</div>
 					<FaRegComment />
 					<FaRegEdit className="cursor-pointer" />
 					{/* <IoIosMore /> */}
 				</div>
-				<p>{data.data.content}</p>
-				<div className="text-gray-500">{data.data.createdAt}</div>
+				<p>{data.content}</p>
+				<div className="text-gray-500">{data.createdAt}</div>
 			</div>
 		);
 	};
 	return (
-		<div className="h-screen w-full tablet:w-[400px] laptop:w-[800px] mx-auto px-8 flex flex-col items-center gap-4 bg-black">
+		<div className="h-full w-full tablet:w-[400px] laptop:w-[800px] mx-auto px-8 flex flex-col items-center gap-4 bg-black">
 			{feedData.map((myFeed) => {
+				console.log(myFeed, "myFeed");
 				return <Post data={myFeed} />;
 			})}
 			<InfiniteScroll isLastPage={true} fetch={requestPost} />

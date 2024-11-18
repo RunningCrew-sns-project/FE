@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { IoIosSettings } from "react-icons/io";
 import { getMySummary } from "../../api/profile/api";
 
-type Props = {};
-
-const MyPage = (props: Props) => {
+const MyPage = () => {
 	const [nickName, setNickName] = useState("");
 	const [profileImg, setProfileImg] = useState("");
 
@@ -92,7 +90,7 @@ const MyPage = (props: Props) => {
 							(isActive ? "bg-primary text-[#000]" : "bg-white text-[#000]")
 						}
 					>
-						크루원
+						크루
 					</NavLink>
 					<NavLink
 						to="myFeed"

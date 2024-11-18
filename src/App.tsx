@@ -12,6 +12,7 @@ function App() {
 	return (
 		<>
 			{!hideHeaderFooter && <Header />}
+			{!hideHeaderFooter && <div className="h-[60px]"></div>}
 			<Outlet />
 			<div>
 				<Toaster />

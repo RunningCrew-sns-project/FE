@@ -15,7 +15,7 @@ export const getMyFeed = async () => {
 	return response;
 };
 
-export const deleteMyFeed = async (id) => {
+export const deleteMyFeed = async (id: number | string) => {
 	const response = await http.delete(`/api/blog?blogId=${id}`);
 	return response;
 };

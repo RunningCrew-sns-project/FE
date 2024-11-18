@@ -10,7 +10,7 @@ export const getMyProfile = async () => {
 	return response;
 };
 
-export const updateMyProfile = async (data) => {
+export const updateMyProfile = async (data: {}) => {
 	const response = await http.put(`/api/account/my-info`, data);
 	return response;
 };
