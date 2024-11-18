@@ -20,9 +20,6 @@ const ChatRoom = () => {
 	};
 
 	useEffect(() => {
-		// 요청
-		//받은 데이터에서 타임 날짜와 시간 분리하기 로직필요
-
 		console.log('챗리스트 ', message)
 	}, [message]);
 

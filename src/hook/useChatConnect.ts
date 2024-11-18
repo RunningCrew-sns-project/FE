@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
 import Stomp, { Client, Frame } from "stompjs";
-import { getChatMsgApi, getInitialMsgApi } from "../api/ChatApi/ChatApi";
+import { getInitialMsgApi } from "../api/ChatApi/ChatApi";
 // input 컴포넌트에서 객체가 아닌 메세지만 가져오기 ! 
 // 그 메세지를센드에서 요구한는 객체형식으로 보내기 때문 
 // 메세지가 정상적으로 보내저야 콜백이 뜸 ;;
@@ -32,12 +32,12 @@ const useChatConnect = (roomId: ChatConnectProps) => {
     console.log(initialMsg , '성공적인 초기 데이터 ? ')
     const resInitial = initialMsg.data.success.responseData
     const combinedMessages = resInitial.map((msg) => ( {...msg}) )
-    const lastMessageTime = resInitial[0].time;
+    const lastMessageTime = resInitial[resInitial.length - 1].time;
     console.log('타임데이터,', lastMessageTime)
     setLastTime(lastMessageTime)
     // 무한스크롤시 업데이트 , 
     console.log(combinedMessages, '초기값')
-    setMessage( (prev) => [...prev, ...combinedMessages])
+    setMessage((prev) => [...combinedMessages.reverse(), ...prev]);
   }
 
   // useEffect로 연결만 한 번 시도
@@ -120,7 +120,7 @@ const useChatConnect = (roomId: ChatConnectProps) => {
     }
   };
 
-  return { message, sendMessage  };
+  return { message, sendMessage ,  };
 };
 
 export default useChatConnect;
