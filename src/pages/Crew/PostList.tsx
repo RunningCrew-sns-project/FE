@@ -4,22 +4,24 @@ import LocationFilter from "../../components/Filter/LocationFilter";
 import ItemList, { Item } from "../Runlist/ItemList";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
-
-
-
+import { deleteCrew } from "../../api/crew/api";
+import MessageModal from "../../components/Modal/MssageModal";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface PostListProps {
-  items: Item[];
-  setPage: (page: number) => void;
-  selectedCrewId: number;
-  setStartDate: (startDate: Date | null) => void;
-  setArea: (area: string) => void;
-  setSortOrder: (sortOrder: string) => void;
-  startDate: Date | null;
-  currentDate: Date;
-  sortOrder: string;
-  master: boolean;
-  setIsOpenManger: (isOpen: boolean) => void;
+	items: Item[];
+	setPage: (page: number) => void;
+	selectedCrewId: number;
+	setStartDate: (startDate: Date | null) => void;
+	setArea: (area: string) => void;
+	setSortOrder: (sortOrder: string) => void;
+	startDate: Date | null;
+	currentDate: Date;
+	sortOrder: string;
+	master: boolean;
+	setIsOpenManger: (isOpen: boolean) => void;
 }
 
 const PostList = ({
@@ -36,19 +38,26 @@ const PostList = ({
 	setIsOpenManger,
 }: PostListProps) => {
 	const { isMobile } = useDevice();
+	const [isOpen, setIsOpen] = useState(false);
 
 	const handleSort = (order: string) => {
 		setSortOrder(order);
 	};
 
-
 	const handleManager = () => {
 		setIsOpenManger(true);
 	};
 
+	const handleCrewOut = async () => {
+		setIsOpen(true);
+	};
+
+
+	useEffect(() => {},[isOpen]) 
+
 	return (
 		<>
-			<div className="flex flex-col mt-8 tablet:flex-col laptop:flex-row desktop:flex-row ">
+			<div className="flex flex-col mt-8 tablet:flex-col laptop:flex-row desktop:flex-row pb-40">
 				{/* 필터 */}
 				<div className="w-full flex flex-col space-y-4 mr-6 mb-4 laptop:max-w-xs desktop:max-w-xs">
 					<DateFilter
@@ -64,7 +73,7 @@ const PostList = ({
 								type="button"
 								className="w-full flex flex-col space-y-4 mr-6 mb-4 laptop:max-w-xs desktop:max-w-xs"
 							>
-								크루와 함께 Run 
+								크루와 함께 Run
 							</Button>
 						</Link>
 					</div>
@@ -80,6 +89,14 @@ const PostList = ({
 							</Button>
 						</div>
 					)}
+					<Button
+						type="button"
+						theme="dark"
+						className="opacity-30"
+						onClick={() => handleCrewOut()}
+					>
+						탈퇴하기
+					</Button>
 				</div>
 
 				<div className="flex flex-col  w-full space-y-4 mt-4">
@@ -109,6 +126,14 @@ const PostList = ({
 						<ItemList runData={items} />
 					</div>
 				</div>
+
+				{isOpen && (
+					<MessageModal
+						isOpen={isOpen}
+						setIsOpen={setIsOpen}
+						selectedCrewId={selectedCrewId}
+					/>
+				)}
 			</div>
 		</>
 	);

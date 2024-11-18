@@ -53,12 +53,12 @@ const Run = () => {
 	const { mutate } = useMutation({
 		mutationFn: postGeneralRun,
 		onSuccess: (data) => {
-			toast.success("크루 생성 성공!");
-			console.log("생성된 크루 데이터:", data);
+			toast.success("달리기 게시 성공!");
+			console.log("달리기 게시  데이터:", data);
 			navigatge('/runlist')
 		},
 		onError: (error) => {
-			toast.error("크루 생성 실패!");
+			toast.error("달리기 게시  실패!");
 			console.error("에러 내용:", error);
 		},
 	});

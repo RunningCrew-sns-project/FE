@@ -1,45 +1,99 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import { getCrewMember } from "../../api/crew/api";
+import { deleteMember, getCrewMember, putWarning } from "../../api/crew/api";
+import toast from "react-hot-toast";
+
+interface CrewMember {
+	userId: number;
+	nickname: string;
+	caveat: number;
+	status: string;
+	email: string;
+}
 
 const CrewManger = ({ setIsOpenManger, crewId }) => {
-	const [members, setMembers] = useState([]);
-	const [isout, setIsOut] = useState(true);
+	const [members, setMembers] = useState<CrewMember[]>([]);
+	const [loading, setLoading] = useState(false); // 로딩 상태 추가
+
+	const fetchCrewMember = async () => {
+		try {
+			const res = await getCrewMember(crewId, null);
+			const members = res.data.success.responseData;
+			setMembers(members);
+			console.log('멤버들', members)
+		} catch (error) {
+			console.error("Failed to fetch crew members", error);
+		}
+	};
+
+	// 경고 처리 함수 (낙관적 UI 구현)
+	const handleWarning = async (userId, currentWarning) => {
+		// UI에서 즉시 경고 수 증가
+		setMembers((prevMembers) =>
+			prevMembers.map((member) =>
+				member.userId === userId
+					? { ...member, caveat: currentWarning + 1 }
+					: member,
+			),
+		);
+
+		try {
+			setLoading(true); // 로딩 시작
+			const res = await putWarning({ crewId, userId });
+
+			if (res.data.success.code === 200) {
+				const caveat = res.data.success.responseData.caveat;
+				toast(`경고 ${caveat}회 누적`);
+				// 서버에서 최신 경고 수 받아오기
+				setMembers((prevMembers) =>
+					prevMembers.map((member) =>
+						member.userId === userId ? { ...member, caveat } : member,
+					),
+				);
+				if(caveat === 3){
+					fetchCrewMember()
+				}
+			} else {
+				throw new Error("Failed to update warning");
+			}
+		} catch (error) {
+			toast.error("경고 처리 실패");
+			console.error("Error handling warning:", error);
+			// UI 상태 롤백
+			setMembers((prevMembers) =>
+				prevMembers.map((member) =>
+					member.userId === userId
+						? { ...member, caveat: currentWarning }
+						: member,
+				),
+			);
+		} finally {
+			setLoading(false); // 로딩 끝
+		}
+	};
 
 
-	const fetchCrewMember = async() => {
-		console.log('머ㅏ스터ㅡ ',typeof(crewId))
-		const res = await getCrewMember(crewId,null)
-		const members = res.data.success.responseData;
-		console.log(members)
-		setMembers(members)
+	// 강퇴처리 
+	const handleOut = (userId, nickname) => {
+
+		//낙관적 ui 업데이트  필요 
+		setMembers((prevMember) => prevMember.filter((member) => member.userId != userId)  )
+
+		try{
+			deleteMember(crewId, userId )
+			toast(`${nickname}님이 강퇴처리되었습니다. `)
+			fetchCrewMember()
+		}
+		catch(error){
+			console.log(error)
+			//롤백, 다시 받아오기 
+			fetchCrewMember()
+		}
 	}
 
-
-
 	useEffect(() => {
-		fetchCrewMember()
+		fetchCrewMember();
 	}, [crewId]);
-
-	// const handleWarning = (id) => {
-	// 	const selectedMember = members.find((member) => member.id === id);
-	// 	//낙관적 ui 업데이트 후, 서버에 경고 api 요청 후, 에러시 롤백
-
-	// 	if (selectedMember.warnings < 3) {
-	// 		const updateMember = members.map((member) =>
-	// 			member.id === id
-	// 				? { ...member, warnings: member.warnings + 1 }
-	// 				: member,
-	// 		);
-	// 		setMembers(updateMember);
-	// 		if ((selectedMember.warnings = 3)) {
-	// 			setIsOut(true);
-	// 		}
-	// 	}
-
-	// 	//서버로 경고 요청
-	// 	//에러시  member.id === id ? { ...member, warnings: member.warnings - 1 } : member
-	// };
 
 	return (
 		<>
@@ -71,41 +125,37 @@ const CrewManger = ({ setIsOpenManger, crewId }) => {
 					<div className="flex-1 text-center px-2">상태</div>
 				</div>
 
-				{members && members.length > 0 ? (
-  members.map((member) => (
-    <div className="flex items-center justify-between text-white p-4 rounded-md bg-gray-800 mb-2" key={member.email}>
-      <div className="flex-1 text-center border-r border-white px-2">
-        {member.nickname}
-      </div>
-      <div className="flex-1 text-center border-r border-white px-2">
-        {member.caveat} / 3
-      </div>
-      <div className="flex-1 text-center border-r border-white px-2">
-        <Button
-          type="button"
-          theme="primary"
-          onClick={() => handleWarning(member.email)}
-        >
-          경고
-        </Button>
-      </div>
-      <div className="flex-1 text-center border-r border-white px-2">
-        {isout ? (
-          <Button type="button" theme="primary">
-            강퇴
-          </Button>
-        ) : (
-          <Button type="button" theme="dark">
-            비활성
-          </Button>
-        )}
-      </div>
-      <div className="flex-1 text-center px-2">{member.status}</div>
-    </div>
-  ))
-) : (
-  ''
-)}
+				{members && members.length > 0
+					? members.map((member) => (
+							<div
+								className="flex items-center justify-between text-white p-4 rounded-md bg-gray-800 mb-2"
+								key={member.email}
+							>
+								<div className="flex-1 text-center border-r border-white px-2">
+									{member.nickname}
+								</div>
+								<div className="flex-1 text-center border-r border-white px-2">
+									{member.caveat} / 3
+								</div>
+								<div className="flex-1 text-center border-r border-white px-2">
+									<Button
+										type="button"
+										theme="primary"
+										disabled={loading} // 로딩 중에는 버튼 비활성화
+										onClick={() => handleWarning(member.userId, member.caveat)}
+									>
+										경고
+									</Button>
+								</div>
+								<div className="flex-1 text-center border-r border-white px-2">
+									<Button type="button" theme="primary" onClick={() => handleOut(member.userId , member.nickname)}>
+										강퇴
+									</Button>
+								</div>
+								<div className="flex-1 text-center px-2">{member.status}</div>
+							</div>
+						))
+					: ""}
 			</div>
 		</>
 	);

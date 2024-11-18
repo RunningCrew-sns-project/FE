@@ -7,6 +7,10 @@ export interface InputFieldProps {
 	required?: boolean;
 	type: string;
 	placeholder: string;
+	isEdit? : boolean;
+	runName? : string;
+	content? : string;
+	maximumPeople? : number;
 }
 
 const InputField = ({
@@ -15,6 +19,10 @@ const InputField = ({
 	type = "text",
 	required,
 	placeholder,
+	isEdit,
+	runName,
+	content,
+	maximumPeople
 }: InputFieldProps) => {
 	const { control } = useFormContext(); // 리액트 훅 품의 메소드를 사용할 수 있도록 추출
 
@@ -47,7 +55,15 @@ const InputField = ({
 					<Controller
 						name={name}
 						control={control}
-						defaultValue=""
+						defaultValue={
+							name === "crewName"
+							? runName
+							: name === "crewIntroduction"
+							? content
+							: name === "maxCapacity"
+							? maximumPeople
+							: "" // 해당되지 않는 경우는 빈 문자열로 설정
+						}
 						render={(
 							{ field }, // 내가 실무자
 						) => (
@@ -57,6 +73,7 @@ const InputField = ({
 								required={required}
 								placeholder={placeholder}
 								className="border border-gray-600 p-2 rounded text-base mb-5 w-full bg-inputBg"
+								readOnly={isEdit}
 							/>
 						)}
 					/>

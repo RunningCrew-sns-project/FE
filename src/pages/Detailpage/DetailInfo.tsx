@@ -1,17 +1,25 @@
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import MapPage from '../../components/Map/Map';
+import useAuthStore from '../../store/useAuthStore';
 
 interface DetailInfoProps {
     info: {};
     handlAskjoin: () => void;
     children: React.ReactNode;
     buttonText: string;
+    authorid : number;
+    userId: number
 }
 
 
 const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProps) => {
     console.log('buttonText', buttonText)
-
+    const  { authorId, runId } = info;
+    console.log('zmfnquf', info)
+    const { userId} = useAuthStore()
+    const navigate = useNavigate()
+    
     const locationData = {
         startCoordinates: { lat: info.inputLatitude, lng: info.inputLongitude },
         endCoordinates: { lat: info.targetLatitude, lng: info.targetLongitude },
@@ -49,10 +57,15 @@ const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProp
                             <div className="flex flex-col col-span-2 mt-4">
                                 <div className="font-semibold mb-1">달리기 장소</div>
                                 <MapPage className="" locationData={locationData} />
-                                <div className="flex justify-center mt-4">
+                                <div className="flex justify-center mt-4 gap-2">
                                     <Button className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin}>
                                         {buttonText}
                                     </Button>
+                                    {userId === authorId && (
+                                        <Button type='button' theme='dark'
+                                        onClick={() => navigate(`/create/editRun/${runId}` , { state: { info: info } })}
+                                        >수정하기 </Button>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -79,10 +92,15 @@ const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProp
                                     <p className="text-gray-700 leading-relaxed">{info.crewIntroduction}</p>
                                 </div>
 
-                                <div className="absolute bottom-4 left-0 w-full flex justify-center z-10">
+                                <div className="absolute bottom-4 left-0 w-full flex justify-center z-10  gap-2">
                                     <Button className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin}>
                                         {buttonText}
                                     </Button>
+                                    {userId === authorId && (
+                                        <Button type='button' theme='dark'
+                                        onClick={() => navigate(`/create/editCrewRun/${runId}`, { state: { info: info } })}
+                                        >수정하기 </Button>
+                                    )}
                                 </div>
                             </div>
                         </>
@@ -108,7 +126,7 @@ const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProp
                                     <p className="text-gray-700 leading-relaxed">{info.crewIntroduction}</p>
                                 </div>
 
-                                <div className="absolute bottom-4 left-0 w-full flex justify-center z-10">
+                                <div className="absolute bottom-4 left-0 w-full flex justify-center z-10  gap-2">
                                     <Button className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin} disabled={buttonText === '가입 완료' || buttonText === '가입 대기'}>
                                         {buttonText}
                                     </Button>

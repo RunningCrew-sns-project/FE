@@ -1,8 +1,7 @@
+import CrewRun from "../../pages/Run/create/createCrewRun";
 import { http } from "../request"
 
-const email = 'ssnu3007@naver.com'
-
-
+const email = 'ssnu3007@naver.com';
 // 크루생성 
 export const createCrew = async ({newData }) => {
   const res = await http.post('/api/crews', newData)
@@ -29,6 +28,31 @@ export const getCrewMember = async (crewId , all = true ) => {
   return res;
 };
 
+
+//크루원 경고 
+export const putWarning = async ({ crewId, userId: badUserId }) => {
+  const res = await http.put(`/api/crews/${crewId}/admin/users?badUserId=${badUserId}`);
+  return res;
+};
+
+//크루원 강퇴 
+export const deleteMember = async (crewId , userId ) => {
+  const res = await http.delete(`/api/crews/sendOutCrew` , {
+    params : {
+      crewId  : crewId ,
+      outCrewsUserId : userId 
+    }
+  })
+  return res 
+}
+
+
+//크루탈퇴 
+export const deleteCrew = async (crewId) => {
+  console.log(crewId)
+  const res = await http.delete(`/api/crews/${crewId}/users`)
+  return res 
+}
 
 
 
