@@ -21,33 +21,33 @@ export interface LocationDataProps {
 }
 
 export interface GeneralRunProps {
-  title: string; // 크루 이름
-  content: string; // 크루 소개
-  activityRegion: string; // 활동 지역
+	title: string; // 크루 이름
+	content: string; // 크루 소개
+	activityRegion: string; // 활동 지역
 	inputLocation: string;
-	inputLatitude : number;
+	inputLatitude: number;
 	inputLongitude: number;
 	targetLocation: string;
-	targetLatitude : number;
+	targetLatitude: number;
 	targetLongitude: number;
-  maxParticipants: number; // 최대 수용 인원
-  fileDtos: FileDto[]; // 파일 정보 목록
+	maxParticipants: number; // 최대 수용 인원
+	fileDtos: FileDto[]; // 파일 정보 목록
 	date: string;
 
 }
 
 
 
-const EditRun  = () => {
+const EditRun = () => {
 	const location = useLocation();
 	const { info } = location.state || {};
-	const {content, title: runName,  maximumPeople , runId } = info
-	const [isEdit, setIsEdit ] = useState(false)
+	const { content, title: runName, maximumPeople, runId } = info
+	const [isEdit, setIsEdit] = useState(false)
 
 
 
-  const currentDate = new Date();
-	const navigatge = useNavigate()
+	const currentDate = new Date();
+	const navigate = useNavigate()
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
 	const [imgfiile, setImageUrls] = useState<string[]>([]);
 	const [locationData, setLocationData] = useState<LocationDataProps>({
@@ -59,11 +59,11 @@ const EditRun  = () => {
 
 
 
-  useEffect( () => {
-    if(location.pathname.includes('edit')){
-      setIsEdit(true)
-    }
-  },[])
+	useEffect(() => {
+		if (location.pathname.includes('edit')) {
+			setIsEdit(true)
+		}
+	}, [])
 
 
 
@@ -72,7 +72,7 @@ const EditRun  = () => {
 		onSuccess: (data) => {
 			toast.success("달리기가 수정되었습니다. !");
 			console.log("수정된 데이터 :", data);
-			navigatge('/runlist')
+			navigate('/runlist')
 		},
 		onError: (error) => {
 			toast.error("수정 실패 !");
@@ -83,38 +83,38 @@ const EditRun  = () => {
 
 	const handleSubmit = async (data: InputData) => {
 		const date = dateFormatter(startDate)
-		try{
+		try {
 			const imgurl = await uploadCrewFiles(
 				"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
 				imgfiile,
 				{ directory: "General_runImg", big: false },
 			);
 
-			const fileDtos: FileDto[] = imgurl.map((file:UploadedFile) => ({
+			const fileDtos: FileDto[] = imgurl.map((file: UploadedFile) => ({
 				fileName: file.fileName,
 				fileUrl: file.fileUrl,
 			}));
 
 			const newData = {
 				title: runName,
-				content: content, 
+				content: content,
 				location: data.activityRegion,
 				inputLocation: locationData.startAddress,
-				inputLatitude : locationData.startCoordinates?.lat,
+				inputLatitude: locationData.startCoordinates?.lat,
 				inputLongitude: locationData.startCoordinates?.lng,
 				targetLocation: locationData.endAddress,
-				targetLatitude : locationData.endCoordinates?.lat,
+				targetLatitude: locationData.endCoordinates?.lat,
 				targetLongitude: locationData.endCoordinates?.lng,
-				maximumPeople: maximumPeople, 
-				fileDtos: fileDtos ,
-				date : date.date,
+				maximumPeople: maximumPeople,
+				fileDtos: fileDtos,
+				date: date.date,
 				startTime: date.startTime
 			}
 
 			mutate({ data: newData, runId })
 		}
-		catch(error){ console.log(error)}
-	
+		catch (error) { console.log(error) }
+
 	};
 
 
@@ -125,7 +125,7 @@ const EditRun  = () => {
 				fields={fields}
 				onSubmit={handleSubmit}
 				setImageUrls={setImageUrls}
-        isEdit={isEdit}
+				isEdit={isEdit}
 				content={content}
 				runName={runName}
 				maximumPeople={maximumPeople}

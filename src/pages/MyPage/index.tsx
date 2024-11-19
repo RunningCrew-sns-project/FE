@@ -3,13 +3,17 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { IoIosSettings } from "react-icons/io";
 import { getMySummary } from "../../api/profile/api";
+import ApplicationModal from "../../components/ApplicationModal";
 
 const MyPage = () => {
 	const [nickName, setNickName] = useState("");
 	const [profileImg, setProfileImg] = useState("");
 
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 	const navigate = useNavigate();
+
+
 	const handleClickEditProfile = () => {
 		navigate("/profile");
 	};
@@ -102,13 +106,13 @@ const MyPage = () => {
 						피드
 					</NavLink>
 					<NavLink
-						to="myRequest"
+						to="myCrewRequest"
 						className={({ isActive }) =>
 							"flex justify-center items-center w-[100px] h-[30px] transition-colors rounded-full hover:opacity-80 text-md font-bold " +
 							(isActive ? "bg-primary text-[#000]" : "bg-white text-[#000]")
 						}
 					>
-						요청내역
+						크루가입요청
 					</NavLink>
 				</div>
 			</div>

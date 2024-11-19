@@ -32,6 +32,7 @@ type Comment = {
     userName: string;
     userImg: string;
     createdAt: string;
+    userId: number;
 }
 
 const BlogDetail = () => {
@@ -99,6 +100,7 @@ const BlogDetail = () => {
                                             createdAt={comment.createdAt}
                                             commentId={comment.commentId}
                                             blogId={comment.blogId}
+                                            userId={comment.userId}
                                         />
                                     </div>
                                 ))}

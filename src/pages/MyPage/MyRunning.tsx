@@ -21,12 +21,12 @@ const MyRunning = () => {
 		console.log(res, "res");
 	};
 
-	useEffect(() => {
-		requestMyRunning();
-	}, []);
+	// useEffect(() => {
+	// 	requestMyRunning();
+	// }, []);
 
 	const num = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-	const requestData = () => {};
+	const requestData = () => { };
 	return (
 		<div className="flex flex-wrap gap-6 justify-center">
 			{runHistory.length > 1 ? (

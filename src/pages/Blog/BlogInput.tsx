@@ -6,6 +6,11 @@ export interface BlogInputProps {
     required?: boolean;
     type: string;
     placeholder: string;
+    content: string;
+    title: string;
+    distance: number;
+    record: number;
+    isEdit: boolean;
 }
 
 const BlogInput = ({
@@ -14,9 +19,29 @@ const BlogInput = ({
     type = "text",
     required,
     placeholder,
+    content,
+    title,
+    distance,
+    record,
+    isEdit,
 }: BlogInputProps) => {
     const { control } = useFormContext();
-    const { field } = useController({ name, control, defaultValue: "" });
+
+    const defaultValue = isEdit
+        ? name === "title"
+            ? title
+            : name === "content"
+                ? content
+                : name === "distance"
+                    ? distance
+                    : name === "record"
+                        ? record
+                        : ""
+        : "";
+
+    const { field } = useController({ name, control, defaultValue });
+
+
     return (
         <>
             <div>
@@ -29,6 +54,7 @@ const BlogInput = ({
                         {...field}
                         required={required}
                         placeholder={placeholder}
+                        defaultValue={defaultValue}
                         className="border border-gray-600 p-2 rounded text-base mb-5 w-full bg-inputBg h-48"
                     />
                 ) : (
@@ -37,6 +63,7 @@ const BlogInput = ({
                         {...field}
                         required={required}
                         placeholder={placeholder}
+                        value={field.value || defaultValue}
                         className="border border-gray-600 p-2 rounded text-base mb-5 w-full bg-inputBg"
                     />
                 )}

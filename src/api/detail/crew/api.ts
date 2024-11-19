@@ -15,6 +15,7 @@ export const approveOrRejectCrew = async ({crewId,requestCrewUserId,approveOrRej
     const response = await http.post(`/api/crews/approveOrReject?crewId=${crewId}&requestCrewUserId=${requestCrewUserId}&approveOrReject=${approveOrReject}`);
     return response;
 } 
+  
 
 export const getaboutUser= async (crewId) => {
     const response = await http.get(`/api/crews/${crewId}/about-user`);
@@ -23,5 +24,10 @@ export const getaboutUser= async (crewId) => {
 
 export const selfWithdrawlCrew = async (crewId) => {
     const response = await http.delete(`/api/crews/${crewId}/users`);
+    return response;
+} 
+
+export const myCrewRequestUsers= async () => {
+    const response = await http.get(`/api/crews/all/admin/users`);
     return response;
 } 
