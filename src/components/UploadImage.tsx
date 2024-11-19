@@ -14,6 +14,7 @@ type UploadImageProps = {
 	buttonpositionClassName: string;
 	showPreview?: boolean;
 	icon?: IconProp;
+	imgUrl?: string[];
 };
 
 const UploadImage = ({
@@ -28,8 +29,10 @@ const UploadImage = ({
 	buttonpositionClassName,
 	showPreview = true,
 	icon,
+	imgUrl,
 }: UploadImageProps) => {
-	const [uploadedFiles, setUploadedFiles] = useState([]);
+	const [uploadedFiles, setUploadedFiles] = useState(imgUrl || []);
+	console.log('uploadimage', imgUrl)
 	const ref = useRef(null);
 
 	const handleuploadFile = async (e) => {
@@ -79,11 +82,19 @@ const UploadImage = ({
 									height: `${imgpreviewHeight}px`,
 								}}
 							>
-								<img
-									src={URL.createObjectURL(file)}
-									alt={`image${index}`}
-									className={imgClassName}
-								/>
+								{typeof file === "string" ? (
+									<img
+										src={file}
+										alt={`uploaded-${index}`}
+										className={imgClassName}
+									/>
+								) : (
+									<img
+										src={URL.createObjectURL(file)}
+										alt={`uploaded-${index}`}
+										className={imgClassName}
+									/>
+								)}
 								<button
 									type="button"
 									onClick={() => handledeleteFile(index)}

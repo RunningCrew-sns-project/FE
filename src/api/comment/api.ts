@@ -1,12 +1,12 @@
 import { http } from "../request";
 
 export const writeComment = async ({blogId, writecommentData}) => {
-    const response = await http.post(`/api/comment/${blogId}`,writecommentData);
+    const response = await http.post(`/api/comment?blogId=${blogId}`,writecommentData);
     return response;
 } 
 
 export const updateComment = async ({commentId, updatecommentData}) => {
-    const response = await http.put(`/api/comment/${commentId}`,updatecommentData);
+    const response = await http.put(`/api/comment?commentId=${commentId}`,updatecommentData);
     return response;
 }
 

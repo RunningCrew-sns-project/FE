@@ -8,10 +8,11 @@ type ModalProps = {
     rightbuttontext: string;
     leftButtonevent: () => void;
     rightbuttonevent: () => void;
-    leftvisible?: true
+    leftvisible?: true;
+    rightvisible?: true;
 }
 
-const ApplicationModal = ({ leftButtontext, rightbuttontext, leftButtonevent, rightbuttonevent, leftvisible = true, children }: ModalProps) => {
+const ApplicationModal = ({ leftButtontext, rightbuttontext, leftButtonevent, rightbuttonevent, leftvisible = true, rightvisible = true, children }: ModalProps) => {
 
     //todo.모달 창 바깥클릭하면 모달이 닫히게 
     const modalRef = useRef();
@@ -37,9 +38,9 @@ const ApplicationModal = ({ leftButtontext, rightbuttontext, leftButtonevent, ri
                                 {leftButtontext}
                             </Button>
                         )}
-                        <Button className="bg-[#BFFF00]" onClick={rightbuttonevent}>
+                        {leftvisible && <Button className="bg-[#BFFF00]" onClick={rightbuttonevent}>
                             {rightbuttontext}
-                        </Button>
+                        </Button>}
                     </div>
                 </div>
             </div>

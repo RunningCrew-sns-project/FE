@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 import { useMutation } from "@tanstack/react-query";
 import { deleteComment } from "../../api/comment/api";
 import { useQueryClient } from '@tanstack/react-query';
+import useAuthStore from "../../store/useAuthStore";
 
 type CommentProps = {
     blogId: number;
@@ -16,16 +17,18 @@ type CommentProps = {
     userName: string;
     userImg: string;
     createdAt: string;
+    userId: number;
 }
 
 const Comment = (props: CommentProps) => {
 
+    const { userId } = useAuthStore()
     const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: deleteComment,
         onSuccess: (data) => {
             console.log("댓글 삭제 성공:", data);
-            queryClient.invalidateQueries(['blogdetail', props.blogId]);
+            queryClient.invalidateQueries(['comment', props.blogId]);
         },
         onError: (error) => {
             console.error("댓글 삭제 실패:", error);
@@ -78,9 +81,9 @@ const Comment = (props: CommentProps) => {
                 <img src={props.userImg}
                     className="w-12 h-12 rounded-full mt-3"></img>
                 <div className="ml-3 mt-6">{props.userName}</div>
-                <div className="ml-auto" onClick={Opendropdown}>
+                {userId === props.userId && <div className="ml-auto" onClick={Opendropdown}>
                     <IoIosMore />
-                </div>
+                </div>}
                 <div>
                     {renderDropdownMenu()}
                 </div>

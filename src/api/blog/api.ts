@@ -14,3 +14,8 @@ export const getBlogdetail = async (blogId:number) => {
     const response = await http.get(`/api/blog/${blogId}`);
     return response;
 }
+
+export const updateBlog = async ({updateblogData,blogId}) => {
+    const response = await http.put(`/api/blog?blogId=${blogId}`,updateblogData);
+    return response;
+} 

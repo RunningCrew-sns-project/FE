@@ -6,19 +6,31 @@ import DetailHeader from './DetailHeader';
 import DetailInfo from './DetailInfo';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
-import { getrunInfo } from '../../api/detail/general/api';
+import { getrunInfo, joinRun } from '../../api/detail/general/api';
+import { useQueryClient } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
+import toast from 'react-hot-toast'
 
 const JoinRundetail = () => {
 
     let { runId } = useParams();
+    console.log('runId', runId)
 
-    const { data: generalrunningdata, isLoading, isError, error } = useQuery({ queryKey: ['runInfo', runId], queryFn: () => getrunInfo(runId) })
+    const { data: generalrunningdata, isLoading } = useQuery({ queryKey: ['runInfo', runId], queryFn: () => getrunInfo(runId) })
+    const [buttonText, setbuttonText] = useState<string>('일반달리기 참여하기');
 
-    //to_do. 내가 참여중인 달리기 api -> 이미 참여중이면 달리기 참여 버튼 -> 참여취소로 바꾸기
-    // const myJoinRunningList = myondayrunningarray.map((myondayrunning) => myondayrunning.crewname)
-    // const isJoin = myJoinRunningList.includes('imjointhisrunning')
-
-    console.log('generalrunningarray', generalrunningdata)
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
+        mutationFn: joinRun,
+        onSuccess: (data) => {
+            console.log('data', data)
+            toast.success('일반달리기 신청되었습니다.')
+            setbuttonText('신청 완료')
+        },
+        onError: (error) => {
+            console.log('Error object:', error);
+        },
+    })
 
 
 
@@ -28,8 +40,10 @@ const JoinRundetail = () => {
     }
 
     //todo. 런닝에 참여하는 api 
-    const handleOnedayrunning = () => {
-        console.log('참여완료')
+    const handlegeneralrunning = (runId) => {
+        const parsedrunId = Number(runId);
+        mutate(parsedrunId);
+        setIsOpen(false)
     }
 
     const handlecloseModal = () => {
@@ -42,13 +56,13 @@ const JoinRundetail = () => {
                 {!isLoading &&
                     <>
                         <DetailHeader imgarray={generalrunningdata.data.responseData.banners}></DetailHeader>
-                        <DetailInfo info={generalrunningdata.data.responseData} handlAskjoin={handlAskonedayrunning} buttonText="일반달리기 참여하기"></DetailInfo>
+                        <DetailInfo info={generalrunningdata.data.responseData} handlAskjoin={handlAskonedayrunning} buttonText={buttonText}></DetailInfo>
                     </>
                 }
                 {isOpen ? <ApplicationModal
                     leftButtontext={"참여할래요!"}
                     rightbuttontext="닫기"
-                    leftButtonevent={handleOnedayrunning}
+                    leftButtonevent={() => handlegeneralrunning(runId)}
                     rightbuttonevent={handlecloseModal}
                 >
                     <>
