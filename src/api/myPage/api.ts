@@ -5,8 +5,10 @@ export const getMyCrew = async () => {
 	return response;
 };
 
-export const getMyRunning = async () => {
-	const response = await http.get(`/api/runRecords`);
+export const getMyRunning = async (data?: {}) => {
+	const response = await http.get(`/api/runRecords`, {
+		params: data,
+	});
 	return response;
 };
 
