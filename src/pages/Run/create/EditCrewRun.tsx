@@ -5,8 +5,8 @@ import { fields } from "../../../const/inputfileds";
 import FormLayout from "../commonForm";
 import MapPage from "../../../components/Map/Map";
 import SearchKeword from "../serachKeword";
-import { FileDto, InputData, UploadedFile } from "./createCrew";
-import { uploadCrewFiles } from "../../../api/image/api";
+import { FileDto, InputData } from "./createCrew";
+import {  uploadFiles } from "../../../api/image/api";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -84,16 +84,16 @@ const EditCrewRun = () => {
 	const handleSubmit = async (data: InputData) => {
 		const date = dateFormatter(startDate)
 		try{
-			const imgurl = await uploadCrewFiles(
+			const imgurl = await uploadFiles(
 				"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
 				imgfiile,
 				{ directory: "General_runImg", big: false },
 			);
 
-			const fileDtos: FileDto[] = imgurl.map((file:UploadedFile) => ({
-				fileName: file.fileName,
-				fileUrl: file.fileUrl,
-			}));
+			// const fileDtos: FileDto[] = imgurl.map((file:UploadedFile) => ({
+			// 	fileName: file.fileName,
+			// 	fileUrl: file.fileUrl,
+			// }));
 
 			const newData = {
 				title: runName,
@@ -106,7 +106,7 @@ const EditCrewRun = () => {
 				targetLatitude : locationData.endCoordinates?.lat,
 				targetLongitude: locationData.endCoordinates?.lng,
 				maximumPeople: maximumPeople, 
-				fileDtos: fileDtos ,
+				fileUrls: imgurl,
 				date : date.date,
 				startTime: date.startTime
 			}

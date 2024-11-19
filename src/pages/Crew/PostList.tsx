@@ -4,11 +4,10 @@ import LocationFilter from "../../components/Filter/LocationFilter";
 import ItemList, { Item } from "../Runlist/ItemList";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
-import { deleteCrew } from "../../api/crew/api";
 import MessageModal from "../../components/Modal/MssageModal";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+
+
 
 interface PostListProps {
 	items: Item[];

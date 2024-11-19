@@ -8,6 +8,7 @@ import { naearSchedule } from "../../util/nearSchedule";
 import { createRoomNameApi } from "../../api/ChatApi/ChatApi";
 import { useRecoilState } from "recoil";
 import { roomsState } from "../../recoil/chatData/myroomState";
+import { boolean } from "yup";
 
 interface SlideProps {
 	id: number;
@@ -28,6 +29,7 @@ const MainBanner = ({ slide }: Props) => {
 	const [neaer, setNeaer] = useState({})
 	const navigate = useNavigate();
 	const general = "general_";
+
 	const handleMoveBtn = async  (id?: number) => {
 		switch (slide.subTitle) {
 			case "SCHEDULE":
@@ -71,15 +73,7 @@ const MainBanner = ({ slide }: Props) => {
 
 
 	const scheduleData = [
-		{ id: 7, title: "아침 달리기", time:'2024-16-10T10:00:00' },
-		{ id: 8, title: "저녁 조깅", time: '2024-16-10T10:560:00' },
-		{ id: 14, title: "저녁 조깅2", time: '2024-16-10T11:00:00' },
-		{ id: 10, title: "저녁 조깅3", time: '2024-16-10T11:20:00' },
-		{ id: 11, title: "저녁 조깅4", time: '2024-16-10T12:00:00' },
-		{ id: 12, title: "저녁 조깅5", time: '2024-16-10T12:35:00' },
-		{ id: 42, title: "헤이", time: '2024-16-10T12:35:00' },
-		{ id: 18, title: "감자돌이가 달려요 ", time: '2024-16-10T12:35:00' },
-		{ id: 25, title: "릴리달리기 ", time: '2024-16-10T12:35:00' },
+		{ id: 1, title: "아침 달리기", time:'2024-16-10T10:00:00' },
 		// 추가 일정들...
 	];
 

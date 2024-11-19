@@ -1,5 +1,7 @@
 import { IoPeopleSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import bagigImg from '../assets/mianBanner1_bg.jpg'; // 이미지 파일을 import로 가져오기
+
 
 // 제목 지역 일자 시작시간 이미지 인원수 진행상태값
 interface RunProps {
@@ -68,7 +70,7 @@ const RunBox = (props: RunProps | CrewProps) => {
 			<div className={`w-[170px]  h-[160px] relative shrink-0`}>
 				{/* TODO:이미지 url로 교체 */}
 				<img
-					src={props.banner}
+					src={props.banner ? props.banner :  bagigImg }
 					className="object-cover w-full h-full rounded-lg"
 				/>
 				<div

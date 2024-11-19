@@ -3,7 +3,6 @@
 import { http } from "../request"
 
 
-const email = 'ssnu3007@naver.com';
 // 일반달리기 생성 
 export const  postGeneralRun = async (data) => {
   const res = await http.post(`/api/join-posts/general/create`, data)
