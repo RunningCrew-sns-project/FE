@@ -2,6 +2,13 @@
 
 import { http } from "../request"
 
+// 오늘의 달리기 
+export const getRunToday = async () => {
+  const res = await http.get(`/api/today`)
+  return res
+}
+
+
 
 // 일반달리기 생성 
 export const  postGeneralRun = async (data) => {

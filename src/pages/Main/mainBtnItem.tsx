@@ -5,11 +5,11 @@ import Button from "../../components/Button"
 interface BtnItemProps {
   title: string;
   id: number; 
-  handleMoveBtn: (id: number) => void
+  isCrew: boolean;
+  handleMoveBtn: (id: number,isCrew:boolean ) => void
 }
 
-const MainBtnItem = ({title, id , handleMoveBtn} : BtnItemProps) => {
-
+const MainBtnItem = ({title, id , isCrew, handleMoveBtn} : BtnItemProps) => {
 
 
   return(
@@ -17,7 +17,7 @@ const MainBtnItem = ({title, id , handleMoveBtn} : BtnItemProps) => {
       <div className="flex items-center justify-between mb-4" key={id}>
         <span>{title}</span>
         <Button type="button" theme="primary" 
-        onClick={() => handleMoveBtn(id)}>입장하기</Button>
+        onClick={() => handleMoveBtn(id, isCrew )}>입장하기</Button>
       </div>
     </>
   )

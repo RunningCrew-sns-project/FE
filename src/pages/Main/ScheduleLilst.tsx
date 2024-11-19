@@ -7,6 +7,7 @@ import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 interface Schedule {
   id: number;
   title: string;
+  isCrew: boolean;
 }
 
 interface ScheduleListProps {
@@ -24,7 +25,7 @@ const ScheduleList = ({ schedules,handleIsOpen, handleMoveBtn }:ScheduleListProp
           <FontAwesomeIcon icon={faChevronUp} onClick={handleIsOpen} className="cursor-pointer" />
         </div>
 				{schedules.map((schedule) => (
-					<MainBtnItem title={schedule.title} id={schedule.id} handleMoveBtn={handleMoveBtn}/>
+					<MainBtnItem title={schedule.title} id={schedule.id} isCrew={schedule.isCrew}  handleMoveBtn={handleMoveBtn}/>
 				))}
 			</div>
 		</>
