@@ -38,7 +38,7 @@ const Instance = () => {
 		(error: AxiosError) => {
 			if (error.status === 401 || error.status === 400) {
 				toast("로그인이 필요합니다.");
-				window.location.replace("/login");
+				// window.location.replace("/login");
 			}
 		},
 	);

@@ -13,13 +13,8 @@ export const createRoomNameApi = async ({ roomName }) => {
 
 // 과거 초기 메세지 기록 가져오기 
 export const getInitialMsgApi = async (params) => {
-  const {roomId, limit, lastTime}  = params
   const res = await http.get(`/api/chat/message`, {
-    params : {
-      roomId :roomId,
-      limit : limit,
-      lastTime: lastTime
-    }
+    params : params
   })
   return res
 }

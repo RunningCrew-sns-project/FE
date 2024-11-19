@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { uploadCrewFiles } from "../../../api/image/api";
 import { useLocation, useNavigate } from "react-router-dom";
-import { postEditRunApi, postGeneralRun } from "../../../api/run/api";
+import { postEditRunApi } from "../../../api/run/api";
 import { dateFormatter } from "../../../util/dateFormatter";
 
 
@@ -38,7 +38,14 @@ export interface GeneralRunProps {
 
 
 
-const EditRun  = ({runId, content}) => {
+const EditRun  = () => {
+	const location = useLocation();
+	const { info } = location.state || {};
+	const {content, title: runName,  maximumPeople , runId } = info
+	const [isEdit, setIsEdit ] = useState(false)
+
+
+
   const currentDate = new Date();
 	const navigatge = useNavigate()
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
@@ -51,12 +58,10 @@ const EditRun  = ({runId, content}) => {
 	});
 
 
-  const [isEdit, setEdit] = useState(false)
-  const locaction = useLocation()
 
   useEffect( () => {
-    if(locaction.pathname.includes('edit')){
-      setEdit(true)
+    if(location.pathname.includes('edit')){
+      setIsEdit(true)
     }
   },[])
 
@@ -91,8 +96,8 @@ const EditRun  = ({runId, content}) => {
 			}));
 
 			const newData = {
-				title: data.crewName,
-				content: data.crewIntroduction, 
+				title: runName,
+				content: content, 
 				location: data.activityRegion,
 				inputLocation: locationData.startAddress,
 				inputLatitude : locationData.startCoordinates?.lat,
@@ -100,13 +105,13 @@ const EditRun  = ({runId, content}) => {
 				targetLocation: locationData.endAddress,
 				targetLatitude : locationData.endCoordinates?.lat,
 				targetLongitude: locationData.endCoordinates?.lng,
-				maximumPeople: Number(data.maxCapacity), 
+				maximumPeople: maximumPeople, 
 				fileDtos: fileDtos ,
 				date : date.date,
 				startTime: date.startTime
 			}
 
-			mutate(newData)
+			mutate({ data: newData, runId })
 		}
 		catch(error){ console.log(error)}
 	
@@ -121,6 +126,11 @@ const EditRun  = ({runId, content}) => {
 				onSubmit={handleSubmit}
 				setImageUrls={setImageUrls}
         isEdit={isEdit}
+				content={content}
+				runName={runName}
+				maximumPeople={maximumPeople}
+
+
 			>
 				{/* 날짜 */}
 				<div className="mb-5 w-[320px] tablet:w-[640px] laptop:w-[800px] desktop:w-[800px]">

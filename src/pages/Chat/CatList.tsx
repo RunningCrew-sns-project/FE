@@ -1,13 +1,9 @@
-import { newDate } from "react-datepicker/dist/date_utils";
+
 import { dateFormatter } from "../../util/dateFormatter";
 import ChatDate from "./catui/ChatDate";
 import ChatItem from "./catui/ChatItem";
 
 const ChatList = ({ messages }) => {
-
-
-
-
 
 
 
@@ -18,10 +14,9 @@ const ChatList = ({ messages }) => {
 					{messages.map((message, index) => {
 						const { time } = message;
 						const date = dateFormatter(time);
-						console.log(date);
 						return (
 							<>
-								<div className="" key={index}>
+								<div className="mb-3" key={index}>
 									{(index === 0 ||
 										dateFormatter(messages[index - 1].time).date !==
 											date.date) && <ChatDate date={date.date} />}

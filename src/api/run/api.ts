@@ -37,7 +37,7 @@ export const getRunListApi = async (RunFilter) => {
 
 
 //일반달리기 수정 
-export const postEditRunApi = async ({runId, data}) => {
+export const postEditRunApi = async ({ data ,runId}) => {
   const res = await http.post(`/api/join-posts/general/update/${runId}`,
     data
   )
@@ -45,7 +45,7 @@ export const postEditRunApi = async ({runId, data}) => {
 }
 
 //크루 달리기 수정 
-export const postEditCrewRunAPi = async ({runId, crewId, data}) => {
+export const postEditCrewRunAPi = async ({data, crewId, runId}) => {
   const res = await http.post(`/api/join-posts/crews/${crewId}/update/${runId}`,data)
   return res 
 }

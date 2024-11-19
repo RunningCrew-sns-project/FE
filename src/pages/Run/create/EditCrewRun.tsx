@@ -10,7 +10,7 @@ import { uploadCrewFiles } from "../../../api/image/api";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
-import {postEditCrewRunAPi } from "../../../api/run/api";
+import { postEditCrewRunAPi } from "../../../api/run/api";
 import { dateFormatter } from "../../../util/dateFormatter";
 
 export interface LocationDataProps {
@@ -37,13 +37,16 @@ export interface crewRunProps {
 
 }
 
-const EditCrewRun = ({runId , crewId,  content}) => {
+const EditCrewRun = () => {
+	const location = useLocation();
+	const { info } = location.state || {};
+	const {content, title: runName,  maximumPeople , crewId, runId } = info
+	const [isEdit, setIsEdit ] = useState(false)
 
-  const [isEdit, setEdit] = useState(false)
-  const locaction = useLocation()
 
 
-	const currentDate = new Date();
+
+  const currentDate = new Date();
 	const navigatge = useNavigate()
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
 	const [imgfiile, setImageUrls] = useState<string[]>([]);
@@ -54,31 +57,32 @@ const EditCrewRun = ({runId , crewId,  content}) => {
 		endAddress: "",
 	});
 
+
+
+  useEffect( () => {
+    if(location.pathname.includes('edit')){
+      setIsEdit(true)
+    }
+  },[])
+
+
+
 	const { mutate } = useMutation({
 		mutationFn: postEditCrewRunAPi,
 		onSuccess: (data) => {
-			toast.success("크루 달리기 수정 성공!");
-			console.log("수정된 크루 데이터:", data);
+			toast.success("크루 달리기 성공 성공!");
+			console.log("생성된 크루 데이터:", data);
 			navigatge('/crew')
 		},
 		onError: (error) => {
-			toast.error("크루 달리기 수정  실패!");
+			toast.error("크루 달리기 실패!");
 			console.error("에러 내용:", error);
 		},
 	});
 
 
-  useEffect( () => {
-    if(locaction.pathname.includes('edit')){
-      setEdit(true)
-    }
-  },[])
-
-
 	const handleSubmit = async (data: InputData) => {
 		const date = dateFormatter(startDate)
-		console.log(data)
-		console.log(crewId)
 		try{
 			const imgurl = await uploadCrewFiles(
 				"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
@@ -92,8 +96,8 @@ const EditCrewRun = ({runId , crewId,  content}) => {
 			}));
 
 			const newData = {
-				title: data.crewName,
-				content: data.crewIntroduction, 
+				title: runName,
+				content: content, 
 				location: data.activityRegion,
 				inputLocation: locationData.startAddress,
 				inputLatitude : locationData.startCoordinates?.lat,
@@ -101,17 +105,18 @@ const EditCrewRun = ({runId , crewId,  content}) => {
 				targetLocation: locationData.endAddress,
 				targetLatitude : locationData.endCoordinates?.lat,
 				targetLongitude: locationData.endCoordinates?.lng,
-				maximumPeople: Number(data.maxCapacity), 
+				maximumPeople: maximumPeople, 
 				fileDtos: fileDtos ,
-				date: date.date,
+				date : date.date,
 				startTime: date.startTime
 			}
 
-			mutate({ data: newData, crewId } )
+			mutate({ data: newData, runId, crewId })
 		}
 		catch(error){ console.log(error)}
 	
 	};
+
 
 	return (
 		<div className="flex flex-col items-center mb-20">
@@ -121,6 +126,11 @@ const EditCrewRun = ({runId , crewId,  content}) => {
 				onSubmit={handleSubmit}
 				setImageUrls={setImageUrls}
         isEdit={isEdit}
+				content={content}
+				runName={runName}
+				maximumPeople={maximumPeople}
+
+
 			>
 				{/* 날짜 */}
 				<div className="mb-5 w-[320px] tablet:w-[640px] laptop:w-[800px] desktop:w-[800px]">

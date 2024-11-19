@@ -49,7 +49,7 @@ const Header = () => {
 							<h1 className="cursor-pointer">로고</h1>
 						</Link>
 						<div className="">
-							{(isMobile || isTablet) ? ' ' : (		<ul className="flex space-x-4 items-center  ml-[250px]">
+							{(isMobile || isTablet) ? ' ' : (		<ul className="flex space-x-4 items-center  ml-[180px]">
 								{CATEGORYS.map((category) => (
 									<li
 										className="cursor-pointer font-black"

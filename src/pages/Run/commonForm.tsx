@@ -14,9 +14,12 @@ interface FormLayoutProps {
   children?: React.ReactNode; // 추가 자식 요소
   setImageUrls?: (urls: string[]) => void; // 이미지 URL을 설정하는 함수
 	isEdit? : boolean
+	maximumPeople? : number
+	content? : string
+	runName? : string
 }
 
-const FormLayout = ({ title, fields, onSubmit, children, setImageUrls, isEdit }:FormLayoutProps) => {
+const FormLayout = ({ title, fields, onSubmit, children, setImageUrls, isEdit, maximumPeople,content, runName }:FormLayoutProps) => {
 
 	const methods = useForm<InputData>();
 	const location = useLocation(); // 현재 경로 가져오기
@@ -48,6 +51,10 @@ const FormLayout = ({ title, fields, onSubmit, children, setImageUrls, isEdit }:
 							label={field.label}
 							required={field.required}
 							placeholder={field.placeholder}
+							isEdit={isEdit}
+							maximumPeople={maximumPeople}
+							content={content}
+							runName={runName}
 						/>
 					</div>
 				))}
