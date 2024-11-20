@@ -1,4 +1,4 @@
-import CrewRun from "../../pages/Run/create/createCrewRun";
+
 import { http } from "../request"
 
 const email = 'ssnu3007@naver.com';

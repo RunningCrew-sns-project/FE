@@ -2,8 +2,14 @@
 
 import { http } from "../request"
 
+// 오늘의 달리기 
+export const getRunToday = async () => {
+  const res = await http.get(`/api/today`)
+  return res
+}
 
-const email = 'ssnu3007@naver.com';
+
+
 // 일반달리기 생성 
 export const  postGeneralRun = async (data) => {
   const res = await http.post(`/api/join-posts/general/create`, data)

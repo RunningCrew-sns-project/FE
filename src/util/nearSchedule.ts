@@ -1,4 +1,5 @@
 export const naearSchedule = (scheduleData) => {
+  console.log(scheduleData, '스케줄 데이터 확인' )
 
   if (!scheduleData || scheduleData.length === 0) return { nearest: null, remaining: [] };
 

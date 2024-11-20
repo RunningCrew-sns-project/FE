@@ -97,7 +97,7 @@ const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProp
                                         </Button>
                                         {userId === authorId && (
                                             <Button type='button' theme='dark'
-                                                onClick={() => navigate(`/create/editRun/${runId}`, { state: { info: info } })}
+                                                onClick={() => navigate(`/create/editCrewRun/${runId}`, { state: { info: info } })}
                                             >수정하기 </Button>
                                         )}
                                     </div>
