@@ -2,12 +2,11 @@ import SlickSlider from "../../components/Slider/slider";
 import todayRun from "../../assets/mianBanner1_bg.jpg";
 import withTogeter from "../../assets/mianBanner2_bg.jpg";
 import joinCrew from "../../assets/mianBanner3_bg.jpg";
-import ChatListIcon from "./chatlistIcon";
+
 import MainBanner from "./mainbanner";
-import { useDevice } from "../../hook/usedevice";
 
 const MainPage = () => {
-	const {isMobile, isTablet } = useDevice()
+
 	const slidesData = [
 		{
 			id: 1,
@@ -55,9 +54,6 @@ const MainPage = () => {
 						</>
 					))}
 				</SlickSlider>
-				<div className={`${isMobile || isTablet ? ' right-[40px]' : 'right-[160px]'} fixed bottom-[140px]`}>
-					<ChatListIcon />
-				</div>
 			</div>
 		</>
 	);

@@ -5,12 +5,13 @@ import ChatInput from "./catui/ChatInput";
 import ChatHeader from "./ChatHeader";
 
 import useChatConnect from "../../hook/useChatConnect";
+import { useLocation } from "react-router-dom";
 
 const ChatRoom = () => {
 	const { isMobile, isTablet } = useDevice();
 	const [imgUrl, setImageUrls] = useState([]);
 
-
+  const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
   const roomId = queryParams.get("roomId"); 
 	const { message, sendMessage } = useChatConnect(roomId);
@@ -21,7 +22,7 @@ const ChatRoom = () => {
 
 	useEffect(() => {
 		console.log('챗리스트 ', message)
-	}, [message]);
+	}, [message , roomId]);
 
 	return (
 		<>

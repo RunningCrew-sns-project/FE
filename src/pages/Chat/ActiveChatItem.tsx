@@ -1,4 +1,12 @@
-const ActiveChatItem = ({ title, time, content }) => {
+interface ActiveChatItemProps {
+  title: string;
+  time: string;
+  content: string;
+}
+
+
+
+const ActiveChatItem = ({ title, time, content } : ActiveChatItemProps) => {
 	return (
 		<>
 			<div className="flex items-center p-4 border-b border-gray-300">

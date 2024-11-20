@@ -1,53 +1,37 @@
-import { useEffect, useState } from "react";
-import { getChatRoomsApi } from "../../api/ChatApi/ChatApi";
-import { useDevice } from "../../hook/usedevice";
-import ActiveChatItem from "../../pages/Chat/ActiveChatItem";
-import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { getChatUser } from "../../api/ChatApi/ChatApi";
 
 const ActiveChat = () => {
-	const { isMobile, isTablet } = useDevice();
-	const [chatList, setChatList] = useState([]);
-	const navigate = useNavigate();
+	const queryParams = new URLSearchParams(location.search);
+	const roomId = queryParams.get("roomId");
 
-	const getChatList = async () => {
-		const RoomList = await getChatRoomsApi();
-		const rooms = RoomList.data.success.responseData;
-		setChatList(rooms);
-		console.log(RoomList);
-	};
+	const {mutate} =useMutation({
+		mutationFn: getChatUser,
+		onSuccess : (data) => {
+			console.log('유저리스트', data )
+		},
+		onError : (error) => {
+			console.log(error)
+		}
+	})
 
 	useEffect(() => {
-		getChatList();
-	}, []);
+		mutate(roomId)
+	},[])
 
-	const handleChatClick = (roomId: string) => {
-		navigate(`/chat?roomId=${roomId}`); // roomId를 쿼리 파라미터로 전달하여 URL 변경
-	};
 
 	return (
 		<>
-			<div
-				className={`${
-					isMobile || isTablet
-						? "w-full h-screen"
-						: "w-full max-w-[420px] h-[720px]"
-				} bg-white rounded-lg relative overflow-hidden w-full overflow-y-auto`}
-			>
-				<div className="flex items-center p-4 bg-gray-200">
-					<h1 className="text-lg font-bold">chat</h1>
-				</div>
-				<div className="cursor-pointer">
-					{chatList.map((chat) => (
-						<div className="" onClick={() => handleChatClick(chat.roomId)}>
-							<ActiveChatItem
-								chatRoomImage={chat.chatRoomImage}
-								key={chat.roomId}
-								title={chat.title}
-								time={chat.lastMessageTime}
-								content={chat.lastMessage}
-							/>
-						</div>
-					))}
+			<div className="">
+				<h3 className="font-black mb-4">참여유저</h3>
+				<hr />
+				<div className="py-3"></div>
+				<div className="bg-primary p-4">
+					<ul className="flex justify-around  items-center space-x-4 cursor-pointer">
+						<li className="text-black font-semibold text-center">채팅참여인원</li>
+						<li className="text-black font-semibold">달리기 참여인원</li>
+					</ul>
 				</div>
 			</div>
 		</>
