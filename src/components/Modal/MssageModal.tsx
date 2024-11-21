@@ -3,7 +3,17 @@ import Button from "../Button";
 import Modal from "./Modal";
 import { deleteCrew } from "../../api/crew/api";
 
-const MessageModal = ({ isOpen, selectedCrewId, setIsOpen }) => {
+
+interface recordsProps  {
+	isOpen : boolean;
+	selectedCrewId : string | number | undefined;
+	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>; 
+}
+
+
+
+
+const MessageModal = ({ isOpen, selectedCrewId, setIsOpen }: recordsProps) => {
 	const handleCrewOut = async () => {
 		try {
 			const res = await deleteCrew(selectedCrewId);

@@ -6,46 +6,42 @@ import ThemWrapperBody from "../../components/ThemWrapper";
 import { ResponsiveContainer } from "../../components/Container";
 import CrewManger from "./CrewManger";
 import { getMyCrew } from "../../api/myPage/api";
-import { getCrewInfoList } from "../../api/crew/api";
 import { dateFormatter } from "../../util/dateFormatter";
 import { useSearchParams } from "react-router-dom";
+import { getCrewInfoList } from "../../api/crew/api";
+import { Item } from "../Runlist/ItemList";
+
 
 // 각 인터페이스 타입 정의
 export interface CrewInfo {
 	id: string;
-	name: string;
-	description: string;
+	crewName: string;
+	crewIntroduction: string;
 	imageUrl: string;
 	memberCount: number;
-	maxMember: number;
-	location: string;
+	maxCapacity: number;
+	activityRegion: string;
 }
 
-interface PostItem {
-	image: string;
-	title: string;
-	region: string;
-	date: string;
-	time: string;
-	status: "모집중" | "진행중" | "완료";
-	maxMember: number;
-	people: number;
-}
-
-// interface CrewResponse {
-// 	info: CrewInfo;
-// 	page: number;
-// 	hasMore: boolean;
-// 	items: PostItem[];
+// export interface PostItem {
+// 	image: string;
+// 	title: string;
+// 	region: string;
+// 	date: string;
+// 	time: string;
+// 	status: "모집중" | "진행중" | "완료";
+// 	maxMember: number;
+// 	people: number;
 // }
+
 
 const CrewPage = () => {
 	const [,  setSearchParams] = useSearchParams()
 
 	const [mycrew, setMyCrew] = useState([]);
 	const [info, setInfo] = useState<CrewInfo | null>(null);
-	const [items, setItems] = useState<PostItem[]>([]);
-	const [selectedCrewId, setSelectedCrewId] = useState<string | null>(null); // 선택된 크루 ID
+	const [items, setItems] = useState<Item[]>([]);
+	const [selectedCrewId, setSelectedCrewId] = useState<string | undefined>(); // 선택된 크루 ID
 	const [master, setMaster] = useState(true);
 	const [isOepnManger, setIsOpenManger] = useState(false);
 
@@ -104,7 +100,7 @@ const CrewPage = () => {
 		};
 
 		try {
-			const res = await getCrewInfoList(selectedCrewId, filter);
+			const res = await getCrewInfoList(  selectedCrewId ? selectedCrewId.toString() : "" , filter);
 			console.log("인포랑데이터응답", res.data.success.responseData);
 			const resData  = res.data.success.responseData;
 			const { content, countPerScroll, lastScroll, nextCursor } = resData;

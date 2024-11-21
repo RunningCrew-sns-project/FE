@@ -9,8 +9,9 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import {  uploadFiles } from "../../../api/image/api";
 import { useNavigate } from "react-router-dom";
-import { postGeneralRun } from "../../../api/run/api";
+
 import { dateFormatter } from "../../../util/dateFormatter";
+import { postGeneralRun } from "../../../api/run/api";
 
 
 export interface LocationDataProps {

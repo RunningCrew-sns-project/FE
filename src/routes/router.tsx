@@ -27,9 +27,7 @@ import Chat from "../pages/Chat";
 import ActiveChat from "../components/Modal/ActiveChat";
 import EditRun from "../pages/Run/create/EditRun";
 import EditCrewRun from "../pages/Run/create/EditCrewRun";
-import MyRequest from "../pages/MyPage/MyRequest";
 import MyCrewRequest from "../pages/MyPage/MyCrewRequest";
-import MyGeneralRequest from "../pages/MyPage/MyGeneralRequest";
 import EditBlog from "../pages/Blog/EditBlog";
 
 const router = createBrowserRouter([

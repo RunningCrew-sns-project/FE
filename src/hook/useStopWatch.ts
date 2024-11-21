@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 const useStopWatch = () => {
 	const [time, setTime] = useState<number>(0);
 	const [isRunning, setIsRunning] = useState<boolean>(false);
-	const timer = useRef<number | null>(null);
+	const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
 	const start = () => {
 		if (!isRunning) {

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
 import Stomp, { Client, Frame } from "stompjs";
 import { getInitialMsgApi } from "../api/ChatApi/ChatApi";
+
 // input 컴포넌트에서 객체가 아닌 메세지만 가져오기 ! 
 // 그 메세지를센드에서 요구한는 객체형식으로 보내기 때문 
 // 메세지가 정상적으로 보내저야 콜백이 뜸 ;;
@@ -20,7 +21,7 @@ export interface ChatMessage {
 }
 
 
-interface Params {
+export interface Params {
   roomId: string | null ;
   limit: number;
   lastTime: string | null; 

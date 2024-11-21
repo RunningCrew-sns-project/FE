@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { LocationData } from "../../pages/Running/RunningContent";
 
 interface Coordinates {
   lat: number;
@@ -10,11 +11,12 @@ interface LocationDataProps {
   endCoordinates: Coordinates | null;
   startAddress: string;
   endAddress: string;
+  distance?: number;
 }
 
 interface PlaceConverterProps {
   locationData: LocationDataProps;
-  setLocationData: React.Dispatch<React.SetStateAction<LocationDataProps>>;
+  setLocationData: React.Dispatch<React.SetStateAction<LocationData>>;
 }
 
 const PlaceConverter = ({ locationData, setLocationData }: PlaceConverterProps) => {

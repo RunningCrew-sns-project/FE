@@ -1,17 +1,26 @@
-export const naearSchedule = (scheduleData) => {
-  console.log(scheduleData, '스케줄 데이터 확인' )
+export interface Schedule {
+  id: number;
+  isCrew: boolean;
+  startDate: string; // ISO 형식의 날짜 문자열
+  title: string;
+}
 
-  if (!scheduleData || scheduleData.length === 0) return { nearest: null, remaining: [] };
+
+
+export const naearSchedule = (scheduleData: Schedule[]) => {
+
+  if (!scheduleData || scheduleData.length === 0) return { nearest: {}, remaining: [] };
 
   const now = new Date();
 
   // 스케줄 중에서 가장 임박한 일정을 찾기
   let nearest = scheduleData[0];
-  let minTimeDiff = Math.abs(new Date(nearest.time) - now);
+  let minTimeDiff = Math.abs(new Date(nearest.startDate).getTime() - now.getTime()); // .getTime() 사용
 
 
   scheduleData.forEach((schedule) => {
-    const timeDiff = Math.abs(new Date(schedule.time) - now);
+    const scheduleTime = new Date(schedule.startDate).getTime(); // .getTime()으로 명시적 변환
+    const timeDiff = Math.abs(scheduleTime - now.getTime());
     if (timeDiff < minTimeDiff) {
       nearest = schedule;
       minTimeDiff = timeDiff;

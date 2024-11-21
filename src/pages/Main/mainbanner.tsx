@@ -5,9 +5,10 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import ScheduleList from "./ScheduleLilst";
 import { naearSchedule } from "../../util/nearSchedule";
-import { createRoomNameApi } from "../../api/ChatApi/ChatApi";
 import { useMutation } from "@tanstack/react-query";
+import { createRoomNameApi } from "../../api/ChatApi/ChatApi";
 import { getRunToday } from "../../api/run/api";
+
 
 
 interface SlideProps {
@@ -18,11 +19,23 @@ interface SlideProps {
 	btn: string;
 }
 
+
+interface Schedule {
+  id: number;
+  isCrew: boolean;
+  startDate: string;
+  title: string;
+}
+
+
 interface NeaerType {
-	title: string;
+	title?: string;
 	id?: number; // id는 선택적 속성일 수 있음
 	isCrew?: boolean; // isCrew는 선택적 속성일 수 있음
+	
 }
+
+
 
 interface Props {
 	slide: SlideProps;
@@ -31,7 +44,7 @@ interface Props {
 const MainBanner = ({ slide }: Props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [schedules, setSchedules] = useState<[]>([]);
+	const [schedules, setSchedules] = useState<Schedule[]>([]);
 	const [neaer, setNeaer] = useState<NeaerType>({ title: "기본 제목" });
 	const navigate = useNavigate();
 
@@ -60,7 +73,7 @@ const MainBanner = ({ slide }: Props) => {
 							const roomId = res.data.success.responseData.roomId;
 							console.log("roomId", roomId);
 							navigate(`/chat?roomId=${roomId}`, {
-								state: { roomData: roomData },
+								state: { roomData: roomData, id: id },
 							});
 						}
 						console.log(res);
@@ -81,10 +94,8 @@ const MainBanner = ({ slide }: Props) => {
 			const timeDate = naearSchedule(scheduleData);
 			const neaerDate = timeDate.nearest;
 			const schedule = timeDate.remaining;
-			console.log("걸러진 스케줄, ", schedule);
 			setSchedules(schedule);
 			setNeaer(neaerDate);
-			console.log("오늘의 데이터 응답", data);
 			setIsLoading(false);
 		},
 		onError: (error) => {

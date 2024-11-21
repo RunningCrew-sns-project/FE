@@ -8,9 +8,12 @@ import ItemList, { Item } from "./ItemList";
 import { useEffect, useState } from "react";
 
 import { useSearchParams } from "react-router-dom";
-import { getCrewListApi, getRunListApi } from "../../api/run/api";
+
 import { dateFormatter } from "../../util/dateFormatter";
 import InfiniteScroll from "../../components/InfiniteScroll";
+import { getCrewListApi, getRunListApi } from "../../api/run/api";
+
+
 
 const RunListPage = () => {
 	const { isMobile } = useDevice();
@@ -34,7 +37,7 @@ const RunListPage = () => {
 	const getCrewlist = async () => {
 		const CrewFilter = {
 			size: 20,
-			cursor: cursor,
+			cursor: cursor ,
 			cursorId: cursorNext,
 			reverse: reversem,
 			criteria: "latest",
