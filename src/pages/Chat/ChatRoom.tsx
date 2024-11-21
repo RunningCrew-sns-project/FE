@@ -7,16 +7,21 @@ import ChatHeader from "./ChatHeader";
 import useChatConnect from "../../hook/useChatConnect";
 import { useLocation } from "react-router-dom";
 
+
 const ChatRoom = () => {
 	const { isMobile, isTablet } = useDevice();
-	const [imgUrl, setImageUrls] = useState([]);
+	const [imgUrl, setImageUrls] = useState<string[]>([]);
 
   const location = useLocation();
-	const queryParams = new URLSearchParams(location.search);
+	const queryParams = new URLSearchParams(location.search); 
   const roomId = queryParams.get("roomId"); 
-	const { message, sendMessage } = useChatConnect(roomId);
 
-	const handleSendMsg = (newmsg) => {
+	
+
+	
+	const { message, sendMessage , userName} = useChatConnect(roomId);
+
+	const handleSendMsg = (newmsg : string) => {
 		sendMessage(newmsg);
 	};
 
@@ -35,7 +40,7 @@ const ChatRoom = () => {
 			>
 				<ChatHeader title="Team Unicorns" status="last seen 45 minutes ago" />
 				<div className="absolute top-[130px] bottom-16 w-full overflow-y-auto ">
-					<ChatList messages={message} />
+					<ChatList messages={message}  userName={userName}/>
 				</div>
 				<div className={`absolute bottom-0 w-full z-20`}>
 					<ChatInput

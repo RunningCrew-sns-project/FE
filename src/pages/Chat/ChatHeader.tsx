@@ -7,7 +7,13 @@ import { useState } from "react";
 import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button";
 
-const ChatHeader = ({ title, status }) => {
+
+interface ChatHeaderProps {
+	title : string;
+	status: string;
+}
+
+const ChatHeader = ({ title, status } : ChatHeaderProps) => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -70,7 +76,7 @@ const ChatHeader = ({ title, status }) => {
 				</div>
 				{isOpen && (
 					<Modal isOpen={isOpen} onClose={closeList}>
-						<ActiveChat onClose={closeList} />
+						<ActiveChat />
 					</Modal>
 				)}
 			</div>

@@ -7,11 +7,28 @@ import { getInitialMsgApi } from "../api/ChatApi/ChatApi";
 // 메세지가 정상적으로 보내저야 콜백이 뜸 ;;
 // connected to server undefined 이건 아무 상관없는거였음 
 
-interface ChatConnectProps {
+// interface ChatConnectProps {
+//   roomId: string | null;
+// }
+
+export interface ChatMessage {
+  type: string;
   roomId: string;
+  sender: string;
+  message: string;
+  time: string; 
 }
 
-const useChatConnect = (roomId: ChatConnectProps) => {
+
+interface Params {
+  roomId: string | null ;
+  limit: number;
+  lastTime: string | null; 
+}
+
+
+
+const useChatConnect = (roomId  : string | null ) => {
   const [stompClient, setStompClient] = useState<Client | null>(null); // Client 타입 지정
   const CHAT_URL = import.meta.env.VITE_BACKEND_URL;
   const auth_token = localStorage.getItem("auth_token");
@@ -19,7 +36,7 @@ const useChatConnect = (roomId: ChatConnectProps) => {
   const [lastTime, setLastTime] = useState(null)
 
   // 메세지 송수신
-  const [message, setMessage] = useState<any[]>([]); 
+  const [message, setMessage] = useState<ChatMessage[]>([]); 
   const params = {
     roomId : roomId,
     limit: 10,
@@ -27,11 +44,11 @@ const useChatConnect = (roomId: ChatConnectProps) => {
   }
   
   //과거 데이터 가져오기 처음 
-  const getInitialMsg = async (params) => {
+  const getInitialMsg = async (params: Params) => {
     const initialMsg = await getInitialMsgApi(params)
     console.log(initialMsg , '성공적인 초기 데이터 ? ')
     const resInitial = initialMsg.data.success.responseData
-    const combinedMessages = resInitial.map((msg) => ( {...msg}) )
+    const combinedMessages = resInitial.map((msg : ChatMessage) => ( {...msg}) )
     const lastMessageTime = resInitial[resInitial.length - 1].time;
     console.log('타임데이터,', lastMessageTime)
     setLastTime(lastMessageTime)
@@ -62,7 +79,7 @@ const useChatConnect = (roomId: ChatConnectProps) => {
       (frame: Frame | undefined) => {
         console.log("STOMP 연결 성공", frame);
         getInitialMsg(params)
-        const receivedUserName = frame?.headers["user-name"];
+        const receivedUserName = frame?.headers && (frame.headers as { [key: string]: string })["user-name"];
         if (receivedUserName) setUserName(receivedUserName);
 
         // 연결 성공 후 구독
@@ -96,14 +113,14 @@ const useChatConnect = (roomId: ChatConnectProps) => {
 
     return () => {
       if (stompClient) {
-        stompClient.disconnect(() => console.log("연결 해제"));
-        setStompClient(null); // 연결 해제 시 stompClient 초기화
+        (stompClient as Client).disconnect(() => console.log("연결 해제"));
+        setStompClient(null);
       }
     };
-  }, [roomId, message]); // roomId와 auth_token에 의존
+  }, [roomId, message]);
 
   // 메시지 보내기
-  const sendMessage = (newmsg) => {
+  const sendMessage = (newmsg : string) => {
     if (stompClient && stompClient.connected && userName) {
       console.log("이름", userName);
       stompClient.send(
@@ -120,7 +137,7 @@ const useChatConnect = (roomId: ChatConnectProps) => {
     }
   };
 
-  return { message, sendMessage ,  };
+  return { message, sendMessage ,  userName };
 };
 
 export default useChatConnect;

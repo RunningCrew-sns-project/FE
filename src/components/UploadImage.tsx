@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 type UploadImageProps = {
-	onUploadFiles: () => void;
+	onUploadFiles: ((formData: FormData) => void) | (() => void);
 	multiple?: boolean;
 	uploadfileLength?: number;
 	id: string;

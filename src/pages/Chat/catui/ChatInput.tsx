@@ -4,25 +4,31 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../../components/Button";
 import UploadImage from "../../../components/UploadImage";
 import { uploadFiles } from "../../../api/image/api";
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
-const ChatInput = ({ handleSendMsg, setImageUrls, imgUrl }) => {
+interface ChatInputProps {
+	handleSendMsg: (message: string) => void;
+	setImageUrls: (urls: string[]) => void;
+	imgUrl: string[];
+}
+const ChatInput = ({ handleSendMsg, setImageUrls, imgUrl }: ChatInputProps) => {
 	const [writeMsg, setWriteMsg] = useState("");
 
 	const getImgURL = async () => {
 		if (imgUrl.length === 0) return []; // 이미지가 없으면 빈 배열 반환
 		const fileUrls = await uploadFiles(
-			'http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage',
+			"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
 			imgUrl,
-			{ directory: 'chat', big: false }
+			{ directory: "chat", big: false },
 		);
 		return fileUrls;
 	};
 
 	const handleSend = async () => {
 		const images = await getImgURL();
-		if (writeMsg.trim() || images.length > 0) { // 메시지 또는 이미지가 있으면 전송
-			const newMsg = writeMsg.trim()
+		if (writeMsg.trim() || images.length > 0) {
+			// 메시지 또는 이미지가 있으면 전송
+			const newMsg = writeMsg.trim();
 			handleSendMsg(newMsg);
 			setWriteMsg("");
 			setImageUrls([]);
@@ -42,7 +48,15 @@ const ChatInput = ({ handleSendMsg, setImageUrls, imgUrl }) => {
 				<div className="flex w-[30%] gap-2">
 					<div className="flex h-12 items-center justify-center w-1/2">
 						<UploadImage
-							onUploadFiles={(formData) => setImageUrls(formData)}
+							onUploadFiles={(formData: FormData) => {
+								const fileUrls = Array.from(formData.getAll("files")).map(
+									(file) =>
+										typeof file === "string"
+											? file
+											: URL.createObjectURL(file as File),
+								);
+								setImageUrls(fileUrls); // URL 문자열 배열을 설정
+							}}
 							multiple={true}
 							uploadfileLength={5}
 							id="file-upload"
