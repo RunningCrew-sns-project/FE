@@ -15,11 +15,9 @@ export const deleteComment = async (commentId) => {
     return response;
 }
 
-export const getComment = async (blogId) => {
-    try {
-        const response = await http.get(`/api/comment?blogId=${blogId}`);
-        return response.data; 
-    } catch (error) {
-        return [];
-    }
-}
+export const getComment = async ({ blogId, pageParam }) => {
+    const cursor = pageParam;
+    console.log('cursor:', cursor);
+    const response = await http.get(`/api/comment?blogId=${blogId}&size=10&cursor=${cursor || ''}`);
+    return response;
+};

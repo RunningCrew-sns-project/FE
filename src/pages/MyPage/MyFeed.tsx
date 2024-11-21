@@ -49,13 +49,16 @@ const MyFeed = () => {
 		}
 	};
 
-	const deletePost = (id: string | number) => {
+	const deletePost = (id: number) => {
 		deleteMyFeed(id);
 		setFeedData((prev) => prev.filter((feed: any) => feed.blogId !== id));
 	};
 
 	const handlemoveEditblog = (blogId) => {
-		navigate(`/editBlog/${blogId}`, { state: { feedData: feedData } })
+		const selectedFeed = feedData.find((feed: FeedData) => feed.blogId === blogId);
+		if (selectedFeed) {
+			navigate(`/editBlog/${blogId}`, { state: { feedData: selectedFeed } });
+		}
 	}
 
 	useEffect(() => {

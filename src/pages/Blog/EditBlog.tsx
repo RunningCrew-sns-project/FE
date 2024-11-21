@@ -7,7 +7,7 @@ const EditBlog = () => {
     const location = useLocation();
     const { feedData } = location.state || {};
     const [isEdit, setIsEdit] = useState(false)
-    console.log(feedData)
+    console.log('editblog', feedData)
 
     useEffect(() => {
         if (location.pathname.includes('edit')) {
@@ -18,12 +18,12 @@ const EditBlog = () => {
     return (
         <>
             <WriteBlogCard
-                content={feedData[0].content}
-                blogId={feedData[0].blogId}
-                distance={feedData[0].distance}
-                imageUrl={feedData[0].imageUrl}
-                record={feedData[0].record}
-                title={feedData[0].title}
+                content={feedData.content}
+                blogId={feedData.blogId}
+                distance={feedData.distance}
+                imageUrl={feedData.imageUrl}
+                record={feedData.record}
+                title={feedData.title}
                 isEdit={isEdit}
             ></WriteBlogCard>
         </>
