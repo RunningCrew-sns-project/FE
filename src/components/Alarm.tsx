@@ -16,7 +16,9 @@ const Alarm = () => {
                 {
                     headers: {
                         Authorization: "Bearer" + " " + auth_token,
+                        // Connection: 'keep-alive',
                     },
+                    // heartbeatTimeout: 6000000,
                     withCredentials: true,
                 }
             );
@@ -30,9 +32,10 @@ const Alarm = () => {
                 setShowPopup(true);
             });
 
-            eventSource.current.onerror = async () => {
+            eventSource.current.onerror = async (e) => {
                 // 연결이 끊어지면 재연결 시도
-                setTimeout(fetchSSE, 3000);
+                // setTimeout(fetchSSE, 3000);
+                // console.error('EventSource failed:', e);
             };
 
             eventSource.current.onopen = () => {
