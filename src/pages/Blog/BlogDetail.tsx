@@ -83,7 +83,7 @@ const BlogDetail = () => {
         },
     });
 
-    if (!isLoading) {
+    if (!commentloading) {
         console.log('comment', commentarray.pages[0].data.success.responseData)
     }
 
