@@ -1,10 +1,5 @@
 import { http } from "../request";
 
-// export const getAllblogs = async () => {
-//     const response = await http.get(`/api/blog`);
-//     return response;
-// }
-
 export const getAllblogs = async ({ pageParam = null }) => {
     const cursor = pageParam;  
     console.log('cursor:', cursor);
