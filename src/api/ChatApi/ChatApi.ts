@@ -23,3 +23,9 @@ export const getChatRoomsApi = async () => {
   const res = await http.get(`/api/chat/myRooms`)
   return res 
 }
+
+//참여중이 유저 불러오기 
+export const getChatUser = async (roomId) => {
+  const res = await http.get(`/api/chat/userlist/${roomId}`)
+  return res 
+}

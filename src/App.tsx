@@ -3,13 +3,16 @@ import Header from "./components/Layout/header";
 import { Toaster } from "react-hot-toast";
 import { useDevice } from "./hook/usedevice";
 import Alarm from "./components/Alarm";
+import Message from "./components/ChatMessage/Message";
+
 
 function App() {
 	const location = useLocation();
 	const { isMobile, isTablet } = useDevice();
-
 	const isRunning = location.pathname === "/running";
 	const hideHeaderFooter = isRunning && (isMobile || isTablet);
+
+
 	return (
 		<>
 			<Alarm />
@@ -19,6 +22,7 @@ function App() {
 			<div>
 				<Toaster />
 			</div>
+			<Message/>
 		</>
 	);
 }

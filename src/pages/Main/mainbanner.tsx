@@ -8,7 +8,7 @@ import { naearSchedule } from "../../util/nearSchedule";
 import { createRoomNameApi } from "../../api/ChatApi/ChatApi";
 import { useMutation } from "@tanstack/react-query";
 import { getRunToday } from "../../api/run/api";
-import ChatListIcon from "./chatlistIcon";
+
 
 interface SlideProps {
 	id: number;
@@ -89,7 +89,7 @@ const MainBanner = ({ slide }: Props) => {
 		},
 		onError: (error) => {
 			console.log(error);
-			navigate("/login");
+			// navigate("/login");
 		},
 	});
 
