@@ -2,8 +2,9 @@ import { useState } from "react";
 import Button from "../../components/Button";
 import BlogCard from "./BlogCard";
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 import { getAllblogs } from "../../api/blog/api";
+import InfiniteScroll from "../../components/InfiniteScroll";
 
 type BlogType = {
     userName: string;
@@ -22,10 +23,32 @@ type BlogType = {
 
 const Blog = () => {
 
-    const { data: blogarray, isLoading, isError, error } = useQuery({ queryKey: ['blogs'], queryFn: getAllblogs })
+    // const { data: blogarray, isLoading, isError, error } = useQuery({ queryKey: ['blogs'], queryFn: getAllblogs })
+
+    const {
+        data: blogarray,
+        isLoading,
+        isError,
+        error,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage
+    } = useInfiniteQuery(
+        {
+            queryKey: ['blogs'],
+            queryFn: getAllblogs,
+            getNextPageParam: (lastPage) => {
+                if (!lastPage) {
+                    return false;
+                }
+
+                return lastPage.data.success.responseData.nextCursor.blogId;
+            },
+        }
+    );
 
     if (!isLoading) {
-        console.log(blogarray)
+        console.log('blogarray', blogarray)
     }
 
     const navigate = useNavigate();
@@ -40,23 +63,31 @@ const Blog = () => {
                     <Button className="bg-[#BFFF00]" onClick={handleMovewriteBlogCardpage}>+</Button>
                 </div>
                 <div className="flex flex-col gap-4 px-4 ">
-                    {!isLoading && blogarray.data.success.responseData.currentScrollItems.map((blog) => (
-                        <div key={blog.blogId} className=" rounded-lg shadow-lg">
-                            <BlogCard key={blog.blogId}
-                                userImg={blog.userImg}
-                                userName={blog.userName}
-                                title={blog.title}
-                                record={blog.record}
-                                distance={blog.distance}
-                                imageUrl={blog.imageUrl}
-                                content={blog.content}
-                                liked={blog.liked}
-                                blogId={blog.blogId}
-                                likeCount={blog.likeCount}>
-                            </BlogCard>
+                    {!isLoading && blogarray?.pages?.map((page, pageIndex) => (
+                        <div key={pageIndex}>
+                            {page.data.success.responseData.currentScrollItems.map((blog) => (
+                                <div key={blog.blogId} className="rounded-lg shadow-lg mb-4">
+                                    <BlogCard
+                                        userImg={blog.userImg}
+                                        userName={blog.userName}
+                                        title={blog.title}
+                                        record={blog.record}
+                                        distance={blog.distance}
+                                        imageUrl={blog.imageUrl}
+                                        content={blog.content}
+                                        liked={blog.liked}
+                                        blogId={blog.blogId}
+                                        likeCount={blog.likeCount}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     ))}
                 </div>
+                <InfiniteScroll
+                    isLastPage={!hasNextPage}
+                    fetch={fetchNextPage}
+                />
             </div>
         </>
     );

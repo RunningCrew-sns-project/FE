@@ -53,7 +53,7 @@ const JoinCrewrundetail = () => {
         <>
             {!isLoading &&
                 <>
-                    <DetailHeader imgarray={joincrewrundata.data.responseData.banners}></DetailHeader>
+                    <DetailHeader imgarray={joincrewrundata.data.responseData.crewPostImageUrl}></DetailHeader>
                     <DetailInfo info={joincrewrundata.data.responseData} handlAskjoin={handleAskcrewrunjoin} buttonText={userId === joincrewrundata.data.responseData.authorId ? "크루와 달리기 담당자" : "크루달리기 참여하기"} ></DetailInfo>
                 </>
             }

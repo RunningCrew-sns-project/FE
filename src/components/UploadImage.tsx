@@ -35,7 +35,7 @@ const UploadImage = ({
 	console.log('uploadimage', imgUrl)
 	const ref = useRef(null);
 
-	const handleuploadFile = async (e) => {
+	const handleuploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
 		if (files) {
 			const newFiles = Array.from(files);
