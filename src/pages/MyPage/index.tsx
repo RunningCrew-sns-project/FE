@@ -3,7 +3,6 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { IoIosSettings } from "react-icons/io";
 import { getMySummary } from "../../api/profile/api";
-import ApplicationModal from "../../components/ApplicationModal";
 
 const MyPage = () => {
 	const [nickName, setNickName] = useState("");
@@ -12,7 +11,6 @@ const MyPage = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	const navigate = useNavigate();
-
 
 	const handleClickEditProfile = () => {
 		navigate("/profile");
@@ -50,7 +48,7 @@ const MyPage = () => {
 						회원정보수정
 					</Button>
 
-					<Button theme="light" className="border">
+					<Button theme="light" className="border cursor-not-allowed">
 						회원탈퇴
 					</Button>
 					<Button theme="dark" onClick={handleLogout}>
