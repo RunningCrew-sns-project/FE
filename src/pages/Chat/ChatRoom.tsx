@@ -38,7 +38,7 @@ const ChatRoom = () => {
 						: "w-full max-w-[420px] h-[720px]"
 				} bg-white rounded-lg relative overflow-hidden`}
 			>
-				<ChatHeader title="Team Unicorns" status="last seen 45 minutes ago" />
+				<ChatHeader title={roomId} />
 				<div className="absolute top-[130px] bottom-16 w-full overflow-y-auto ">
 					<ChatList messages={message}  userName={userName}/>
 				</div>

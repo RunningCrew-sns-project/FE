@@ -2,11 +2,12 @@ import toast from "react-hot-toast";
 import Button from "../Button";
 import Modal from "./Modal";
 import { deleteCrew } from "../../api/crew/api";
+import { useNavigate } from "react-router-dom";
 
 
 interface recordsProps  {
 	isOpen : boolean;
-	selectedCrewId : string | number | undefined;
+	selectedCrewId : string ;
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>; 
 }
 
@@ -14,12 +15,13 @@ interface recordsProps  {
 
 
 const MessageModal = ({ isOpen, selectedCrewId, setIsOpen }: recordsProps) => {
+	const navigate = useNavigate();
 	const handleCrewOut = async () => {
 		try {
-			const res = await deleteCrew(selectedCrewId);
-			console.log("확인탈퇴 ", res);
+			await deleteCrew(selectedCrewId);
 			toast("탈퇴되었습니다. ");
 			setIsOpen(false);
+			navigate(0);
 		} catch (error) {
 			console.log(error);
 		}

@@ -30,7 +30,7 @@ export interface Params {
 
 
 const useChatConnect = (roomId  : string | null ) => {
-  const [stompClient, setStompClient] = useState<Client | null>(null); // Client 타입 지정
+  const [stompClient, setStompClient] = useState<Client | null>(null); 
   const CHAT_URL = import.meta.env.VITE_BACKEND_URL;
   const auth_token = localStorage.getItem("auth_token");
   const [userName, setUserName] = useState<string | null>(null);
@@ -138,7 +138,23 @@ const useChatConnect = (roomId  : string | null ) => {
     }
   };
 
-  return { message, sendMessage ,  userName };
+
+  const leaveRoom = () => {
+    if(stompClient && stompClient.connected && userName){
+      stompClient.send(
+        "/pub/chat/leaveUser",
+        {},
+        JSON.stringify({
+          type: "LEAVE",
+          roomId: roomId,
+          sender: userName,
+          time: new Date().toISOString(),
+        })
+      )
+    }
+  }
+
+  return { message, sendMessage ,  userName , leaveRoom};
 };
 
 export default useChatConnect;

@@ -11,6 +11,7 @@ export interface Item {
   date: string;
   startTime: string;
   banner?: string; // 선택적 프로퍼티
+	banners?: { url: string }[];
   crewImageUrl?: string; // 선택적 프로퍼티
   people: number;
   memberCount: number;
@@ -53,6 +54,7 @@ const ItemList = React.memo(({ runData } : ItemListProps) => {
 							date={item.date}
 							startTime={item.startTime}
 							banner={item.banner || item.crewImageUrl || ''}
+							banners={item.banners || []}
 							people={item.people || item.memberCount}
 							maximumPeople={item.maximumPeople || item.maxCapacity}
 							status={item.status}

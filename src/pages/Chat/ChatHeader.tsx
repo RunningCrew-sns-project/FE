@@ -1,26 +1,30 @@
 import { useDevice } from "../../hook/usedevice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faHome } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import ActiveChat from "../../components/Modal/ActiveChat";
 import { useState } from "react";
 import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button";
+import useChatConnect from "../../hook/useChatConnect";
+import toast from "react-hot-toast";
 
 
 interface ChatHeaderProps {
-	title : string;
-	status: string;
+	title : string | null;
+
 }
 
-const ChatHeader = ({ title, status } : ChatHeaderProps) => {
+const ChatHeader = ({ title } : ChatHeaderProps) => {
 	const { isMobile, isTablet } = useDevice();
-	const [isOpen, setIsOpen] = useState(false);
-
+	const navigate = useNavigate();
 	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
 	const roomId = queryParams.get("roomId");
+	const [isOpen, setIsOpen] = useState(false);
 	const { msgMove, roomData ,id  } = location.state || {};
+
+	const { leaveRoom} = useChatConnect(roomId);
 
 	const openList = () => {
 		setIsOpen(true);
@@ -29,11 +33,17 @@ const ChatHeader = ({ title, status } : ChatHeaderProps) => {
 		setIsOpen(false);
 	};
 
-	const navigate = useNavigate();
 
 	const handleGoBack = () => {
 		navigate(`/running?roomId=${roomId}`, {state :{roomData : roomData , id : id}});
 	};
+
+	const handleRoomOut = () => {
+		leaveRoom()
+		console.log('채팅아웃')
+		navigate('/')
+		toast('채팅이 종료되었습니다 ')
+	}
 
 	return (
 		<>
@@ -43,9 +53,9 @@ const ChatHeader = ({ title, status } : ChatHeaderProps) => {
 				<div className="flex  justify-between">
 					{msgMove ? (
 						<FontAwesomeIcon
-							icon={faHome}
+							icon={faSignOutAlt}
 							className={`${isMobile || isTablet ? "text-white" : "text-black"}  text-2xl cursor-pointer`}
-							onClick={() => navigate("/")}
+							onClick={() => handleRoomOut()}
 						/>
 					) : (
 						<Button
@@ -63,7 +73,6 @@ const ChatHeader = ({ title, status } : ChatHeaderProps) => {
 					>
 						<div className="text-center">
 							<h3 className="text-xl font-black mb-4">{title}</h3>
-							<p className="text-sm">{status} </p>
 						</div>
 					</div>
 					<div className="">
