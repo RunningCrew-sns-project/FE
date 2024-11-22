@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDevice } from "../../hook/usedevice";
 import { useNavigate } from "react-router-dom";
-import { getChatRoomsApi } from "../../api/ChatApi/ChatApi";
+
 import ActiveChatItem from "../../pages/Chat/ActiveChatItem";
+import { getChatRoomsApi } from "../../api/ChatApi/ChatApi";
 
 
 interface Chat {

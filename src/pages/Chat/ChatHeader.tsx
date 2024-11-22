@@ -7,14 +7,20 @@ import { useState } from "react";
 import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button";
 
-const ChatHeader = ({ title, status }) => {
+
+interface ChatHeaderProps {
+	title : string;
+	status: string;
+}
+
+const ChatHeader = ({ title, status } : ChatHeaderProps) => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
 	const roomId = queryParams.get("roomId");
-	const { msgMove } = location.state || {};
+	const { msgMove, roomData ,id  } = location.state || {};
 
 	const openList = () => {
 		setIsOpen(true);
@@ -26,7 +32,7 @@ const ChatHeader = ({ title, status }) => {
 	const navigate = useNavigate();
 
 	const handleGoBack = () => {
-		navigate(`/running?roomId=${roomId}`);
+		navigate(`/running?roomId=${roomId}`, {state :{roomData : roomData , id : id}});
 	};
 
 	return (
@@ -70,7 +76,7 @@ const ChatHeader = ({ title, status }) => {
 				</div>
 				{isOpen && (
 					<Modal isOpen={isOpen} onClose={closeList}>
-						<ActiveChat onClose={closeList} />
+						<ActiveChat />
 					</Modal>
 				)}
 			</div>

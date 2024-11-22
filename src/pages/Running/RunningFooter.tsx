@@ -9,9 +9,10 @@ interface RunningFooterProps {
   stop: () => void;
   setIsStop: (value: boolean) => void;
   data: { time: string; progress: number }; // data의 구조에 따라 수정 필요
+	distance: number | undefined;
 }
 
-const RunningFooter = ({stop, setIsStop, data}:RunningFooterProps) => {
+const RunningFooter = ({stop, setIsStop, data, distance}:RunningFooterProps) => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
 	const navigate = useNavigate()
@@ -57,7 +58,7 @@ const RunningFooter = ({stop, setIsStop, data}:RunningFooterProps) => {
 						<FontAwesomeIcon icon={faDoorOpen} className="text-2xl mb-1" />
 						<span className="text-xs">종료하기</span>
 					</div>
-					<RunResultModal isOpen={isOpen} onClose={handleCloseModal} data={data}  />
+					<RunResultModal isOpen={isOpen} onClose={handleCloseModal} data={data} distance={distance} />
 				</div>
 			</div>
 		</>

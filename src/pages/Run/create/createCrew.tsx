@@ -4,8 +4,8 @@ import { useState } from "react";
 import { fields } from "../../../const/inputfileds";
 import FormLayout from "../commonForm";
 import { uploadCrewFiles } from "../../../api/image/api";
-import { createCrew } from "../../../api/crew/api";
 import { useNavigate } from "react-router-dom";
+import { createCrew } from "../../../api/crew/api";
 
 // 데이터 타입 정의
 export interface ImageUrl {
@@ -90,7 +90,7 @@ const Crew = () => {
 			console.log("최종 전송 데이터:", newData); // 요청 데이터 확인
 
 			// 서버에 데이터 전송
-			mutate({newData});
+			mutate(newData);
 		} catch (error) {
 			console.log("파일 업로드 에러:", error);
 		}

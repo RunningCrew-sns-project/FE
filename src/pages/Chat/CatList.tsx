@@ -1,10 +1,16 @@
 
+import { ChatMessage } from "../../hook/useChatConnect";
 import { dateFormatter } from "../../util/dateFormatter";
 import ChatDate from "./catui/ChatDate";
 import ChatItem from "./catui/ChatItem";
 
-const ChatList = ({ messages }) => {
 
+interface chatLlistProps {
+	messages : ChatMessage[]
+	userName : string | null;
+}
+
+const ChatList = ({ messages , userName}:chatLlistProps ) => {
 
 
 	return (
@@ -20,7 +26,7 @@ const ChatList = ({ messages }) => {
 									{(index === 0 ||
 										dateFormatter(messages[index - 1].time).date !==
 											date.date) && <ChatDate date={date.date} />}
-									<ChatItem messageItem={message} time={date.startTime} />
+									<ChatItem messageItem={message} time={date.startTime} userName={userName}/>
 								</div>
 							</>
 						);

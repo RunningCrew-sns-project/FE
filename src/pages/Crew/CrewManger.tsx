@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/Button";
-import { deleteMember, getCrewMember, putWarning } from "../../api/crew/api";
+
 import toast from "react-hot-toast";
+import { deleteMember, getCrewMember, putWarning } from "../../api/crew/api";
 
 interface CrewMember {
 	userId: number;
@@ -11,13 +12,18 @@ interface CrewMember {
 	email: string;
 }
 
-const CrewManger = ({ setIsOpenManger, crewId }) => {
+interface crewMangerProps {
+	setIsOpenManger: React.Dispatch<React.SetStateAction<boolean>>; 
+	crewId : string | undefined;
+}
+
+const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 	const [members, setMembers] = useState<CrewMember[]>([]);
 	const [loading, setLoading] = useState(false); // 로딩 상태 추가
 
 	const fetchCrewMember = async () => {
 		try {
-			const res = await getCrewMember(crewId, null);
+			const res = await getCrewMember(crewId);
 			const members = res.data.success.responseData;
 			setMembers(members);
 			console.log('멤버들', members)
@@ -27,7 +33,7 @@ const CrewManger = ({ setIsOpenManger, crewId }) => {
 	};
 
 	// 경고 처리 함수 (낙관적 UI 구현)
-	const handleWarning = async (userId, currentWarning) => {
+	const handleWarning = async (userId :number, currentWarning : number) => {
 		// UI에서 즉시 경고 수 증가
 		setMembers((prevMembers) =>
 			prevMembers.map((member) =>
@@ -39,7 +45,7 @@ const CrewManger = ({ setIsOpenManger, crewId }) => {
 
 		try {
 			setLoading(true); // 로딩 시작
-			const res = await putWarning({ crewId, userId });
+			const res = await putWarning({ crewId, userId: userId.toString()} );
 
 			if (res.data.success.code === 200) {
 				const caveat = res.data.success.responseData.caveat;
@@ -74,10 +80,10 @@ const CrewManger = ({ setIsOpenManger, crewId }) => {
 
 
 	// 강퇴처리 
-	const handleOut = (userId, nickname) => {
+	const handleOut = (userId : string, nickname: string) => {
 
 		//낙관적 ui 업데이트  필요 
-		setMembers((prevMember) => prevMember.filter((member) => member.userId != userId)  )
+		setMembers((prevMember) => prevMember.filter((member) => member.userId.toString() != userId.toString())  )
 
 		try{
 			deleteMember(crewId, userId )
@@ -148,7 +154,7 @@ const CrewManger = ({ setIsOpenManger, crewId }) => {
 									</Button>
 								</div>
 								<div className="flex-1 text-center border-r border-white px-2">
-									<Button type="button" theme="primary" onClick={() => handleOut(member.userId , member.nickname)}>
+									<Button type="button" theme="primary" onClick={() => handleOut(member.userId.toString() , member.nickname)}>
 										강퇴
 									</Button>
 								</div>

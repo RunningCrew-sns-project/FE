@@ -1,6 +1,9 @@
 
+interface dateprops {
+  date: string;
+}
 
-const ChatDate = ({date} ) => {
+const ChatDate = ({date} : dateprops ) => {
   return(
     <>
       <div className="mb-2">

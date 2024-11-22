@@ -1,11 +1,11 @@
 import { Map, MapMarker } from "react-kakao-maps-sdk";
-import { LocationDataProps } from "../../pages/Run/create/createRun";
 import PlaceConverter from "./PlaceConverter";
 import React from "react";
+import { LocationData } from "../../pages/Running/RunningContent";
 
 interface MapPageProps {
-	locationData: LocationDataProps;
-	setLocationData?: React.Dispatch<React.SetStateAction<LocationDataProps>>; // 선택적 props로 변경
+	locationData: LocationData;
+	setLocationData?: React.Dispatch<React.SetStateAction<LocationData>>; // 선택적 props로 변경
 	width?: string;
 	height?: string;
 	className?: string;

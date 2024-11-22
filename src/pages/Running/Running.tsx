@@ -5,26 +5,31 @@ import useMovePercent from "../../hook/useMovePercent";
 import useStopWatch from "../../hook/useStopWatch";
 import ProgressBar from "./ProgressBar";
 
-
-
-interface RunningProps {
-	isStop: boolean; 
-	setData: (data: { time: string; progress: number }) => void; 
+interface Coordinates {
+  lat: number;
+  lng: number;
 }
 
-const Running = ({isStop,setData}:RunningProps) => {
+interface LocationData {
+  startCoordinates: Coordinates;
+  endCoordinates: Coordinates;
+  startAddress: string;
+  endAddress: string;
+  distance?: number; // 새 필드 추가
+}
+
+
+interface RunningProps { 
+	isStop: boolean; 
+	setData: (data: { time: string; progress: number }) => void; 
+	locationData : LocationData
+}
+
+const Running = ({isStop,setData , locationData }:RunningProps) => {
 	const { start, formatTime, time, pause } = useStopWatch();
-	const { progress, currentlocation } = useMovePercent();
+	const { progress, currentlocation } = useMovePercent(locationData);
 	const { isMobile, isTablet } = useDevice();
 
-
-
-	const locationData = {
-		startCoordinates: { lat: 37.6428999322418, lng: 127.009680856107 },
-		endCoordinates: { lat: 37.63887785974017, lng: 127.01058220054608 },
-		startAddress: "서울인수초등학교",
-		endAddress: "국립재활원",
-	};
 
 
 

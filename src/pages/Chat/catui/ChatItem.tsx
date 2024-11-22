@@ -1,32 +1,43 @@
 interface ItemProps {
-	message : string
-	sender: string
-	userName : string
+	message: string;
+	sender: string;
+	userName?: string |null;
 }
 
-
 interface ChatItemProps {
-	messageItem : ItemProps
-	time: string
-} 
+	messageItem: ItemProps;
+	time: string;
+	userName: string | null;
+}
 
-
-const ChatItem = ({ messageItem, time }: ChatItemProps) => {
+const ChatItem = ({
+	messageItem,
+	time,
+	userName: senderEmail,
+}: ChatItemProps) => {
 	const { message, sender, userName } = messageItem;
-
+	console.log(userName);
 	return (
 		<>
-			<div className="text-left ">
-				<div className="font-semibold text-sm">{userName}</div>
-				<div className="flex flex-start gap-1 ">
+			<div
+				className={`flex   ${sender === senderEmail ? "justify-end" : "justify-start"}`}
+			>
+				<div className="flex flex-col  flex-start gap-1 ">
+					<div className={`font-semibold text-sm ${
+              sender === senderEmail ? "text-right" : "text-left"
+            }`}>{userName}</div>
 					<div
 						className={`max-w-xs p-4 rounded-lg ${
-							sender ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-800"
+							sender === senderEmail
+								? "bg-blue-500 text-white"
+								: "bg-gray-300 text-gray-800"
 						} shadow-md`}
 					>
 						<div className="text-base">{message}</div>
 					</div>
-					<div className="text-xs text-right mt-8 ">{time}</div>
+					<div className={` text-xs ${
+              sender === senderEmail ? "text-right" : "text-left"
+            }`}>{time}</div>
 				</div>
 			</div>
 		</>

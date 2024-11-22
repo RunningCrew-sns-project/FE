@@ -9,10 +9,11 @@ import { useEffect, useState } from "react";
 
 
 
+
 interface PostListProps {
 	items: Item[];
 	setPage: (page: number) => void;
-	selectedCrewId: number;
+	selectedCrewId: string | number | undefined;
 	setStartDate: (startDate: Date | null) => void;
 	setArea: (area: string) => void;
 	setSortOrder: (sortOrder: string) => void;

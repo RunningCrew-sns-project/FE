@@ -1,15 +1,25 @@
 
+import { CrewData } from "../../pages/Run/create/createCrew";
 import { http } from "../request"
+
+interface Filter {
+  cursor: string | null; 
+  size: number; 
+  location: string;
+  date: string; 
+  sortType: string; 
+}
+
 
 const email = 'ssnu3007@naver.com';
 // 크루생성 
-export const createCrew = async ({newData }) => {
+export const createCrew = async (newData: CrewData  ) => {
   const res = await http.post('/api/crews', newData)
   return res 
 }
 
 //크루 정보 + 해당 크루 게시글 목록 
-export const getCrewInfoList = async(crewId, filter) => {
+export const getCrewInfoList = async(crewId :string , filter:Filter) => {
   const params = { ...filter, email: email }; 
   const res = await http.get(`/api/crews/${crewId}/list`,{
     params: params,
@@ -19,7 +29,7 @@ export const getCrewInfoList = async(crewId, filter) => {
 
 
 //크루원 조회 
-export const getCrewMember = async (crewId , all = true ) => {
+export const getCrewMember = async (crewId:string | undefined , all = true ) => {
   const res = await http.get(`/api/crews/${crewId}/admin/users`, {
     params: {
       all: all 
@@ -29,14 +39,18 @@ export const getCrewMember = async (crewId , all = true ) => {
 };
 
 
+export interface putWarningProps {
+  crewId : string | undefined;
+  userId : string
+}
 //크루원 경고 
-export const putWarning = async ({ crewId, userId: badUserId }) => {
+export const putWarning = async ({ crewId , userId: badUserId }: putWarningProps) => {
   const res = await http.put(`/api/crews/${crewId}/admin/users?badUserId=${badUserId}`);
   return res;
 };
 
 //크루원 강퇴 
-export const deleteMember = async (crewId , userId ) => {
+export const deleteMember = async (crewId :string |undefined, userId :string) => {
   const res = await http.delete(`/api/crews/sendOutCrew` , {
     params : {
       crewId  : crewId ,
@@ -48,7 +62,7 @@ export const deleteMember = async (crewId , userId ) => {
 
 
 //크루탈퇴 
-export const deleteCrew = async (crewId) => {
+export const deleteCrew = async (crewId :string | number | undefined ) => {
   console.log(crewId)
   const res = await http.delete(`/api/crews/${crewId}/users`)
   return res 

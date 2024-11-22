@@ -5,10 +5,19 @@ import { useDevice } from "../../hook/usedevice";
 import { useState } from "react";
 import ActiveChat from "../../components/Modal/ActiveChat";
 import Modal from "../../components/Modal/Modal";
+import { useNavigate } from "react-router-dom";
+import { RunInfo } from "./RunningContent";
 
-const RuningHeader = () => {
+
+interface RuningHeaderProps {
+  runinfo: RunInfo;
+}
+
+
+const RuningHeader = ({ runinfo }: RuningHeaderProps) => { 
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
+	const navigate = useNavigate();
 
 	const openList = () => {
 		setIsOpen(true);
@@ -26,15 +35,16 @@ const RuningHeader = () => {
 					<FontAwesomeIcon
 						icon={faArrowLeft}
 						className={`${isMobile || isTablet ? "text-white" : "text-balck"} text-2xl cursor-pointer`}
+						onClick={() => navigate("/")}
 					/>
 
 					<div
 						className={`${isMobile || isTablet ? "text-white" : "text-balck"}`}
 					>
-						<h3 className="text-xl font-black mb-4">달리기 제목</h3>
+						<h3 className="text-xl font-black mb-4">{runinfo.title}</h3>
 						<div className="">
-							<p className="text-sm">출발장소 : </p>
-							<p className="text-sm">도착장소 : </p>
+							<p className="text-sm">출발 : {runinfo.start}</p>
+							<p className="text-sm">도착 : {runinfo.end} </p>
 						</div>
 					</div>
 					<div className="">
@@ -50,7 +60,6 @@ const RuningHeader = () => {
 						<ActiveChat />
 					</Modal>
 				)}
-				
 			</div>
 		</>
 	);
