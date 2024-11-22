@@ -4,7 +4,7 @@ import { fields } from "../../../const/inputfileds";
 import FormLayout from "../commonForm";
 import MapPage from "../../../components/Map/Map";
 import SearchKeword from "../serachKeword";
-import { FileDto, InputData } from "./createCrew";
+import { InputData } from "./createCrew";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import {  uploadFiles } from "../../../api/image/api";
@@ -12,27 +12,28 @@ import { useNavigate } from "react-router-dom";
 
 import { dateFormatter } from "../../../util/dateFormatter";
 import { postGeneralRun } from "../../../api/run/api";
-
+import { Coordinates } from "../../Running/RunningContent";
 
 export interface LocationDataProps {
-	startCoordinates: { lat: number; lng: number } | null;
-	endCoordinates: { lat: number; lng: number } | null;
+	startCoordinates:  Coordinates;
+	endCoordinates: Coordinates;
 	startAddress: string;
 	endAddress: string;
 }
 
+
 export interface GeneralRunProps {
   title: string; // 크루 이름
   content: string; // 크루 소개
-  activityRegion: string; // 활동 지역
+  location: string; // 활동 지역
 	inputLocation: string;
 	inputLatitude : number;
 	inputLongitude: number;
 	targetLocation: string;
 	targetLatitude : number;
 	targetLongitude: number;
-  maxParticipants: number; // 최대 수용 인원
-  fileDtos: FileDto[]; // 파일 정보 목록
+  maximumPeople: number; // 최대 수용 인원
+  fileUrls: string; // 파일 정보 목록
 	date: string;
 
 }
@@ -42,10 +43,10 @@ const Run = () => {
 	const currentDate = new Date();
 	const navigatge = useNavigate()
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
-	const [imgfiile, setImageUrls] = useState<string[]>([]);
+	const [imgfiile, setImageUrls] = useState<string[] | FormData>([]);
 	const [locationData, setLocationData] = useState<LocationDataProps>({
-		startCoordinates: null,
-		endCoordinates: null,
+		startCoordinates: { lat: 37.6428999322418, lng: 127.009680856107 },
+		endCoordinates: { lat: 37.63887785974017, lng: 127.01058220054608 },
 		startAddress: "",
 		endAddress: "",
 	});

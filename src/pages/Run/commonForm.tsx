@@ -12,7 +12,7 @@ interface FormLayoutProps {
 	fields: InputFieldProps[]; // InputFieldProps 배열
 	onSubmit: SubmitHandler<InputData>;
 	children?: React.ReactNode; // 추가 자식 요소
-	setImageUrls?: (urls: string[]) => void; // 이미지 URL을 설정하는 함수
+	setImageUrls?: (formData: FormData) => void; // 이미지 URL을 설정하는 함수
 	isEdit?: boolean
 	maximumPeople?: number
 	content?: string
@@ -29,7 +29,7 @@ const FormLayout = ({ title, fields, onSubmit, children, setImageUrls, isEdit, m
 		<FormProvider {...methods}>
 			<h2 className="mb-10 font-black text-[20px]">{title}</h2>
 			<UploadImage
-				onUploadFiles={(formData) => setImageUrls(formData)}
+				onUploadFiles={(formData) => setImageUrls?.(formData)}
 				multiple={true}
 				uploadfileLength={5}
 				id="file-upload"

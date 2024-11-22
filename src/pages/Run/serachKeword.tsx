@@ -1,15 +1,12 @@
 import { useState } from "react";
 import Button from "../../components/Button";
-import { LocationDataProps } from "./create/createRun";
+import { LocationData } from "../Running/RunningContent";
 
-interface LocationData {
-  startAddress: string;
-  endAddress: string;
-}
+
 
 interface SearchKeywordProps {
   locationData: LocationData;
-  setLocationData: React.Dispatch<React.SetStateAction<LocationDataProps>>;
+  setLocationData: React.Dispatch<React.SetStateAction<LocationData>>;
 }
 
 

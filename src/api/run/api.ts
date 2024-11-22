@@ -23,7 +23,7 @@ export const  postGeneralRun = async (data : GeneralRunProps) => {
 // 크루 끼리 달리기 생성 
 interface crewRun {
   data: crewRunProps
-  crewId: string
+  crewId: string | undefined
 }
 export const postCrewRun = async ({ data, crewId }: crewRun ) => {
   const res = await http.post(`/api/join-posts/crews/${crewId}/create`,data,)

@@ -11,14 +11,16 @@ import { uploadFiles } from "../../../api/image/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { dateFormatter } from "../../../util/dateFormatter";
 import { postEditRunApi } from "../../../api/run/api";
+import { Coordinates } from "../../Running/RunningContent";
 
 
 export interface LocationDataProps {
-	startCoordinates: { lat: number; lng: number } | null;
-	endCoordinates: { lat: number; lng: number } | null;
+	startCoordinates:  Coordinates;
+	endCoordinates: Coordinates;
 	startAddress: string;
 	endAddress: string;
 }
+
 
 export interface GeneralRunProps {
 	title: string; // 크루 이름
@@ -49,10 +51,10 @@ const EditRun = () => {
 	const currentDate = new Date();
 	const navigate = useNavigate()
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
-	const [imgfiile, setImageUrls] = useState<string[]>([]);
+	const [imgfiile, setImageUrls] = useState<string[] | FormData>([]);
 	const [locationData, setLocationData] = useState<LocationDataProps>({
-		startCoordinates: null,
-		endCoordinates: null,
+		startCoordinates: { lat: 37.6428999322418, lng: 127.009680856107 },
+		endCoordinates: { lat: 37.63887785974017, lng: 127.01058220054608 },
 		startAddress: "",
 		endAddress: "",
 	});

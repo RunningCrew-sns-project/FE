@@ -12,10 +12,11 @@ import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { postEditCrewRunAPi } from "../../../api/run/api";
 import { dateFormatter } from "../../../util/dateFormatter";
+import { Coordinates } from "../../Running/RunningContent";
 
 export interface LocationDataProps {
-	startCoordinates: { lat: number; lng: number } | null;
-	endCoordinates: { lat: number; lng: number } | null;
+	startCoordinates:  Coordinates;
+	endCoordinates: Coordinates;
 	startAddress: string;
 	endAddress: string;
 }
@@ -49,10 +50,10 @@ const EditCrewRun = () => {
   const currentDate = new Date();
 	const navigatge = useNavigate()
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
-	const [imgfiile, setImageUrls] = useState<string[]>([]);
+	const [imgfiile, setImageUrls] = useState<string[] | FormData>([]);
 	const [locationData, setLocationData] = useState<LocationDataProps>({
-		startCoordinates: null,
-		endCoordinates: null,
+		startCoordinates: { lat: 37.6428999322418, lng: 127.009680856107 },
+		endCoordinates: { lat: 37.63887785974017, lng: 127.01058220054608 },
 		startAddress: "",
 		endAddress: "",
 	});
