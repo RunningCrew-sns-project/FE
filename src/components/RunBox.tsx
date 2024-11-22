@@ -8,6 +8,7 @@ interface PostProps {
 	title: string;
 	location: string;
 	banner: string | null;
+	banners?: { url: string }[];
 	people: number;
 	maximumPeople: number;
 	status: "시작전" | "진행중" | "완료" | "모집중" | "만원" | string;
@@ -22,6 +23,7 @@ interface PostProps {
 }
 
 const RunBox: React.FC<PostProps> = (props) => {
+	console.log("프롭스", props);
 	const navigate = useNavigate();
 
 	const statusStyle: Record<string, string> = {
@@ -49,7 +51,11 @@ const RunBox: React.FC<PostProps> = (props) => {
 		>
 			<div className={`w-[170px] h-[160px] relative shrink-0`}>
 				<img
-					src={props.banner || bagigImg}
+					src={
+						Array.isArray(props.banners) && props.banners.length > 0
+							? props.banners[0].url
+							: props.banner || bagigImg
+					}
 					className="object-cover w-full h-full rounded-lg"
 					alt={props.title}
 				/>

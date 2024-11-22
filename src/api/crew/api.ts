@@ -62,8 +62,7 @@ export const deleteMember = async (crewId :string |undefined, userId :string) =>
 
 
 //크루탈퇴 
-export const deleteCrew = async (crewId :string | number | undefined ) => {
-  console.log(crewId)
+export const deleteCrew = async (crewId :string) => {
   const res = await http.delete(`/api/crews/${crewId}/users`)
   return res 
 }

@@ -4,7 +4,7 @@ import creImg from '../../assets/mianBanner2_bg.jpg'
 
 
 interface CrewInfo {
-  crewImageUrl?: string;
+  crewImageUrls?: string;
   crewName: string;
   crewIntroduction: string;
   activityRegion: string;
@@ -12,9 +12,9 @@ interface CrewInfo {
   maxCapacity: number;
 }
 
-// CrewBanner의 props 타입 정의
+
 interface CrewBannerProps {
-  info: CrewInfo;  // `info` 속성을 CrewInfo 타입으로 지정
+  info: CrewInfo;  
 }
 
 
@@ -28,7 +28,7 @@ const CrewBanner = ({ info } : CrewBannerProps ) => {
 				{info ? (
 					<>
 							<img
-								src={info.crewImageUrl || creImg }
+								src={info.crewImageUrls  && info.crewImageUrls .length > 0 ? info.crewImageUrls[0] : creImg}
 								alt={info.crewName}
 								className="w-full h-full object-cover max-w-[1920px] mx-auto"
 							/>
