@@ -44,7 +44,7 @@ export interface UploadedFile {
 
 
 const Crew = () => {
-	const [imageUrls, setImageUrls] = useState<string[]>([]);
+	const [imageUrls, setImageUrls] = useState<string[] | FormData>([]);
 	const navigatge = useNavigate()
 
 	const { mutate } = useMutation({
