@@ -8,7 +8,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const settings = {
 	dots: true,
@@ -39,7 +39,7 @@ interface FeedData {
 
 const MyFeed = () => {
 	const [feedData, setFeedData] = useState([]);
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const requestPost = async () => {
 		const res = await getMyFeed();
@@ -49,17 +49,19 @@ const MyFeed = () => {
 		}
 	};
 
-	const deletePost = (id: number) => {
+	const deletePost = (id: number | string) => {
 		deleteMyFeed(id);
 		setFeedData((prev) => prev.filter((feed: any) => feed.blogId !== id));
 	};
 
-	const handlemoveEditblog = (blogId) => {
-		const selectedFeed = feedData.find((feed: FeedData) => feed.blogId === blogId);
+	const handlemoveEditblog = (blogId: number | string) => {
+		const selectedFeed = feedData.find(
+			(feed: FeedData) => feed.blogId === blogId,
+		);
 		if (selectedFeed) {
 			navigate(`/editBlog/${blogId}`, { state: { feedData: selectedFeed } });
 		}
-	}
+	};
 
 	useEffect(() => {
 		requestPost();
@@ -94,7 +96,10 @@ const MyFeed = () => {
 						</span>
 					</div>
 					<FaRegComment />
-					<FaRegEdit onClick={() => handlemoveEditblog(data.blogId)} className="cursor-pointer" />
+					<FaRegEdit
+						onClick={() => handlemoveEditblog(data.blogId)}
+						className="cursor-pointer"
+					/>
 					{/* <IoIosMore /> */}
 				</div>
 				<p>{data.content}</p>

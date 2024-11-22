@@ -16,17 +16,6 @@ interface CrewData {
 	crewMaster: boolean;
 }
 
-interface CrewProps {
-	title: string;
-	location: string;
-	banner: string;
-	people: number;
-	maximumPeople: number;
-	status: string;
-	crewId: number;
-	boxVerticalWidth?: string;
-	boxHorizontalWidth?: string;
-}
 const MyCrew = () => {
 	const [crewData, setCrewData] = useState<CrewData[]>([]);
 
