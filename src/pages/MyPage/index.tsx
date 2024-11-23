@@ -32,7 +32,7 @@ const MyPage = () => {
 	}, []);
 
 	return (
-		<div className="flex bg-black flex-col tablet:flex-row h-full">
+		<div className="flex bg-black flex-col tablet:flex-row min-h-screen">
 			{isMenuOpen && (
 				<div
 					className="fixed inset-0 z-20"
@@ -57,15 +57,15 @@ const MyPage = () => {
 				</div>
 			</div>
 			<div className="w-full h-[160px] shrink-0 fixed z-10 px-4 pt-4 tablet:w-[220px] tablet:h-screen tablet:border-r border-white/30 bg-black">
-				<div className="flex items-center justify-between">
-					<div className="flex items-center tablet:flex-col">
+				<div className="flex items-center justify-between  tablet:justify-center">
+					<div className="flex items-center tablet:flex-col ">
 						<div className="w-[80px] h-[80px] rounded-full mr-4 tablet:mr-0 tablet:mb-4 tablet:mt-10">
-							<img src={profileImg} className="object-contain rounded-full" />
+							<img src={profileImg} className="object-contain" />
 						</div>
 						<h1 className="text-white">{nickName}</h1>
 					</div>
 					<div
-						className="text-white tablet:absolute tablet:left-4 tablet:bottom-20 flex items-center cursor-pointer"
+						className="text-white tablet:absolute tablet:mx-auto tablet:bottom-20 flex items-center cursor-pointer"
 						onClick={() => setIsMenuOpen(!isMenuOpen)}
 					>
 						<IoIosSettings
@@ -75,7 +75,7 @@ const MyPage = () => {
 						<span className="hidden tablet:block">Setting</span>
 					</div>
 				</div>
-				<div className="flex w-full justify-between py-6 tablet:flex-col gap-4">
+				<div className="flex w-full justify-between py-6 tablet:flex-col gap-4  tablet:items-center">
 					<NavLink
 						to="myRunning"
 						className={({ isActive }) =>

@@ -2,6 +2,7 @@ import React from "react";
 import { IoPeopleSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import bagigImg from "../assets/mianBanner1_bg.jpg";
+import { IoLocationOutline } from "react-icons/io5";
 
 // Unified interface that combines both RunProps and CrewProps
 interface PostProps {
@@ -31,6 +32,7 @@ const RunBox: React.FC<PostProps> = (props) => {
 		완료: "bg-black text-white",
 		모집중: "bg-primary",
 		만원: "bg-black text-white",
+		"가입 완료": "bg-black text-white",
 	};
 
 	const handlemovedetail = () => {
@@ -77,8 +79,13 @@ const RunBox: React.FC<PostProps> = (props) => {
 				<h1 className="text-white font-semibold text-lg truncate">
 					{props.title}
 				</h1>
-				<div className="flex text-sm justify-between laptop:flex-col laptop:justify-between laptop:h-full">
-					<span className="text-white truncate">{props.location}</span>
+				<div className="flex text-sm justify-between laptop:flex-col laptop:justify-around laptop:h-full">
+					<div className="flex items-center gap-1">
+						<IoLocationOutline color="white" />
+						<p className="bg-white truncate w-fit px-1 rounded-sm">
+							{props.location}
+						</p>
+					</div>
 
 					{props.crewIntroduction && (
 						<p className="text-white hidden laptop:block">

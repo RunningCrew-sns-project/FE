@@ -37,6 +37,7 @@ const Header = () => {
 
 	const handleLogout = () => {
 		logout();
+		navigate("/login");
 		toast("로그아웃되었습니다.");
 	};
 
@@ -49,22 +50,26 @@ const Header = () => {
 							<h1 className="cursor-pointer">로고</h1>
 						</Link>
 						<div className="">
-							{(isMobile || isTablet) ? ' ' : (		<ul className="flex space-x-4 items-center  ml-[180px]">
-								{CATEGORYS.map((category) => (
+							{isMobile || isTablet ? (
+								" "
+							) : (
+								<ul className="flex space-x-4 items-center  ml-[180px]">
+									{CATEGORYS.map((category) => (
+										<li
+											className="cursor-pointer font-black"
+											onClick={() => handleMovePage(category.keyword)}
+										>
+											{category.value}
+										</li>
+									))}
 									<li
 										className="cursor-pointer font-black"
-										onClick={() => handleMovePage(category.keyword)}
+										onClick={() => navigate("/blog")}
 									>
-										{category.value}
+										커뮤니티
 									</li>
-								))}
-								<li
-									className="cursor-pointer font-black"
-									onClick={() => navigate("/blog")}
-								>
-									커뮤니티
-								</li>
-							</ul>)}
+								</ul>
+							)}
 						</div>
 						<div className="flex gap-2 items-center mr-6">
 							{isLoggedIn ? (
