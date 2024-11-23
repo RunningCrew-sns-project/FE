@@ -7,9 +7,9 @@ import toast from 'react-hot-toast'
 
 type CommentProps = {
     isEdit: boolean;
-    setisEdit: () => void;
+    setisEdit: (value: boolean) => void;
     content: string;
-    setdropdownOpen: () => void;
+    setdropdownOpen: (value: boolean) => void;
     blogId: number;
     commentId: number;
 }

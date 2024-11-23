@@ -11,7 +11,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 
-type BlogCardInput = {
+export type BlogCardInput = {
     title: string;
     content: string;
     record: string;
@@ -64,13 +64,26 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
         handleSubmit,
         formState: { errors },
         watch,
-        setValue
+        setValue,
+        getValues
     } = useForm<BlogCardInput>()
 
     const navigate = useNavigate();
     const [blogImages, setblogImages] = useState(imageUrl || []);;
 
     const methods = useForm<BlogInputProps>();
+
+    useEffect(() => {
+        if (isEdit) {
+            setValue('title', title || '');
+            setValue('content', content || '');
+            setValue('distance', distance || '');
+            setValue('record', record || '');
+            setValue('imageUrl', imageUrl || []);
+        }
+    }, [isEdit, title, content, distance, record, imageUrl, setValue]);
+
+
     const onSubmit = async (BlogCardData: BlogCardInput) => {
 
         try {
@@ -84,14 +97,14 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
             BlogCardData["imageUrl"] = fileUrls
             console.log('BlogData', BlogCardData)
 
+            const currentValues = getValues();
             const writeBlogData = {
-                title: BlogCardData.title,
-                content: BlogCardData.content,
-                distance: BlogCardData.distance,
-                record: BlogCardData.record,
-                imageUrl: BlogCardData.imageUrl
+                title: BlogCardData.title || currentValues.title,
+                content: BlogCardData.content || currentValues.content,
+                distance: BlogCardData.distance || currentValues.distance,
+                record: BlogCardData.record || currentValues.record,
+                imageUrl: blogImages.length > 0 ? blogImages : currentValues.imageUrl
             };
-            console.log('writeBlogData', writeBlogData)
 
             if (isEdit) {
                 editBlog({ updateblogData: writeBlogData, blogId })

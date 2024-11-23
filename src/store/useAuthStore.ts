@@ -6,8 +6,8 @@ const useAuthStore = create(
     (set) => ({
       userId: null,
       isLoggedIn: false,
-      setUserId: (userId) => set({ userId }),
-      setLoginState: (isLoggedIn) => set({ isLoggedIn }),
+      setUserId: (userId :number) => set({ userId }),
+      setLoginState: (isLoggedIn :boolean) => set({ isLoggedIn }),
       logout: () => {
         set({ userId: null, isLoggedIn: false });
         localStorage.removeItem('auth_token');

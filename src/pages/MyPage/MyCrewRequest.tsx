@@ -4,6 +4,25 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast'
 
+interface crewType {
+    crewId: number;
+    crewName: string;
+    maxCapacity: number;
+    memberCount: number;
+    crewUserResponses: crewrequestUsers[];
+}
+
+interface crewrequestUsers {
+    nickname: string;
+    userImageUrl: string;
+    profileMessage: string | null,
+    gender: string;
+    status: string;
+    applicationDate: string;
+    userId: number;
+    crewId: number;
+}
+
 const MyCrewRequest = () => {
     const { data: myCrewRequstUser, isLoading } = useQuery({ queryKey: ['myCrewRequestUsers'], queryFn: () => myCrewRequestUsers() })
 
@@ -35,18 +54,18 @@ const MyCrewRequest = () => {
     })
 
 
-    const handleApprovecrewjoin = (crewId, requestCrewUserId, approveOrReject) => {
+    const handleApprovecrewjoin = (crewId: number, requestCrewUserId: number, approveOrReject: boolean) => {
         approveCrew({ crewId, requestCrewUserId, approveOrReject });
     }
 
-    const handleRejectcrewjoin = (crewId, requestCrewUserId, approveOrReject) => {
+    const handleRejectcrewjoin = (crewId: number, requestCrewUserId: number, approveOrReject: boolean) => {
         rejectCrew({ crewId, requestCrewUserId, approveOrReject });
     }
 
     return (
         <>
             <div className="crew-list-container">
-                {!isLoading && myCrewRequstUser.data.success.responseData.map((crew) => (
+                {!isLoading && myCrewRequstUser.data.success.responseData.map((crew: crewType) => (
                     <div key={crew.crewId} className="crew-card border p-4 rounded-lg mb-4 shadow-sm text-white">
                         <h2 className="text-lg font-semibold text-white">{crew.crewName}</h2>
                         <p>최대인원: {crew.maxCapacity}</p>

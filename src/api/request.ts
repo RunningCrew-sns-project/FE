@@ -7,8 +7,10 @@ import {
 } from "axios";
 import toast from "react-hot-toast";
 
-const BASE_PATH =
-	"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080";
+// const BASE_PATH =
+// 	"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080";
+
+const BASE_PATH =	"https://runlink.kro.kr"
 
 const Instance = () => {
 	const auth_token = localStorage.getItem("auth_token");

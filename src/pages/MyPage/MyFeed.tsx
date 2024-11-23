@@ -43,7 +43,6 @@ const MyFeed = () => {
 
 	const requestPost = async () => {
 		const res = await getMyFeed();
-		console.log("res", res);
 		if (res.status === 200) {
 			setFeedData(res.data.success.responseData.currentScrollItems);
 		}

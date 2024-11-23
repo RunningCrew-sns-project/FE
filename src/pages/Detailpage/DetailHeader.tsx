@@ -1,7 +1,11 @@
 import SlickSlider from "../../components/Slider/slider";
 
+type ImgArrayProps = {
+    imgarray: string[];
+};
 
-const DetailHeader = ({ imgarray }) => {
+
+const DetailHeader = ({ imgarray }: ImgArrayProps) => {
 
     const sliderSettings = {
         dots: true,
@@ -17,7 +21,7 @@ const DetailHeader = ({ imgarray }) => {
         <>
             <div className="h-96 w-full tablet:w-[700px] laptop:w-[1100px] mx-auto bg-gradient-to-r relative overflow-x-hidden">
                 <SlickSlider settings={sliderSettings}>
-                    {imgarray.length > 0 ? imgarray.map((img, index) => (
+                    {imgarray.length > 0 ? imgarray.map((img: string, index: number) => (
                         <div key={index} className="w-full h-72">
                             <img
                                 src={img}

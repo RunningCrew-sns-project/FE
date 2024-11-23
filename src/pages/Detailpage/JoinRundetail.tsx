@@ -32,6 +32,9 @@ const JoinRundetail = () => {
         },
     })
 
+    if (!isLoading) {
+        console.log('generalrunningdata', generalrunningdata)
+    }
 
 
     const [isOpen, setIsOpen] = useState(false)
@@ -40,7 +43,7 @@ const JoinRundetail = () => {
     }
 
     //todo. 런닝에 참여하는 api 
-    const handlegeneralrunning = (runId) => {
+    const handlegeneralrunning = (runId: number) => {
         const parsedrunId = Number(runId);
         mutate(parsedrunId);
         setIsOpen(false)

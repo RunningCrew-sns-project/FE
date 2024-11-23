@@ -38,7 +38,7 @@ const ApplicationModal = ({ leftButtontext, rightbuttontext, leftButtonevent, ri
                                 {leftButtontext}
                             </Button>
                         )}
-                        {leftvisible && <Button className="bg-[#BFFF00]" onClick={rightbuttonevent}>
+                        {rightvisible && <Button className="bg-[#BFFF00]" onClick={rightbuttonevent}>
                             {rightbuttontext}
                         </Button>}
                     </div>
