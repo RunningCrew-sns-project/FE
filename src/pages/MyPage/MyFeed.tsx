@@ -109,7 +109,6 @@ const MyFeed = () => {
 	return (
 		<div className="h-full w-full tablet:w-[400px] laptop:w-[800px] mx-auto px-8 flex flex-col items-center gap-4 bg-black">
 			{feedData.map((myFeed) => {
-				console.log(myFeed, "myFeed");
 				return <Post data={myFeed} />;
 			})}
 			<InfiniteScroll isLastPage={true} fetch={requestPost} />

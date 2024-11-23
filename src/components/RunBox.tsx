@@ -1,9 +1,13 @@
 import React from "react";
-import { IoPeopleSharp } from "react-icons/io5";
+import {
+	IoPeopleSharp,
+	IoLocationOutline,
+	IoTimeOutline,
+	IoCalendarOutline,
+} from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import bagigImg from "../assets/mianBanner1_bg.jpg";
 
-// Unified interface that combines both RunProps and CrewProps
 interface PostProps {
 	title: string;
 	location: string;
@@ -25,12 +29,13 @@ interface PostProps {
 const RunBox: React.FC<PostProps> = (props) => {
 	const navigate = useNavigate();
 
-	const statusStyle: Record<string, string> = {
-		시작전: "bg-white",
-		진행중: "bg-primary",
-		완료: "bg-black text-white",
-		모집중: "bg-primary",
-		만원: "bg-black text-white",
+	const statusStyle: Record<string, { bg: string; text: string }> = {
+		시작전: { bg: "bg-blue-100", text: "text-blue-700" },
+		진행중: { bg: "bg-green-100", text: "text-green-700" },
+		완료: { bg: "bg-gray-100", text: "text-gray-700" },
+		모집중: { bg: "bg-primary", text: "text-black" },
+		만원: { bg: "bg-red-100", text: "text-red-700" },
+		"가입 완료": { bg: "bg-purple-100", text: "text-purple-700" },
 	};
 
 	const handlemovedetail = () => {
@@ -43,56 +48,70 @@ const RunBox: React.FC<PostProps> = (props) => {
 		}
 	};
 
+	const getStatusStyle = (status: string) => {
+		return statusStyle[status] || { bg: "bg-gray-100", text: "text-gray-700" };
+	};
+
 	return (
 		<div
 			onClick={handlemovedetail}
-			className={`w-[170px] cursor-pointer flex flex-col laptop:flex-row laptop:w-[400px] rounded-lg bg-gray-900`}
+			className="group w-[170px] cursor-pointer flex flex-col laptop:flex-row laptop:w-[400px] rounded-xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
 		>
-			<div className={`w-[170px] h-[160px] relative shrink-0`}>
+			<div className="w-[170px] h-[160px] relative shrink-0 overflow-hidden rounded-t-xl laptop:rounded-l-xl laptop:rounded-tr-none">
 				<img
 					src={
 						Array.isArray(props.banners) && props.banners.length > 0
 							? props.banners[0].url
 							: props.banner || bagigImg
 					}
-					className="object-cover w-full h-full rounded-lg"
+					className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
 					alt={props.title}
 				/>
 				{props.status && (
 					<div
-						className={`absolute right-2 top-2 rounded-xl ${statusStyle[props.status]}`}
+						className={`absolute right-2 top-2 rounded-full px-3 py-1 ${
+							getStatusStyle(props.status).bg
+						} ${getStatusStyle(props.status).text} text-sm font-medium`}
 					>
-						<span className="px-3 truncate">{props.status}</span>
+						{props.status}
 					</div>
 				)}
-				<div className="absolute bottom-2 left-2 flex items-center gap-1">
-					<div className="bg-black rounded-xl text-white text-sm px-3 flex items-center gap-2">
-						<IoPeopleSharp color="white" />
-						{props.people}/{props.maximumPeople}
+				<div className="absolute bottom-2 left-2">
+					<div className="bg-black/70 backdrop-blur-sm rounded-full py-1 px-3 text-white text-sm flex items-center gap-2">
+						<IoPeopleSharp />
+						<span className="font-medium">
+							{props.people}/{props.maximumPeople}
+						</span>
 					</div>
 				</div>
 			</div>
 
-			<div className="px-2 pb-2 flex flex-col mt-2 gap-1 laptop:p-4 laptop:mt-0 flex-grow overflow-hidden">
-				<h1 className="text-white font-semibold text-lg truncate">
+			<div className="px-3 py-3 flex flex-col gap-2 laptop:p-4 flex-grow">
+				<h1 className="text-gray-900 font-semibold text-lg truncate">
 					{props.title}
 				</h1>
-				<div className="flex text-sm justify-between laptop:flex-col laptop:justify-between laptop:h-full">
-					<span className="text-white truncate">{props.location}</span>
+
+				<div className="flex flex-col gap-2 text-sm">
+					<div className="flex items-center gap-2">
+						<IoLocationOutline className="text-lg" />
+						<p className="text-gray-600 truncate">{props.location}</p>
+					</div>
 
 					{props.crewIntroduction && (
-						<p className="text-white hidden laptop:block">
+						<p className="text-gray-500 hidden laptop:block line-clamp-2">
 							{props.crewIntroduction}
 						</p>
 					)}
 
 					{props.date && props.startTime && (
-						<div className="flex laptop:flex-col laptop:gap-2">
-							<div className="bg-white rounded-xl px-2 mr-1 truncate w-[50px] laptop:w-fit">
-								{props.date}
+						<div className="flex flex-wrap gap-2">
+							<div className="flex items-center gap-1 text-gray-600">
+								<IoCalendarOutline />
+								<span>{props.date}</span>
 							</div>
-							<div className="bg-white rounded-xl px-2 truncate w-[50px] laptop:w-fit">
-								{props.startTime}
+							<div className="flex items-center gap-1 text-gray-600">
+								<IoTimeOutline />
+								<span>{props.startTime}</span>
 							</div>
 						</div>
 					)}

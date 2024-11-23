@@ -33,7 +33,7 @@ const KakaoCallback = () => {
 						setUserId(response.data.success.responseData.userId);
 						setLoginState(true);
 						// 메인 페이지로 이동
-						toast("로그인 성공!");
+						toast.success("로그인 성공!");
 						navigate("/");
 					} else if (response.status === 201) {
 						navigate("/join", {
