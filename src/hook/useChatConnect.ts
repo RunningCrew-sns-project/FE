@@ -158,7 +158,7 @@ const useChatConnect = (roomId  : string | null ) => {
     })
   }
 
-  return { message, sendMessage ,  userName , leaveRoom};
+  return { message, sendMessage ,  userName , leaveRoom, getInitialMsg , lastTime};
 };
 
 export default useChatConnect;

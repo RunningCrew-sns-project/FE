@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Button from "../../components/Button";
 import { LocationData } from "../Running/RunningContent";
-import useDebounce from "../../hook/useDebounce ";
+import { useDebounce } from "../../hook/useDebounce ";
+
 
 
 

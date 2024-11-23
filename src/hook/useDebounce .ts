@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 
 
-const useDebounce  = (value: string, delay:number) => {
+export const useDebounce  = (value: string , delay:number) => {
   const [delayValue, setDelayValue] = useState(value)
 
   useEffect(() => {
@@ -18,4 +18,3 @@ const useDebounce  = (value: string, delay:number) => {
   return delayValue
 }
 
-export default useDebounce
