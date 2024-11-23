@@ -23,16 +23,6 @@ export interface CrewInfo {
 	activityRegion: string;
 }
 
-// export interface PostItem {
-// 	image: string;
-// 	title: string;
-// 	region: string;
-// 	date: string;
-// 	time: string;
-// 	status: "모집중" | "진행중" | "완료";
-// 	maxMember: number;
-// 	people: number;
-// }
 
 
 const CrewPage = () => {

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 interface recordsProps  {
 	isOpen : boolean;
-	selectedCrewId : string ;
+	selectedCrewId? : string ;
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>; 
 }
 

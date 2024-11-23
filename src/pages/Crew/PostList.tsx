@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 interface PostListProps {
 	items: Item[];
 	setPage: (page: number) => void;
-	selectedCrewId: string ;
+	selectedCrewId?: string ;
 	setStartDate: (startDate: Date | null) => void;
 	setArea: (area: string) => void;
 	setSortOrder: (sortOrder: string) => void;
