@@ -4,12 +4,12 @@ import ReactDOM from 'react-dom';
 
 type ModalProps = {
     children: ReactNode;
-    leftButtontext: string;
+    leftButtontext?: string;
     rightbuttontext: string;
-    leftButtonevent: () => void;
+    leftButtonevent?: () => void;
     rightbuttonevent: () => void;
-    leftvisible?: true;
-    rightvisible?: true;
+    leftvisible?: boolean;
+    rightvisible?: boolean;
 }
 
 const ApplicationModal = ({ leftButtontext, rightbuttontext, leftButtonevent, rightbuttonevent, leftvisible = true, rightvisible = true, children }: ModalProps) => {

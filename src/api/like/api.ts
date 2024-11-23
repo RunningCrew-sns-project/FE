@@ -15,7 +15,7 @@ export const useLikeMutation = () => {
       await queryClient.cancelQueries({queryKey:['blogs']});
 
       const previousBlogs = queryClient.getQueryData(['blogs']);
-      queryClient.setQueryData('blogs', (old: any = []) =>
+      queryClient.setQueryData({queryKey:['blogs']}, (old: any = []) =>
         old.map((blog: any) =>
           blog.id === blogId
             ? {
@@ -32,7 +32,7 @@ export const useLikeMutation = () => {
       console.log(err)
     },
     onSettled: () => {
-      queryClient.invalidateQueries(['blogs']);
+      queryClient.invalidateQueries({queryKey:['blogs']});
     },
   });
 };

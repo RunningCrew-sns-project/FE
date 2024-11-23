@@ -70,15 +70,15 @@ const JoinRundetail = () => {
                     rightbuttonevent={handlecloseModal}
                 >
                     <>
-                        <div class="flex items-center justify-center">
+                        <div className="flex items-center justify-center">
                             <div className="mr-2 text-xl" ><GiRunningShoe /></div>
                             <div>
                                 <div>달리기명 : {generalrunningdata.data.responseData.title}</div>
                                 <div>지역 : {generalrunningdata.data.responseData.location}</div>
                             </div>
                         </div>
-                        <div class="top-11 flex">
-                            <div class="top-10"> {generalrunningdata.data.responseData.title} 달리기 참여 안내사항을 확인해주세요</div>
+                        <div className="top-11 flex">
+                            <div className="top-10"> {generalrunningdata.data.responseData.title} 달리기 참여 안내사항을 확인해주세요</div>
                         </div>
                     </>
                 </ApplicationModal> : ''

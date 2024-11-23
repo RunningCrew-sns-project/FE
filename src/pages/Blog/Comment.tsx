@@ -27,7 +27,7 @@ const Comment = (props: CommentProps) => {
         mutationFn: deleteComment,
         onSuccess: (data) => {
             console.log("댓글 삭제 성공:", data);
-            queryClient.invalidateQueries(['comment', props.blogId]);
+            queryClient.invalidateQueries({ queryKey: ['comment', props.blogId] });
         },
         onError: (error) => {
             console.error("댓글 삭제 실패:", error);

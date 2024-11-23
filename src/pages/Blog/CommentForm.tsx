@@ -21,7 +21,8 @@ const CommentForm = ({ isEdit, setisEdit, content, setdropdownOpen, blogId, comm
     const { mutate } = useMutation({
         mutationFn: updateComment,
         onSuccess: () => {
-            queryClient.invalidateQueries(['blogdetail', blogId]);
+            queryClient.invalidateQueries({ queryKey: ['comment', blogId] });
+            toast.success('댓글이 삭제되었습니다!')
         },
         onError: (error) => {
             console.error("댓글 삭제 실패:", error);
@@ -34,14 +35,14 @@ const CommentForm = ({ isEdit, setisEdit, content, setdropdownOpen, blogId, comm
         seteditComment(e.target.value)
     }
 
-    const handlesubmitEditcomment = (e: React.FormEvent) => {
-        e.preventDefault();
+    const handlesubmitEditcomment = () => {
         const updatecommentData = {
             content: editComment
         }
         mutate({ commentId, updatecommentData });
         setisEdit(false)
         setdropdownOpen(false)
+        queryClient.invalidateQueries({ queryKey: ['comment', blogId] });
         toast.success('댓글이 수정되었습니다!')
     }
 

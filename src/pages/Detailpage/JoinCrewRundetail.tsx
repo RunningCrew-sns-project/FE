@@ -19,7 +19,7 @@ const JoinCrewrundetail = () => {
     const { data: joincrewrundata, isLoading } = useQuery({ queryKey: ['crewrunInfo', runId], queryFn: () => getcrewrunInfo(runId) })
     const { mutate } = useMutation({
         mutationFn: joinCrewRun,
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success('크루와 함께 달리기 신청되었습니다.')
         },
         onError: (error) => {
@@ -57,7 +57,7 @@ const JoinCrewrundetail = () => {
             {!isLoading &&
                 <>
                     <DetailHeader imgarray={joincrewrun.crewPostImageUrl}></DetailHeader>
-                    <DetailInfo info={joincrewrun} handlAskjoin={handleAskcrewrunjoin} buttonText={userId === joincrewrundata.data.responseData.authorId ? "크루와 달리기 담당자" : "크루달리기 참여하기"} ></DetailInfo>
+                    <DetailInfo info={joincrewrun} handlAskjoin={handleAskcrewrunjoin} buttonText={userId === joincrewrun.authorId ? "크루와 달리기 담당자" : "크루달리기 참여하기"} ></DetailInfo>
                 </>
             }
             {
@@ -68,15 +68,15 @@ const JoinCrewrundetail = () => {
                     rightbuttonevent={handlecloseModal}
                 >
                     <>
-                        <div class="flex items-center justify-center">
+                        <div className="flex items-center justify-center">
                             <div className="mr-2 text-xl" ><GiRunningShoe /></div>
                             <div>
-                                <div>크루명 : {joincrewrundata.crewname}</div>
-                                <div>지역 : {joincrewrundata.location}</div>
+                                <div>크루명 : {joincrewrundata.data.responseData.crewName}</div>
+                                <div>지역 : {joincrewrundata.data.responseData.location}</div>
                             </div>
                         </div>
 
-                        <span>{joincrewrundata.crewname} 가입 안내사항을 확인해주세요</span>
+                        <span>{joincrewrundata.data.responseData.crewName} 가입 안내사항을 확인해주세요</span>
                     </>
                 </ApplicationModal> : ''
             }

@@ -23,7 +23,7 @@ const settings = {
 };
 
 interface FeedData {
-	blogId: number | string;
+	blogId: number;
 	content: string;
 	createdAt: string;
 	distance: string;
@@ -53,7 +53,7 @@ const MyFeed = () => {
 		setFeedData((prev) => prev.filter((feed: any) => feed.blogId !== id));
 	};
 
-	const handlemoveEditblog = (blogId: number | string) => {
+	const handlemoveEditblog = (blogId: number) => {
 		const selectedFeed = feedData.find(
 			(feed: FeedData) => feed.blogId === blogId,
 		);

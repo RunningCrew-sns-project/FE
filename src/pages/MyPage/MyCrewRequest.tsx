@@ -24,7 +24,7 @@ interface crewrequestUsers {
 }
 
 const MyCrewRequest = () => {
-    const { data: myCrewRequstUser, isLoading } = useQuery({ queryKey: ['myCrewRequestUsers'], queryFn: () => myCrewRequestUsers() })
+    const { data: myCrewRequstUser, isLoading } = useQuery({ queryKey: ['myCrewRequestUsers'], queryFn: myCrewRequestUsers })
 
     const queryClient = useQueryClient();
     const { mutate: approveCrew } = useMutation({
@@ -32,11 +32,11 @@ const MyCrewRequest = () => {
         onSuccess: (data) => {
             if (data.data.success.code === 200) {
                 toast.success('가입 승인되었습니다.')
-                queryClient.invalidateQueries(['myCrewRequstUser']);
+                queryClient.invalidateQueries({ queryKey: ['myCrewRequestUsers'] });
             }
         },
-        onError: (error) => {
-            console.log('Error object:', error);
+        onError: () => {
+            console.log('Error object:');
         },
     })
 
@@ -45,7 +45,7 @@ const MyCrewRequest = () => {
         onSuccess: (data) => {
             if (data.data.success.code === 200) {
                 toast.success('가입 거절되었습니다.')
-                queryClient.invalidateQueries(['myCrewRequstUser']);
+                queryClient.invalidateQueries({ queryKey: ['myCrewRequestUsers'] });
             }
         },
         onError: (error) => {
@@ -53,6 +53,13 @@ const MyCrewRequest = () => {
         },
     })
 
+    if (isLoading) return <div>Loading...</div>;
+
+    if (!myCrewRequstUser || !myCrewRequstUser.data.success.responseData) {
+        return <p className="text-white-500" >크루 가입 요청이 없습니다.</p>;
+    }
+
+    const myCrewRequstUserData = myCrewRequstUser.data.success.responseData;
 
     const handleApprovecrewjoin = (crewId: number, requestCrewUserId: number, approveOrReject: boolean) => {
         approveCrew({ crewId, requestCrewUserId, approveOrReject });
@@ -65,7 +72,7 @@ const MyCrewRequest = () => {
     return (
         <>
             <div className="crew-list-container">
-                {!isLoading && myCrewRequstUser.data.success.responseData.map((crew: crewType) => (
+                {myCrewRequstUserData.map((crew: crewType) => (
                     <div key={crew.crewId} className="crew-card border p-4 rounded-lg mb-4 shadow-sm text-white">
                         <h2 className="text-lg font-semibold text-white">{crew.crewName}</h2>
                         <p>최대인원: {crew.maxCapacity}</p>
@@ -108,7 +115,7 @@ const MyCrewRequest = () => {
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-white-500">현재 가입 요청자가 없습니다.</p>
+                                <p className="text-black-500">현재 가입 요청자가 없습니다.</p>
                             )}
                         </div>
                     </div>

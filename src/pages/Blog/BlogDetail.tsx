@@ -46,11 +46,11 @@ const BlogDetail = () => {
     const { mutate } = useMutation({
         mutationFn: writeComment,
         onSuccess: () => {
-            queryClient.invalidateQueries(['blogdetail', blogId]);
+            queryClient.invalidateQueries({ queryKey: ['comment', blogId] });
             toast.success('댓글이 작성되었습니다!');
         },
-        onError: (error) => {
-            console.error("댓글 작성 실패:", error);
+        onError: () => {
+            console.error("댓글 작성 실패:");
         },
     });
 
@@ -83,6 +83,7 @@ const BlogDetail = () => {
             }
             return responseData.nextCursor?.commentId;
         },
+        initialPageParam: 0,
     });
 
     if (isLoading) return <div>Loading...</div>;
