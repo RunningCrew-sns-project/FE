@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from "../../components/Button";
 import { LocationData } from "../Running/RunningContent";
+import useDebounce from "../../hook/useDebounce ";
 
 
 
@@ -13,9 +14,8 @@ interface SearchKeywordProps {
 
 const SearchKeword = ({locationData, setLocationData}:SearchKeywordProps) => {
 	const [isChange, setIsChange] = useState(true);
-
-
-
+	const [address, setAddress] = useState('')
+	const debounceValue = useDebounce(address, 500)
   const handleChangeState = () => {
     setIsChange((prev) =>  !prev)
   }
@@ -23,9 +23,10 @@ const SearchKeword = ({locationData, setLocationData}:SearchKeywordProps) => {
 
   const handleUpdateAdress = (e :React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+		setAddress(value)
 		setLocationData((prevData) => ({
 			...prevData,
-			[name]: value, // name에 따라 startAddress 또는 endAddress를 업데이트
+			[name]: debounceValue, // name에 따라 startAddress 또는 endAddress를 업데이트
 		}));
   }
 

@@ -120,11 +120,12 @@ const CrewPage = () => {
 		<>
 			<ThemWrapperBody theme="dark">
 				<ResponsiveContainer>
-					<div className="mb-16 pt-24">
+					<div className="mb-16 pt-24 sticky top-0">
 						<MyCrewList mycrew={mycrew} handleDetailCrew={handleDetailCrew} />
 					</div>
 				</ResponsiveContainer>
-				{info && <CrewBanner info={info} />}
+				<div className="overflow-y-auto max-h-screen">
+						{info && <CrewBanner info={info} />}
 				<ResponsiveContainer>
 					{isOepnManger === true ? (
 						<CrewManger setIsOpenManger={setIsOpenManger} crewId={selectedCrewId} />
@@ -147,6 +148,7 @@ const CrewPage = () => {
 						)
 					)}
 				</ResponsiveContainer>
+				</div>
 			</ThemWrapperBody>
 		</>
 	);

@@ -119,7 +119,7 @@ const RunListPage = () => {
 				<ResponsiveContainer>
 					<div className=" flex flex-col mt-8 tablet:flex-col laptop:flex-row desktop:flex-row ">
 						{/* 필터 */}
-						<div className="w-full flex flex-col space-y-4 mr-6 mb-4 laptop:max-w-xs desktop:max-w-xs">
+						<div className="w-full flex flex-col space-y-4 mr-6 mb-4 laptop:max-w-xs desktop:max-w-xs sticky top-0">
 							<DateFilter
 								startDate={startDate}
 								setStartDate={setStartDate}
@@ -153,7 +153,7 @@ const RunListPage = () => {
 								</div>
 							</div>
 							<hr className="border border-white my-4" />
-							<div>
+							<div className="overflow-y-auto max-h-screen">
 							<ItemList runData={items} />
 							</div>
 						</div>

@@ -117,7 +117,6 @@ const RunningContent = () => {
 
 	const hadleCrewCheck = () => {
 		if(roomData){
-			console.log('실해애여부체크 ')
 			const title = roomData.title;
 			console.log(title)
 			if(title.includes("crew")){
