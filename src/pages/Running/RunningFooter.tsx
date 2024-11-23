@@ -3,39 +3,46 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import RunResultModal from "../../components/Modal/RunResult";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface RunningFooterProps {
-  stop: () => void;
-  setIsStop: (value: boolean) => void;
-  data: { time: string; progress: number }; // data의 구조에 따라 수정 필요
+	stop: () => void;
+	setIsStop: (value: boolean) => void;
+	data: { time: string; progress: number }; // data의 구조에 따라 수정 필요
 	distance: number | undefined;
 }
 
-const RunningFooter = ({stop, setIsStop, data, distance}:RunningFooterProps) => {
+const RunningFooter = ({
+	stop,
+	setIsStop,
+	data,
+	distance,
+}: RunningFooterProps) => {
 	const { isMobile, isTablet } = useDevice();
 	const [isOpen, setIsOpen] = useState(false);
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
-  const roomId = queryParams.get("roomId"); 
+	const roomId = queryParams.get("roomId");
+	const { roomData, id } = location.state || {};
+	console.log("푸터에서 확인 룸데이터", roomData, "겟기글 아디이", id);
 
 	const handleOpneModal = () => {
-		stop()
+		stop();
 		setIsOpen(true);
 		setIsStop(true);
 	};
 
-
-  const handleCloseModal = () => {
+	const handleCloseModal = () => {
 		setIsOpen(false);
-		setIsStop(false)
-	}
-
+		setIsStop(false);
+	};
 
 	const hadleMoveChat = () => {
-		navigate(`/chat?roomId=${roomId}`);
-	}
-  
+		navigate(`/chat?roomId=${roomId}`, {
+			state: { roomData: roomData, id: id },
+		});
+	};
 
 	return (
 		<>
@@ -58,7 +65,12 @@ const RunningFooter = ({stop, setIsStop, data, distance}:RunningFooterProps) => 
 						<FontAwesomeIcon icon={faDoorOpen} className="text-2xl mb-1" />
 						<span className="text-xs">종료하기</span>
 					</div>
-					<RunResultModal isOpen={isOpen} onClose={handleCloseModal} data={data} distance={distance} />
+					<RunResultModal
+						isOpen={isOpen}
+						onClose={handleCloseModal}
+						data={data}
+						distance={distance}
+					/>
 				</div>
 			</div>
 		</>
