@@ -43,7 +43,6 @@ const JoinCrewdetail = () => {
     const { mutate } = useMutation({
         mutationFn: joinCrew,
         onSuccess: (data) => {
-            console.log('data', data)
             if (data.data.success.code === 200) {
                 toast.success('크루에 가입 요청되었습니다.')
                 queryClient.invalidateQueries(['aboutUser', crewId]);
