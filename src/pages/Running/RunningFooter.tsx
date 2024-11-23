@@ -25,7 +25,7 @@ const RunningFooter = ({
 	const queryParams = new URLSearchParams(location.search);
 	const roomId = queryParams.get("roomId");
 	const { roomData, id } = location.state || {};
-	console.log("푸터에서 확인 룸데이터", roomData, "겟기글 아디이", id);
+	
 
 	const handleOpneModal = () => {
 		stop();

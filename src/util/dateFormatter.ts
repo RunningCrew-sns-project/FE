@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 
-export const dateFormatter = (selectDate : Date | string | null ) => {
+export const dateFormatter = (selectDate : Date | string | null  ) => {
   // selectDate가 빈 문자열인지 확인
   if (!selectDate) {
     return {

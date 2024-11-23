@@ -29,7 +29,7 @@ const Running = ({isStop,setData , locationData }:RunningProps) => {
 	const { start, formatTime, time, pause } = useStopWatch();
 	const { progress, currentlocation } = useMovePercent(locationData);
 	const { isMobile, isTablet } = useDevice();
-
+	
 
 
 
@@ -55,7 +55,7 @@ const Running = ({isStop,setData , locationData }:RunningProps) => {
 					/>
 				</div>
 				<div className="absolute  z-30  top-[40px] left-1/2 transform -translate-x-1/2 font-black bg-white p-4 rounded-full text-xl ">
-					{formatTime(time)}
+				{ formatTime(time)}
 				</div>
 				<div
 					className={`${
@@ -64,7 +64,7 @@ const Running = ({isStop,setData , locationData }:RunningProps) => {
 							: " absolute  z-30 top-[440px] left-1/2 transform -translate-x-1/2 "
 					} `}
 				>
-					<ProgressBar start={start} pause={pause} progress={progress} />
+					<ProgressBar start={start} pause={pause} progress={progress}  />
 				</div>
 			</div>
 		</>
