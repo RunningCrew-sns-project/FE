@@ -14,20 +14,23 @@ import InfiniteScroll from "../../components/InfiniteScroll";
 import { getCrewListApi, getRunListApi } from "../../api/run/api";
 
 
-
 const RunListPage = () => {
 	const { isMobile } = useDevice();
 
+	//필터링 요소
 	const currentDate = new Date();
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [area, setArea] = useState("");
 	const [sortOrder, setSortOrder] = useState("newest"); // 기본값은 최신순
 	const [reversem, setReverse] = useState(false);
-	const [items, setItems] = useState<Item[]>([]);
 	const [cursor, setCursor] = useState(null);
 	const [runCursor, setRunCursor] = useState(null);
 	const [cursorNext, setNextCursor] = useState();
 	const [isLastPage, setIsLastPage] = useState(false);
+
+	//아이템
+
+	const [items, setItems] = useState<Item[]>([]);
 
 	//카테고리
 	const [searchParms] = useSearchParams();
@@ -37,7 +40,7 @@ const RunListPage = () => {
 	const getCrewlist = async () => {
 		const CrewFilter = {
 			size: 20,
-			cursor: cursor ,
+			cursor: cursor,
 			cursorId: cursorNext,
 			reverse: reversem,
 			criteria: "latest",
@@ -150,8 +153,8 @@ const RunListPage = () => {
 								</div>
 							</div>
 							<hr className="border border-white my-4" />
-							<div className="">
-								<ItemList runData={items} />
+							<div>
+							<ItemList runData={items} />
 							</div>
 						</div>
 					</div>

@@ -80,15 +80,25 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 
 
 	// 강퇴처리 
-	const handleOut = (userId : string, nickname: string) => {
+	const handleOut = (userId : string, nickname: string, status:string) => {
 
 		//낙관적 ui 업데이트  필요 
-		setMembers((prevMember) => prevMember.filter((member) => member.userId.toString() != userId.toString())  )
+		
 
 		try{
-			deleteMember(crewId, userId )
-			toast(`${nickname}님이 강퇴처리되었습니다. `)
-			fetchCrewMember()
+			if(status !== '가입 대기'){
+				setMembers((prevMember) => 
+					prevMember.map((member) => 
+							member.userId.toString() === userId.toString() 
+									? { ...member, status: '강제 탈퇴' }
+									: member
+					)
+			);
+				deleteMember(crewId, userId )
+				toast(`${nickname}님이 강퇴처리되었습니다. `)
+			}else{
+				toast(`${nickname}님은 아직 크루원이 아닙니다.`)
+			}
 		}
 		catch(error){
 			console.log(error)
@@ -154,7 +164,7 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 									</Button>
 								</div>
 								<div className="flex-1 text-center border-r border-white px-2">
-									<Button type="button" theme="primary" onClick={() => handleOut(member.userId.toString() , member.nickname)}>
+									<Button type="button" theme="primary" onClick={() => handleOut(member.userId.toString() , member.nickname, member.status)}>
 										강퇴
 									</Button>
 								</div>

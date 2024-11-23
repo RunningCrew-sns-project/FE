@@ -152,6 +152,10 @@ const useChatConnect = (roomId  : string | null ) => {
         })
       )
     }
+
+    stompClient?.disconnect(() => {
+      console.log('구독해제')
+    })
   }
 
   return { message, sendMessage ,  userName , leaveRoom};
