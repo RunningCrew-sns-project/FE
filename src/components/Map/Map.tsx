@@ -1,6 +1,6 @@
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import PlaceConverter from "./PlaceConverter";
-import React from "react";
+import React, { useEffect } from "react";
 import { LocationData } from "../../pages/Running/RunningContent";
 
 interface MapPageProps {
@@ -20,6 +20,16 @@ const MapPage = ({
 	className = "",
 	currentlocation
 }: MapPageProps) => {
+
+
+
+	
+useEffect(() => {
+
+},[locationData.endCoordinates])
+
+
+	
 	return (
 		<>
 			<PlaceConverter
@@ -29,7 +39,7 @@ const MapPage = ({
 			<Map
 				center={
 					locationData.startCoordinates ||
-					locationData.endCoordinates || { lat: 33.5563, lng: 126.79581 }
+					locationData.endCoordinates 
 				}
 				style={{ width, height }}
 				level={3}

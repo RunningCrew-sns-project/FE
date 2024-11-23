@@ -98,3 +98,30 @@ export const postRunRecords = async (data: runRecords) => {
   const res = await http.post(`/api/runRecords/writeRunRecords`, data)
   return res
 }
+
+//일반달리기 참여자 조회 
+export const getRunMembers = async (runId: string) => {
+  const res = await http.get(`/api/join-posts/general/participants/approve-list/${runId}`)
+  return res
+}
+
+
+
+//크루달리기 조회 
+export const getCrewRunMembers = async(runId : string) => {
+  const res = await http.get(`/api/join-posts/crews/participants/approve-list/${runId}`)
+  return res
+}
+
+// 일반 달리기 멤버 탈퇴 
+export const deleteRunMember = async(postId : string , badUserId: string) => {
+  const res = await http.delete(`/api/run-post/genral/${postId}/users/${badUserId}`)
+  return res
+}
+
+
+//크루 달리기 멤버 탈퇴 
+export const deleteCrewRunMember = async(postId: string, badUserId: string) => {
+  const res = await http.delete(`/api/run-post/crew/${postId}/users/${badUserId}`)
+  return res
+}
