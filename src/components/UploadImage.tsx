@@ -21,7 +21,7 @@ const UploadImage = ({
 	id,
 	onUploadFiles,
 	multiple,
-	uploadfileLength,
+	uploadfileLength = 5,
 	imgpreviewWidth,
 	imgpreviewHeight,
 	buttonClassName,
@@ -110,7 +110,7 @@ const UploadImage = ({
 						className={`cursor-pointer ${buttonpositionClassName} ml-auto`}
 						onClick={(event) => {
 							event.stopPropagation();
-							ref.current.click();
+							ref.current?.click();
 						}}
 					>
 						<div className={buttonClassName}>

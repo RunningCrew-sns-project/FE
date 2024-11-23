@@ -1,4 +1,3 @@
-import Button from '../../components/Button';
 import ApplicationModal from '../../components/ApplicationModal';
 import { useState } from 'react';
 import { GiRunningShoe } from "react-icons/gi";
@@ -7,7 +6,6 @@ import DetailInfo from './DetailInfo';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
 import { getrunInfo, joinRun } from '../../api/detail/general/api';
-import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast'
 
@@ -19,7 +17,6 @@ const JoinRundetail = () => {
     const { data: generalrunningdata, isLoading } = useQuery({ queryKey: ['runInfo', runId], queryFn: () => getrunInfo(runId) })
     const [buttonText, setbuttonText] = useState<string>('일반달리기 참여하기');
 
-    const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: joinRun,
         onSuccess: (data) => {

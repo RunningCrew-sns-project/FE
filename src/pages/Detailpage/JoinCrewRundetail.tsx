@@ -1,4 +1,3 @@
-import Button from '../../components/Button';
 import ApplicationModal from '../../components/ApplicationModal';
 import { useState } from 'react';
 import DetailInfo from './DetailInfo';
@@ -7,7 +6,6 @@ import { GiRunningShoe } from "react-icons/gi";
 import { getcrewrunInfo, joinCrewRun } from '../../api/detail/crewrun/api';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import useAuthStore from '../../store/useAuthStore';
 import toast from "react-hot-toast";
@@ -16,9 +14,7 @@ const JoinCrewrundetail = () => {
 
     let { runId } = useParams();
     const { userId } = useAuthStore()
-    const { data: joincrewrundata, isLoading, isError, error } = useQuery({ queryKey: ['crewrunInfo', runId], queryFn: () => getcrewrunInfo(runId) })
-
-    const queryClient = useQueryClient();
+    const { data: joincrewrundata, isLoading } = useQuery({ queryKey: ['crewrunInfo', runId], queryFn: () => getcrewrunInfo(runId) })
     const { mutate } = useMutation({
         mutationFn: joinCrewRun,
         onSuccess: (data) => {

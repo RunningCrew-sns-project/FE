@@ -65,8 +65,8 @@ const CommentForm = ({ isEdit, setisEdit, content, setdropdownOpen, blogId, comm
                             >
                             </input>
                             <div className="flex ml-2 space-x-2">
-                                <Button onClick={handlesubmitEditcomment} className="bg-[#BFFF00] w-20" type="submit">완료</Button>
-                                <Button onClick={handlecancelEditcomment} className="bg-[#BFFF00] w-20" type="submit">취소</Button>
+                                <Button theme="primary" onClick={handlesubmitEditcomment} className="bg-[#BFFF00] w-20" type="submit">완료</Button>
+                                <Button theme="primary" onClick={handlecancelEditcomment} className="bg-[#BFFF00] w-20" type="submit">취소</Button>
                             </div>
                         </form>
                     </div>

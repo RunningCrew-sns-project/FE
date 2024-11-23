@@ -9,14 +9,11 @@ import { getaboutUser, getCrewInfo, joinCrew, selfWithdrawlCrew } from '../../ap
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast'
-import moment from "moment";
-import { useNavigate } from "react-router-dom";
 
 const JoinCrewdetail = () => {
 
     let { crewId } = useParams();
 
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: joinCrew,
@@ -46,7 +43,7 @@ const JoinCrewdetail = () => {
         },
     })
 
-    const { data: crewInfo, isLoading, isError, error } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
+    const { data: crewInfo, isLoading } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
     const { data: aboutUser, isLoading: isaboutUserLoading } = useQuery({ queryKey: ['aboutUser', crewId], queryFn: () => getaboutUser(crewId) })
 
     const [isOpen, setIsOpen] = useState(false)
@@ -80,7 +77,6 @@ const JoinCrewdetail = () => {
 
     if (!isaboutUserLoading && aboutUser?.data?.success?.responseData !== undefined) {
         statustext = aboutUser.data.success.responseData.status;
-        const currentDate = moment().format('YYYY-MM-DD');
         if (!aboutUser.data.success.responseData.releaseDay || aboutUser.data.success.responseData.availableToJoin === true) {
             statustext = '크루 가입하기';
         }
@@ -99,7 +95,7 @@ const JoinCrewdetail = () => {
                         buttonText={aboutUser?.data?.success?.responseData === undefined
                             ? '크루 가입하기' : aboutUser.data.success.responseData.isMaster === true
                                 ? '크루 담당자' : statustext}></DetailInfo>
-                    {isOpen ? aboutUser?.data?.success?.responseData === undefined ? <ApplicationModal
+                    {isOpen ? aboutUser?.data?.success?.responseData === undefined || aboutUser?.data?.success?.responseData.availableToJoin === true ? <ApplicationModal
                         leftButtontext="가입할래요!"
                         rightbuttontext="취소"
                         leftButtonevent={() => handleJoincrew(crewId)}

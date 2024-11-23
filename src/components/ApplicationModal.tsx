@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import Button from "./Button";
 import ReactDOM from 'react-dom';
 
@@ -13,9 +13,6 @@ type ModalProps = {
 }
 
 const ApplicationModal = ({ leftButtontext, rightbuttontext, leftButtonevent, rightbuttonevent, leftvisible = true, rightvisible = true, children }: ModalProps) => {
-
-    //todo.모달 창 바깥클릭하면 모달이 닫히게 
-    const modalRef = useRef();
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -34,11 +31,11 @@ const ApplicationModal = ({ leftButtontext, rightbuttontext, leftButtonevent, ri
                     </div>
                     <div className="flex justify-center space-x-4">
                         {leftvisible && (
-                            <Button className="bg-[#BFFF00]" onClick={leftButtonevent}>
+                            <Button theme="primary" className="bg-[#BFFF00]" onClick={leftButtonevent}>
                                 {leftButtontext}
                             </Button>
                         )}
-                        {rightvisible && <Button className="bg-[#BFFF00]" onClick={rightbuttonevent}>
+                        {rightvisible && <Button theme="primary" className="bg-[#BFFF00]" onClick={rightbuttonevent}>
                             {rightbuttontext}
                         </Button>}
                     </div>
