@@ -82,7 +82,7 @@ const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProp
                                 <div className="font-semibold mb-1">달리기 장소</div>
                                 <MapPage className="" locationData={locationData} />
                                 <div className="flex justify-center mt-4 gap-2">
-                                    <Button className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin} disabled={buttonText === "신청 완료"}>
+                                    <Button theme="primary" className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin} disabled={buttonText === "신청 완료"}>
                                         {buttonText}
                                     </Button>
                                     {userId === authorId && (
@@ -119,7 +119,7 @@ const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProp
                                     <div className="font-semibold mb-1">달리기 장소</div>
                                     <MapPage className="" locationData={locationData} />
                                     <div className="flex justify-center mt-4 gap-2">
-                                        <Button className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin} disabled={buttonText === "크루와 달리기 담당자"}>
+                                        <Button theme="primary" className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin} disabled={buttonText === "크루와 달리기 담당자"}>
                                             {buttonText}
                                         </Button>
                                         {userId === authorId && (
@@ -154,7 +154,7 @@ const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProp
                                 </div>
 
                                 <div className="absolute bottom-4 left-0 w-full flex justify-center z-10  gap-2">
-                                    <Button className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin} disabled={buttonText === '가입 완료' || buttonText === '가입 대기' || buttonText === '크루 담당자'}>
+                                    <Button theme="primary" className="bg-[#BFFF00] px-6 py-2 rounded-md" onClick={handlAskjoin} disabled={buttonText === '가입 완료' || buttonText === '가입 대기' || buttonText === '크루 담당자'}>
                                         {buttonText}
                                     </Button>
                                 </div>

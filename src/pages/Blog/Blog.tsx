@@ -1,8 +1,7 @@
-import { useState } from "react";
 import Button from "../../components/Button";
 import BlogCard from "./BlogCard";
 import { useNavigate } from 'react-router-dom';
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { getAllblogs } from "../../api/blog/api";
 import InfiniteScroll from "../../components/InfiniteScroll";
 
@@ -28,11 +27,8 @@ const Blog = () => {
     const {
         data: blogarray,
         isLoading,
-        isError,
-        error,
         fetchNextPage,
-        hasNextPage,
-        isFetchingNextPage
+        hasNextPage
     } = useInfiniteQuery(
         {
             queryKey: ['blogs'],
@@ -71,7 +67,7 @@ const Blog = () => {
                 <div className="flex flex-col gap-4 px-4 ">
                     {!isLoading && blogarray?.pages?.map((page, pageIndex) => (
                         <div key={pageIndex}>
-                            {page.data.success.responseData.currentScrollItems.map((blog) => (
+                            {page.data.success.responseData.currentScrollItems.map((blog: BlogType) => (
                                 <div key={blog.blogId} className="rounded-lg shadow-lg mb-4">
                                     <BlogCard
                                         userImg={blog.userImg}
@@ -84,6 +80,7 @@ const Blog = () => {
                                         liked={blog.liked}
                                         blogId={blog.blogId}
                                         likeCount={blog.likeCount}
+                                        createdAt={blog.createdAt}
                                     />
                                 </div>
                             ))}
