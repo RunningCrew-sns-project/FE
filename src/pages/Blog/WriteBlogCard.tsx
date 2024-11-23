@@ -60,10 +60,6 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
 
 
     const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        watch,
         setValue,
         getValues
     } = useForm<BlogCardInput>()
@@ -163,7 +159,7 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
                             imgUrl={blogImages}
                         ></UploadImage>
                         <div>
-                            <Button className="bg-[#BFFF00]" type="submit">	{isEdit ? '수정하기' : '등록하기'}</Button>
+                            <Button theme="primary" className="bg-[#BFFF00]" type="submit">	{isEdit ? '수정하기' : '등록하기'}</Button>
                         </div>
                     </form>
                 </FormProvider>

@@ -2,7 +2,6 @@ import Button from "../../components/Button";
 import { IoIosMore } from "react-icons/io";
 import { useState } from "react";
 import ApplicationModal from "../../components/ApplicationModal";
-import CommentDropdown from "./CommentDropdown";
 import CommentForm from "./CommentForm";
 import toast from 'react-hot-toast'
 import { useMutation } from "@tanstack/react-query";
@@ -10,7 +9,7 @@ import { deleteComment } from "../../api/comment/api";
 import { useQueryClient } from '@tanstack/react-query';
 import useAuthStore from "../../store/useAuthStore";
 
-type CommentProps = {
+export type CommentProps = {
     blogId: number;
     commentId: number;
     content: string;
@@ -69,8 +68,8 @@ const Comment = (props: CommentProps) => {
         if (!dropdownOpen || isEdit) return null;
         return (
             <div className="flex flex-col justify-center items-center border border-gray-400 rounded">
-                <Button onClick={handleEditComment} className="bg-transparent">수정</Button>
-                <Button onClick={handleDeleteComment} className="bg-transparent">삭제</Button>
+                <Button theme="primary" onClick={handleEditComment} className="bg-transparent">수정</Button>
+                <Button theme="primary" onClick={handleDeleteComment} className="bg-transparent">삭제</Button>
             </div>
         );
     };

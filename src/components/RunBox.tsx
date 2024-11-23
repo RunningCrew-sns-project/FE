@@ -23,7 +23,6 @@ interface PostProps {
 }
 
 const RunBox: React.FC<PostProps> = (props) => {
-	console.log("프롭스", props);
 	const navigate = useNavigate();
 
 	const statusStyle: Record<string, string> = {

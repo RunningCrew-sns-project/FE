@@ -9,19 +9,40 @@ import { getaboutUser, getCrewInfo, joinCrew, selfWithdrawlCrew } from '../../ap
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast'
-import moment from "moment";
-import { useNavigate } from "react-router-dom";
 
 const JoinCrewdetail = () => {
 
-    let { crewId } = useParams();
+    interface crewInfoTypes {
+        crewName: string;
+        crewIntroduction: string;
+        crewImageUrls: string[];
+        crewMaster: string;
+        activityRegion: string;
+        createdAt: string;
+        memberCount: number;
+        maxCapacity: number;
+    }
 
-    const navigate = useNavigate();
+    interface aboutUserTypes {
+        status: string;
+        joinDate: null | string;
+        applicationDate: string;
+        withdrawalDate: null | string;
+        caveat: number;
+        isMaster: boolean;
+        releaseDay: null | string,
+        availableToJoin: boolean
+    }
+
+
+    let { crewNumber } = useParams();
+
     const queryClient = useQueryClient();
+
+    const crewId = Number(crewNumber);
     const { mutate } = useMutation({
         mutationFn: joinCrew,
         onSuccess: (data) => {
-            console.log('data', data)
             if (data.data.success.code === 200) {
                 toast.success('크루에 가입 요청되었습니다.')
                 queryClient.invalidateQueries(['aboutUser', crewId]);
@@ -46,17 +67,21 @@ const JoinCrewdetail = () => {
         },
     })
 
-    const { data: crewInfo, isLoading, isError, error } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
-    const { data: aboutUser, isLoading: isaboutUserLoading } = useQuery({ queryKey: ['aboutUser', crewId], queryFn: () => getaboutUser(crewId) })
+    const { data: crewInfo, isLoading } = useQuery<crewInfoTypes>({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
+    const { data: aboutUser, isLoading: isaboutUserLoading } = useQuery<aboutUserTypes>({ queryKey: ['aboutUser', crewId], queryFn: () => getaboutUser(crewId) })
 
     const [isOpen, setIsOpen] = useState(false)
     const handlAskjoincrew = () => {
         setIsOpen((prev) => !prev)
     }
 
-    if (!isaboutUserLoading) {
-        console.log(aboutUser)
+    if (isLoading) return <div>Loading...</div>;
+
+    if (!crewInfo) {
+        return <div>크루 정보가 없습니다.</div>;
     }
+
+    const crewInfodata = crewInfo.data.success.responseData;
 
     //크루에 가입하기 api
     const handleJoincrew = (crewId: number) => {
@@ -80,9 +105,9 @@ const JoinCrewdetail = () => {
 
     if (!isaboutUserLoading && aboutUser?.data?.success?.responseData !== undefined) {
         statustext = aboutUser.data.success.responseData.status;
-        const currentDate = moment().format('YYYY-MM-DD');
-        if (!aboutUser.data.success.responseData.releaseDay || aboutUser.data.success.responseData.availableToJoin === true) {
+        if ((!aboutUser.data.success.responseData.releaseDay && statustext !== '가입 대기') || aboutUser.data.success.responseData.availableToJoin === true) {
             statustext = '크루 가입하기';
+            console.log('22statustext', statustext)
         }
         else if (statustext === '가입 완료') {
             statustext = '탈퇴하기';
@@ -94,12 +119,12 @@ const JoinCrewdetail = () => {
         <>
             <div className="pt-16">
                 {!isLoading && <div>
-                    <DetailHeader imgarray={crewInfo.data.success.responseData.crewImageUrls}></DetailHeader>
-                    <DetailInfo info={crewInfo.data.success.responseData} handlAskjoin={handlAskjoincrew}
+                    <DetailHeader imgarray={crewInfodata.crewImageUrls}></DetailHeader>
+                    <DetailInfo info={crewInfodata} handlAskjoin={handlAskjoincrew}
                         buttonText={aboutUser?.data?.success?.responseData === undefined
                             ? '크루 가입하기' : aboutUser.data.success.responseData.isMaster === true
                                 ? '크루 담당자' : statustext}></DetailInfo>
-                    {isOpen ? aboutUser?.data?.success?.responseData === undefined ? <ApplicationModal
+                    {isOpen ? aboutUser?.data?.success?.responseData === undefined || aboutUser?.data?.success?.responseData.availableToJoin === true ? <ApplicationModal
                         leftButtontext="가입할래요!"
                         rightbuttontext="취소"
                         leftButtonevent={() => handleJoincrew(crewId)}

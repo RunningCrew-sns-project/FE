@@ -55,6 +55,7 @@ const BlogCard = (props: BlogCardprops) => {
                 <div className="flex space-x-4">
                     <div>{props.record}</div>
                     <div>{props.distance}</div>
+                    <div>{props.createdAt}</div>
                 </div>
             </div>
         </>

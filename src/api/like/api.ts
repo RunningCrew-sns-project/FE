@@ -27,7 +27,7 @@ export const useLikeMutation = () => {
       );
       return { previousBlogs };
     },
-    onError: (err, blogId : number, context :any ) => {
+    onError: (err, context :any ) => {
       queryClient.setQueryData({queryKey:['blogs']}, context.previousBlogs);
       console.log(err)
     },

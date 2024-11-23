@@ -11,7 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import toast from "react-hot-toast";
 import InfiniteScroll from "../../components/InfiniteScroll";
 
-type BlogDetailprops = {
+type BlogDetailTypes = {
     userName: string;
     userImg: string;
     blogId: number;
@@ -38,8 +38,10 @@ type Comment = {
 
 const BlogDetail = () => {
 
-    let { blogId } = useParams();
+    let { blogNumber } = useParams();
     const queryClient = useQueryClient();
+
+    const blogId = Number(blogNumber);
 
     const { mutate } = useMutation({
         mutationFn: writeComment,
@@ -56,7 +58,7 @@ const BlogDetail = () => {
 
     const { data: blogdetailarray, isLoading } = useQuery({
         queryKey: ['blogdetail', blogId],
-        queryFn: () => getBlogdetail(blogId)
+        queryFn: () => getBlogdetail(blogId),
     });
 
     const {
@@ -66,8 +68,8 @@ const BlogDetail = () => {
         hasNextPage
     } = useInfiniteQuery({
         queryKey: ['comment', blogId],
-        queryFn: ({ pageParam }) => getComment({ blogId: Number(blogId), pageParam }),
-        getNextPageParam: (lastPage) => {
+        queryFn: ({ pageParam = 0 }) => getComment({ blogId, pageParam }),
+        getNextPageParam: (lastPage: any) => {
             if (!lastPage) {
                 return false;
             }
@@ -82,6 +84,14 @@ const BlogDetail = () => {
             return responseData.nextCursor?.commentId;
         },
     });
+
+    if (isLoading) return <div>Loading...</div>;
+
+    if (!blogdetailarray) {
+        return <div>블로그 데이터가 없습니다.</div>;
+    }
+
+    const blogDetail: BlogDetailTypes = blogdetailarray.data.success.responseData;
 
     if (!commentloading) {
         const isLastPage = commentarray?.pages[0]?.data?.success?.responseData.lastScroll
@@ -110,16 +120,17 @@ const BlogDetail = () => {
                             className="w-full tablet:w-[700px] laptop:w-[1100px] mx-auto bg-white px-8 py-6 mt-6 rounded-lg shadow-lg"
                         >
                             <BlogCard
-                                userImg={blogdetailarray.data.success.responseData.userImg}
-                                userName={blogdetailarray.data.success.responseData.userName}
-                                title={blogdetailarray.data.success.responseData.title}
-                                record={blogdetailarray.data.success.responseData.record}
-                                distance={blogdetailarray.data.success.responseData.distance}
-                                imageUrl={blogdetailarray.data.success.responseData.imageUrl}
-                                content={blogdetailarray.data.success.responseData.content}
-                                liked={blogdetailarray.data.success.responseData.liked}
-                                likeCount={blogdetailarray.data.success.responseData.likeCount}
-                                blogId={blogdetailarray.data.success.responseData.blogId}
+                                userImg={blogDetail.userImg}
+                                userName={blogDetail.userName}
+                                title={blogDetail.title}
+                                record={blogDetail.record}
+                                distance={blogDetail.distance}
+                                imageUrl={blogDetail.imageUrl}
+                                content={blogDetail.content}
+                                liked={blogDetail.liked}
+                                likeCount={blogDetail.likeCount}
+                                blogId={blogDetail.blogId}
+                                createdAt={blogDetail.createdAt}
                             />
                             <div className="pt-4">
                                 {!commentloading && commentarray?.pages[0]?.data?.success?.responseData?.currentScrollItems?.length === 0 ? (
@@ -158,6 +169,7 @@ const BlogDetail = () => {
                                         onChange={handlechangeComment}
                                     />
                                     <Button
+                                        theme="primary"
                                         className="bg-[#BFFF00] text-white px-4 py-2 rounded-md hover:bg-[#aaff00] transition"
                                         type="submit"
                                     >

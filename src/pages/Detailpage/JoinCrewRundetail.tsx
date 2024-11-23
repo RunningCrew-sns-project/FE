@@ -1,4 +1,3 @@
-import Button from '../../components/Button';
 import ApplicationModal from '../../components/ApplicationModal';
 import { useState } from 'react';
 import DetailInfo from './DetailInfo';
@@ -7,18 +6,17 @@ import { GiRunningShoe } from "react-icons/gi";
 import { getcrewrunInfo, joinCrewRun } from '../../api/detail/crewrun/api';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import useAuthStore from '../../store/useAuthStore';
 import toast from "react-hot-toast";
 
 const JoinCrewrundetail = () => {
 
-    let { runId } = useParams();
-    const { userId } = useAuthStore()
-    const { data: joincrewrundata, isLoading, isError, error } = useQuery({ queryKey: ['crewrunInfo', runId], queryFn: () => getcrewrunInfo(runId) })
+    let { runNumber } = useParams();
+    const runId = Number(runNumber);
 
-    const queryClient = useQueryClient();
+    const { userId } = useAuthStore()
+    const { data: joincrewrundata, isLoading } = useQuery({ queryKey: ['crewrunInfo', runId], queryFn: () => getcrewrunInfo(runId) })
     const { mutate } = useMutation({
         mutationFn: joinCrewRun,
         onSuccess: (data) => {
@@ -29,14 +27,19 @@ const JoinCrewrundetail = () => {
         },
     })
 
-    if (!isLoading) {
-        console.log('joincrewrundata!!', joincrewrundata)
-    }
     const [isOpen, setIsOpen] = useState(false)
 
     const handleAskcrewrunjoin = () => {
         setIsOpen((prev) => !prev)
     }
+
+    if (isLoading) return <div>Loading...</div>;
+
+    if (!joincrewrundata) {
+        return <div>크루달리기 정보가 없습니다.</div>;
+    }
+
+    const joincrewrun = joincrewrundata.data.responseData;
 
     //크루달리기에 가입하기 api
     const handleJoincrewRun = (runId: number) => {
@@ -53,8 +56,8 @@ const JoinCrewrundetail = () => {
         <>
             {!isLoading &&
                 <>
-                    <DetailHeader imgarray={joincrewrundata.data.responseData.crewPostImageUrl}></DetailHeader>
-                    <DetailInfo info={joincrewrundata.data.responseData} handlAskjoin={handleAskcrewrunjoin} buttonText={userId === joincrewrundata.data.responseData.authorId ? "크루와 달리기 담당자" : "크루달리기 참여하기"} ></DetailInfo>
+                    <DetailHeader imgarray={joincrewrun.crewPostImageUrl}></DetailHeader>
+                    <DetailInfo info={joincrewrun} handlAskjoin={handleAskcrewrunjoin} buttonText={userId === joincrewrundata.data.responseData.authorId ? "크루와 달리기 담당자" : "크루달리기 참여하기"} ></DetailInfo>
                 </>
             }
             {

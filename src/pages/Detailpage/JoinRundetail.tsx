@@ -1,4 +1,3 @@
-import Button from '../../components/Button';
 import ApplicationModal from '../../components/ApplicationModal';
 import { useState } from 'react';
 import { GiRunningShoe } from "react-icons/gi";
@@ -7,19 +6,17 @@ import DetailInfo from './DetailInfo';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query'
 import { getrunInfo, joinRun } from '../../api/detail/general/api';
-import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast'
 
 const JoinRundetail = () => {
 
-    let { runId } = useParams();
-    console.log('runId', runId)
+    let { runNumber } = useParams();
+    const runId = Number(runNumber);
 
     const { data: generalrunningdata, isLoading } = useQuery({ queryKey: ['runInfo', runId], queryFn: () => getrunInfo(runId) })
     const [buttonText, setbuttonText] = useState<string>('일반달리기 참여하기');
 
-    const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: joinRun,
         onSuccess: (data) => {
@@ -32,15 +29,19 @@ const JoinRundetail = () => {
         },
     })
 
-    if (!isLoading) {
-        console.log('generalrunningdata', generalrunningdata)
-    }
-
 
     const [isOpen, setIsOpen] = useState(false)
     const handlAskonedayrunning = () => {
         setIsOpen((prev) => !prev)
     }
+
+    if (isLoading) return <div>Loading...</div>;
+
+    if (!generalrunningdata) {
+        return <div>일반달리기 정보가 없습니다.</div>;
+    }
+
+    const generalrunning = generalrunningdata.data.responseData;
 
     //todo. 런닝에 참여하는 api 
     const handlegeneralrunning = (runId: number) => {
@@ -58,8 +59,8 @@ const JoinRundetail = () => {
             <div className="pt-16">
                 {!isLoading &&
                     <>
-                        <DetailHeader imgarray={generalrunningdata.data.responseData.banners}></DetailHeader>
-                        <DetailInfo info={generalrunningdata.data.responseData} handlAskjoin={handlAskonedayrunning} buttonText={buttonText}></DetailInfo>
+                        <DetailHeader imgarray={generalrunning.banners}></DetailHeader>
+                        <DetailInfo info={generalrunning} handlAskjoin={handlAskonedayrunning} buttonText={buttonText}></DetailInfo>
                     </>
                 }
                 {isOpen ? <ApplicationModal
