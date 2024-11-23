@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMutation } from "@tanstack/react-query";
 import useAuthStore from '../../store/useAuthStore';
+import toast from "react-hot-toast";
 
 const JoinCrewrundetail = () => {
 
@@ -21,7 +22,6 @@ const JoinCrewrundetail = () => {
     const { mutate } = useMutation({
         mutationFn: joinCrewRun,
         onSuccess: (data) => {
-            console.log('data', data)
             toast.success('크루와 함께 달리기 신청되었습니다.')
         },
         onError: (error) => {
@@ -30,7 +30,7 @@ const JoinCrewrundetail = () => {
     })
 
     if (!isLoading) {
-        console.log('joincrewrundata', joincrewrundata)
+        console.log('joincrewrundata!!', joincrewrundata)
     }
     const [isOpen, setIsOpen] = useState(false)
 
@@ -39,7 +39,7 @@ const JoinCrewrundetail = () => {
     }
 
     //크루달리기에 가입하기 api
-    const handleJoincrewRun = (runId) => {
+    const handleJoincrewRun = (runId: number) => {
         const parsedrunId = Number(runId);
         mutate(parsedrunId);
         setIsOpen(false)

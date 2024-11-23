@@ -13,7 +13,6 @@ const BlogCardFooter = (props: BlogCardFooterprops) => {
     const navigate = useNavigate();
 
     const handleMovetodetail = (blogId: number) => {
-        console.log("blogfooter", blogId)
         navigate(`/blog/${blogId}`);
     }
 

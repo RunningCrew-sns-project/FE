@@ -39,7 +39,6 @@ type Comment = {
 const BlogDetail = () => {
 
     let { blogId } = useParams();
-    console.log('blogId', blogId)
     const queryClient = useQueryClient();
 
     const { mutate } = useMutation({
@@ -60,12 +59,6 @@ const BlogDetail = () => {
         queryFn: () => getBlogdetail(blogId)
     });
 
-    // const { data: commentarray, isLoading: commentloading } = useQuery({ queryKey: ['comment', blogId], queryFn: () => getComment(Number(blogId)) })
-
-    // if (!commentloading) {
-    //     console.log(commentarray)
-    // }
-
     const {
         data: commentarray,
         isLoading: commentloading,
@@ -79,12 +72,20 @@ const BlogDetail = () => {
                 return false;
             }
 
-            return lastPage.data.success.responseData.nextCursor.commentId;
+            const responseData = lastPage.data.success.responseData;
+            const currentScrollItems = responseData.currentScrollItems;
+            const lastScroll = responseData.lastScroll;
+
+            if (currentScrollItems.length === 0 && lastScroll) {
+                return false;
+            }
+            return responseData.nextCursor?.commentId;
         },
     });
 
     if (!commentloading) {
-        console.log('comment', commentarray.pages[0].data.success.responseData)
+        const isLastPage = commentarray?.pages[0]?.data?.success?.responseData.lastScroll
+        console.log('isLastPage', isLastPage)
     }
 
     const handlechangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {

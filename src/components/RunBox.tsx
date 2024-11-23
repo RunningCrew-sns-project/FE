@@ -38,7 +38,7 @@ const RunBox: React.FC<PostProps> = (props) => {
 		if (props.postType === "일반") {
 			navigate(`/joinRun/${props.runId}`);
 		} else if (props.postType === "크루") {
-			navigate(`/joinRun/${props.runId}`);
+			navigate(`/joinCrewRun/${props.runId}`);
 		} else {
 			navigate(`/joinCrew/${props.crewId}`);
 		}

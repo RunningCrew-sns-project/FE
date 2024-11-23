@@ -42,7 +42,13 @@ const Blog = () => {
                     return false;
                 }
 
-                return lastPage.data.success.responseData.nextCursor.blogId;
+                const responseData = lastPage.data.success.responseData;
+                const currentScrollItems = responseData.currentScrollItems;
+                const lastScroll = responseData.lastScroll;
+                if (currentScrollItems.length === 0 && lastScroll) {
+                    return false;
+                }
+                return responseData.nextCursor?.blogId;
             },
         }
     );

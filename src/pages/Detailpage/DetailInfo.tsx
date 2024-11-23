@@ -3,8 +3,35 @@ import Button from '../../components/Button';
 import MapPage from '../../components/Map/Map';
 import useAuthStore from '../../store/useAuthStore';
 
+interface InfoProps {
+    authorId: number;
+    runId: number;
+    inputLatitude: number;
+    inputLongitude: number;
+    targetLatitude: number;
+    targetLongitude: number;
+    inputLocation: string;
+    targetLocation: string;
+    activityRegion: string;
+    createdAt: string;
+    crewImageUrls: string[];
+    crewIntroduction: string;
+    crewMaster: string;
+    crewName: string;
+    maxCapacity: number;
+    memberCount: number;
+    banners: string[];
+    content: string;
+    people: number;
+    maximumPeople: number;
+    title: string;
+    location: string;
+    startTime: string;
+    postType: string;
+}
+
 interface DetailInfoProps {
-    info: {};
+    info: InfoProps;
     handlAskjoin: () => void;
     children: React.ReactNode;
     buttonText: string;

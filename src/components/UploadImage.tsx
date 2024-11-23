@@ -40,17 +40,17 @@ const UploadImage = ({
 		if (files) {
 			const newFiles = Array.from(files);
 
-			const updatedFiles = [...uploadedFiles, ...newFiles];
+			const updatedFiles: any = [...uploadedFiles, ...newFiles];
 			setUploadedFiles(updatedFiles);
 
 			const formData = new FormData();
-			updatedFiles.forEach((file) => formData.append("files", file));
+			updatedFiles.forEach((file: any) => formData.append("files", file));
 
 			onUploadFiles(formData);
 		}
 	};
 
-	const handledeleteFile = (index) => {
+	const handledeleteFile = (index: number) => {
 		const updatedFiles = uploadedFiles.filter((_, i) => i !== index);
 		setUploadedFiles(updatedFiles);
 

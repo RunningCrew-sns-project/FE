@@ -32,16 +32,15 @@ const Alarm = () => {
                 setShowPopup(true);
             });
 
-            eventSource.current.onerror = async (e) => {
+            eventSource.current.onerror = async () => {
                 // 연결이 끊어지면 재연결 시도
                 // setTimeout(fetchSSE, 3000);
-                // console.error('EventSource failed:', e);
+                eventSource.current?.close();
             };
 
             eventSource.current.onopen = () => {
                 // 연결이 정상적으로 되면 콘솔 로그
                 console.log("SSE 연결됨");
-                console.log('notification')
             };
         };
 

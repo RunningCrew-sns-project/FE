@@ -59,7 +59,7 @@ const JoinCrewdetail = () => {
     }
 
     //크루에 가입하기 api
-    const handleJoincrew = (crewId) => {
+    const handleJoincrew = (crewId: number) => {
         const parsedCrewId = Number(crewId);
         mutate(parsedCrewId);
         setIsOpen(false)
@@ -70,7 +70,7 @@ const JoinCrewdetail = () => {
     }
 
     //크루 탈퇴 api
-    const handleselfWithdrawlCrew = (crewId) => {
+    const handleselfWithdrawlCrew = (crewId: number) => {
         const parsedCrewId = Number(crewId);
         selfWithdrawlmutate(parsedCrewId);
         setIsOpen(false)
