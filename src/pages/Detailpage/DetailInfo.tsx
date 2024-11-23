@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import MapPage from '../../components/Map/Map';
 import useAuthStore from '../../store/useAuthStore';
+import { ReactNode } from "react";
 
 interface InfoProps {
     authorId: number;
@@ -28,19 +29,19 @@ interface InfoProps {
     location: string;
     startTime: string;
     postType: string;
+    authorid: number;
+    userId: number;
+    children: ReactNode;
 }
 
 interface DetailInfoProps {
     info: InfoProps;
     handlAskjoin: () => void;
-    children: React.ReactNode;
     buttonText: string;
-    authorid: number;
-    userId: number
 }
 
 
-const DetailInfo = ({ info, children, handlAskjoin, buttonText }: DetailInfoProps) => {
+const DetailInfo = ({ info, handlAskjoin, buttonText }: DetailInfoProps) => {
     const { authorId, runId } = info;
     const { userId } = useAuthStore()
     const navigate = useNavigate()

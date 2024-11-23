@@ -1,15 +1,14 @@
-import { CommentProps } from "../../pages/Blog/Comment";
 import { http } from "../request";
 
 type UpdateCommentParams = {
-    updatecommentData: CommentProps; 
+    updatecommentData: { content: string };
     commentId: number; 
 };
 
 type WriteCommentParams = {
-    writecommentData: CommentProps; 
+    writecommentData:  { content: string }; 
     blogId: number; 
-};
+}; 
 
 export const writeComment = async ({blogId, writecommentData}:WriteCommentParams) => {
     const response = await http.post(`/api/comment?blogId=${blogId}`,writecommentData);

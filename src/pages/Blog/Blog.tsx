@@ -46,6 +46,7 @@ const Blog = () => {
                 }
                 return responseData.nextCursor?.blogId;
             },
+            initialPageParam: 0,
         }
     );
 
@@ -62,7 +63,7 @@ const Blog = () => {
         <>
             <div className="bg-black min-h-screen py-6">
                 <div className="flex justify-end mr-4 mb-4">
-                    <Button className="bg-[#BFFF00]" onClick={handleMovewriteBlogCardpage}>+</Button>
+                    <Button theme="primary" className="bg-[#BFFF00]" onClick={handleMovewriteBlogCardpage}>+</Button>
                 </div>
                 <div className="flex flex-col gap-4 px-4 ">
                     {!isLoading && blogarray?.pages?.map((page, pageIndex) => (

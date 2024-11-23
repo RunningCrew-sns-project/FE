@@ -26,8 +26,7 @@ const useAuthStore = create<AuthState & AuthActions>(
       },
     }),
     {
-      name: 'auth-storage', // 저장할 이름
-      getStorage: () => localStorage, // 사용할 저장소
+      name: 'auth-storage', 
     }
   )
 );

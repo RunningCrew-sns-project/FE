@@ -18,7 +18,7 @@ const BlogCardFooter = (props: BlogCardFooterprops) => {
 
     return (
         <>
-            <div class="flex gap-2 py-4">
+            <div className="flex gap-2 py-4">
                 <div><Like liked={props.liked} blogId={props.blogId} /></div>
                 <div>{props.likeCount}</div>
                 <div onClick={() => handleMovetodetail(props.blogId)}><FaRegCommentDots size="20" /></div>

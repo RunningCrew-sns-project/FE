@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { uploadFiles } from '../../api/image/api';
 import Button from '../../components/Button';
 import UploadImage from '../../components/UploadImage';
@@ -14,8 +14,8 @@ import { useQueryClient } from '@tanstack/react-query';
 export type BlogCardInput = {
     title: string;
     content: string;
-    record: string;
-    distance: string;
+    record: number | undefined;
+    distance: number | undefined;
     imageUrl: string[];
     isEdit?: boolean
 }
@@ -23,9 +23,9 @@ export type BlogCardInput = {
 type WriteBlogCardProps = {
     content?: string;
     blogId?: number;
-    distance?: string;
+    distance?: number | undefined;
     imageUrl?: string[];
-    record?: string;
+    record?: number | undefined;
     title?: string;
     isEdit?: boolean
 };
@@ -37,31 +37,30 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
     console.log('writeblog', content, distance, blogId)
     const { mutate } = useMutation({
         mutationFn: writeBlog,
-        onSuccess: (data) => {
-            console.log("블로그 작성 성공:", data);
-            queryClient.invalidateQueries(['blogs']);
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['blogs'] });
         },
-        onError: (error) => {
-            console.error("블로그 작성 실패:", error);
+        onError: () => {
+            console.error("블로그 작성 실패:");
         },
     })
 
     const { mutate: editBlog } = useMutation({
         mutationFn: updateBlog,
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success("블로그가 수정되었습니다.");
             navigate('/myPage/myFeed')
         },
-        onError: (error) => {
+        onError: () => {
             toast.error("수정 실패 !");
-            console.error("에러 내용:", error);
+            console.error("에러 내용:");
         },
     });
 
 
     const {
         setValue,
-        getValues
+        // getValues
     } = useForm<BlogCardInput>()
 
     const navigate = useNavigate();
@@ -73,8 +72,8 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
         if (isEdit) {
             setValue('title', title || '');
             setValue('content', content || '');
-            setValue('distance', distance || '');
-            setValue('record', record || '');
+            setValue('distance', distance || 0);
+            setValue('record', record || 0);
             setValue('imageUrl', imageUrl || []);
         }
     }, [isEdit, title, content, distance, record, imageUrl, setValue]);
@@ -93,13 +92,13 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
             BlogCardData["imageUrl"] = fileUrls
             console.log('BlogData', BlogCardData)
 
-            const currentValues = getValues();
+            // const currentValues = getValues();
             const writeBlogData = {
-                title: BlogCardData.title || currentValues.title,
-                content: BlogCardData.content || currentValues.content,
-                distance: BlogCardData.distance || currentValues.distance,
-                record: BlogCardData.record || currentValues.record,
-                imageUrl: blogImages.length > 0 ? blogImages : currentValues.imageUrl
+                title: BlogCardData.title,
+                content: BlogCardData.content,
+                distance: BlogCardData.distance,
+                record: BlogCardData.record,
+                imageUrl: BlogCardData.imageUrl
             };
 
             if (isEdit) {

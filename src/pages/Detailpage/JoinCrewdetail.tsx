@@ -11,30 +11,6 @@ import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast'
 
 const JoinCrewdetail = () => {
-
-    interface crewInfoTypes {
-        crewName: string;
-        crewIntroduction: string;
-        crewImageUrls: string[];
-        crewMaster: string;
-        activityRegion: string;
-        createdAt: string;
-        memberCount: number;
-        maxCapacity: number;
-    }
-
-    interface aboutUserTypes {
-        status: string;
-        joinDate: null | string;
-        applicationDate: string;
-        withdrawalDate: null | string;
-        caveat: number;
-        isMaster: boolean;
-        releaseDay: null | string,
-        availableToJoin: boolean
-    }
-
-
     let { crewNumber } = useParams();
 
     const queryClient = useQueryClient();
@@ -45,7 +21,7 @@ const JoinCrewdetail = () => {
         onSuccess: (data) => {
             if (data.data.success.code === 200) {
                 toast.success('크루에 가입 요청되었습니다.')
-                queryClient.invalidateQueries(['aboutUser', crewId]);
+                queryClient.invalidateQueries({ queryKey: ['aboutUser', crewId] });
             }
         },
         onError: (error) => {
@@ -59,7 +35,7 @@ const JoinCrewdetail = () => {
             console.log('data', data)
             if (data.data.success.code === 200) {
                 toast.success('탈퇴처리되었습니다.')
-                queryClient.invalidateQueries(['aboutUser', crewId]);
+                queryClient.invalidateQueries({ queryKey: ['aboutUser', crewId] });
             }
         },
         onError: (error) => {
@@ -67,21 +43,26 @@ const JoinCrewdetail = () => {
         },
     })
 
-    const { data: crewInfo, isLoading } = useQuery<crewInfoTypes>({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
-    const { data: aboutUser, isLoading: isaboutUserLoading } = useQuery<aboutUserTypes>({ queryKey: ['aboutUser', crewId], queryFn: () => getaboutUser(crewId) })
+    const { data: crewInfo, isLoading } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
+    const { data: aboutUser, isLoading: isaboutUserLoading } = useQuery({ queryKey: ['aboutUser', crewId], queryFn: () => getaboutUser(crewId) })
 
     const [isOpen, setIsOpen] = useState(false)
     const handlAskjoincrew = () => {
         setIsOpen((prev) => !prev)
     }
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading || isaboutUserLoading) return <div>Loading...</div>;
 
     if (!crewInfo) {
         return <div>크루 정보가 없습니다.</div>;
     }
 
+    if (!aboutUser) {
+        return <div>내 정보가 없습니다.</div>;
+    }
+
     const crewInfodata = crewInfo.data.success.responseData;
+    const aboutUserdata = aboutUser?.data?.success?.responseData;
 
     //크루에 가입하기 api
     const handleJoincrew = (crewId: number) => {
@@ -103,9 +84,9 @@ const JoinCrewdetail = () => {
 
     let statustext = '';
 
-    if (!isaboutUserLoading && aboutUser?.data?.success?.responseData !== undefined) {
-        statustext = aboutUser.data.success.responseData.status;
-        if ((!aboutUser.data.success.responseData.releaseDay && statustext !== '가입 대기') || aboutUser.data.success.responseData.availableToJoin === true) {
+    if (!isaboutUserLoading && aboutUserdata !== undefined) {
+        statustext = aboutUserdata.status;
+        if ((!aboutUserdata.releaseDay && statustext !== '가입 대기') || aboutUserdata.availableToJoin === true) {
             statustext = '크루 가입하기';
             console.log('22statustext', statustext)
         }
@@ -121,10 +102,10 @@ const JoinCrewdetail = () => {
                 {!isLoading && <div>
                     <DetailHeader imgarray={crewInfodata.crewImageUrls}></DetailHeader>
                     <DetailInfo info={crewInfodata} handlAskjoin={handlAskjoincrew}
-                        buttonText={aboutUser?.data?.success?.responseData === undefined
-                            ? '크루 가입하기' : aboutUser.data.success.responseData.isMaster === true
+                        buttonText={aboutUserdata === undefined
+                            ? '크루 가입하기' : aboutUserdata.isMaster === true
                                 ? '크루 담당자' : statustext}></DetailInfo>
-                    {isOpen ? aboutUser?.data?.success?.responseData === undefined || aboutUser?.data?.success?.responseData.availableToJoin === true ? <ApplicationModal
+                    {isOpen ? aboutUserdata === undefined || aboutUserdata.availableToJoin === true ? <ApplicationModal
                         leftButtontext="가입할래요!"
                         rightbuttontext="취소"
                         leftButtonevent={() => handleJoincrew(crewId)}
@@ -133,13 +114,13 @@ const JoinCrewdetail = () => {
                             <div className="flex items-center justify-center mb-4">
                                 <div className="mr-2 text-2xl"><GiRunningShoe /></div>
                                 <div className="text-lg">
-                                    <div className="font-semibold mb-1">크루명 : {crewInfo.data.success.responseData.crewName}</div>
-                                    <div className="text-gray-700">지역 : {crewInfo.data.success.responseData.activityRegion}</div>
+                                    <div className="font-semibold mb-1">크루명 : {crewInfodata.crewName}</div>
+                                    <div className="text-gray-700">지역 : {crewInfodata.activityRegion}</div>
                                 </div>
                             </div>
 
                             <span className="block text-center text-gray-800 font-medium mt-4">
-                                {crewInfo.data.success.responseData.crewName} 가입 안내사항을 확인해주세요
+                                {crewInfodata.crewName} 가입 안내사항을 확인해주세요
                             </span>
                         </>
                     </ApplicationModal> : statustext === '탈퇴하기' ?
@@ -152,13 +133,13 @@ const JoinCrewdetail = () => {
                                 <div className="flex items-center justify-center mb-4">
                                     <div className="mr-2 text-2xl"><GiRunningShoe /></div>
                                     <div className="text-lg">
-                                        <div className="font-semibold mb-1">크루명 : {crewInfo.data.success.responseData.crewName}</div>
-                                        <div className="text-gray-700">지역 : {crewInfo.data.success.responseData.activityRegion}</div>
+                                        <div className="font-semibold mb-1">크루명 : {crewInfodata.crewName}</div>
+                                        <div className="text-gray-700">지역 : {crewInfodata.activityRegion}</div>
                                     </div>
                                 </div>
 
                                 <span className="block text-center text-gray-800 font-medium mt-4">
-                                    {crewInfo.data.success.responseData.crewName} 탈퇴하면 하루 뒤 재가입 가능합니다.
+                                    {crewInfodata.crewName} 탈퇴하면 하루 뒤 재가입 가능합니다.
                                 </span>
                             </>
                         </ApplicationModal>
@@ -168,7 +149,7 @@ const JoinCrewdetail = () => {
                             rightbuttonevent={handlecloseModal}
                             leftvisible={false} >
                             <span className="block text-center text-gray-800 font-medium text-lg mt-4">
-                                {`현재 ${aboutUser.data.success.responseData.status} 상태로 ${aboutUser.data.success.responseData.releaseDay} 이후부터 가입가능합니다.`}
+                                {`현재 ${aboutUserdata.status} 상태로 ${aboutUserdata.releaseDay} 이후부터 가입가능합니다.`}
                             </span>
                         </ApplicationModal> : ''}
                 </div>}
