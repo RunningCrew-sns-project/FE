@@ -22,7 +22,7 @@ function App() {
 			<div>
 				<Toaster />
 			</div>
-			<Message/>
+			<Message />
 		</>
 	);
 }

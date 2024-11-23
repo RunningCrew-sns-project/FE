@@ -81,7 +81,7 @@ const JoinCrewdetail = () => {
     if (!isaboutUserLoading && aboutUser?.data?.success?.responseData !== undefined) {
         statustext = aboutUser.data.success.responseData.status;
         const currentDate = moment().format('YYYY-MM-DD');
-        if (!aboutUser.data.success.responseData.releaseDay && aboutUser.data.success.responseData.releaseDay <= currentDate) {
+        if (!aboutUser.data.success.responseData.releaseDay || aboutUser.data.success.responseData.availableToJoin === true) {
             statustext = '크루 가입하기';
         }
         else if (statustext === '가입 완료') {
