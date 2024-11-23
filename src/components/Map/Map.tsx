@@ -26,7 +26,7 @@ const MapPage = ({
 	
 useEffect(() => {
 
-},[locationData.endCoordinates])
+},[locationData])
 
 
 	

@@ -3,14 +3,18 @@ import { useState } from "react";
 import { CircularProgressbar,  buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
+
 interface ProgressBarProps {
 	start: () => void;
 	pause: () => void;
 	progress: number;
+
 }
 
-const ProgressBar = ({ start, pause,  progress }: ProgressBarProps) => {
+const ProgressBar = ({ start, pause,  progress  }: ProgressBarProps) => {
 	const [isStart, setIsStart] = useState(false);
+
+
 
 	const handleTimer = () => {
 		if (!isStart) {
@@ -28,7 +32,7 @@ const ProgressBar = ({ start, pause,  progress }: ProgressBarProps) => {
 				onClick={handleTimer}
 			>
 				<CircularProgressbar
-					value={progress}
+					value={ progress}
 					text={isStart ? `${progress}%` : "▶"}
 					styles={buildStyles({
 						textColor: "black",

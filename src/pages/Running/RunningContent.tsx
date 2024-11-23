@@ -8,9 +8,12 @@ import { useLocation } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { getcrewrunInfo } from "../../api/detail/crewrun/api";
 import { getrunInfo } from "../../api/detail/general/api";
+// import { useRecoilState } from "recoil";
+// import { rundata } from "../../recoil/rundata";
 
 
-// 데이터 형태 정의
+
+//데이터 형태 정의
 interface Data {
   time: string;
   progress: number;
@@ -42,6 +45,7 @@ const RunningContent = () => {
 	const [isStop, setIsStop] = useState(false);
 	//결과데이터
 	const [data, setData] = useState<Data>({ time: "", progress: 0 });
+	// const [data, setData] = useRecoilState(rundata);
 	//달리기 info데이터 
 	const [runinfo, setRunInfo] = useState<RunInfo>({
     title: "",
