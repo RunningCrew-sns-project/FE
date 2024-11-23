@@ -12,7 +12,9 @@ import toast from "react-hot-toast";
 
 const JoinCrewrundetail = () => {
 
-    let { runId } = useParams();
+    let { runNumber } = useParams();
+    const runId = Number(runNumber);
+
     const { userId } = useAuthStore()
     const { data: joincrewrundata, isLoading } = useQuery({ queryKey: ['crewrunInfo', runId], queryFn: () => getcrewrunInfo(runId) })
     const { mutate } = useMutation({
@@ -25,14 +27,19 @@ const JoinCrewrundetail = () => {
         },
     })
 
-    if (!isLoading) {
-        console.log('joincrewrundata!!', joincrewrundata)
-    }
     const [isOpen, setIsOpen] = useState(false)
 
     const handleAskcrewrunjoin = () => {
         setIsOpen((prev) => !prev)
     }
+
+    if (isLoading) return <div>Loading...</div>;
+
+    if (!joincrewrundata) {
+        return <div>크루달리기 정보가 없습니다.</div>;
+    }
+
+    const joincrewrun = joincrewrundata.data.responseData;
 
     //크루달리기에 가입하기 api
     const handleJoincrewRun = (runId: number) => {
@@ -49,8 +56,8 @@ const JoinCrewrundetail = () => {
         <>
             {!isLoading &&
                 <>
-                    <DetailHeader imgarray={joincrewrundata.data.responseData.crewPostImageUrl}></DetailHeader>
-                    <DetailInfo info={joincrewrundata.data.responseData} handlAskjoin={handleAskcrewrunjoin} buttonText={userId === joincrewrundata.data.responseData.authorId ? "크루와 달리기 담당자" : "크루달리기 참여하기"} ></DetailInfo>
+                    <DetailHeader imgarray={joincrewrun.crewPostImageUrl}></DetailHeader>
+                    <DetailInfo info={joincrewrun} handlAskjoin={handleAskcrewrunjoin} buttonText={userId === joincrewrundata.data.responseData.authorId ? "크루와 달리기 담당자" : "크루달리기 참여하기"} ></DetailInfo>
                 </>
             }
             {

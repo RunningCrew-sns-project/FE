@@ -20,7 +20,7 @@ const CommentForm = ({ isEdit, setisEdit, content, setdropdownOpen, blogId, comm
     const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: updateComment,
-        onSuccess: (data) => {
+        onSuccess: () => {
             queryClient.invalidateQueries(['blogdetail', blogId]);
         },
         onError: (error) => {

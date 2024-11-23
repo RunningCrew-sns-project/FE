@@ -33,7 +33,7 @@ const Blog = () => {
         {
             queryKey: ['blogs'],
             queryFn: getAllblogs,
-            getNextPageParam: (lastPage) => {
+            getNextPageParam: (lastPage: any) => {
                 if (!lastPage) {
                     return false;
                 }

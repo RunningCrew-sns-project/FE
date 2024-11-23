@@ -119,7 +119,7 @@ const router = createBrowserRouter([
 				element: <WriteBlogCard />,
 			},
 			{
-				path: "blog/:blogId",
+				path: "blog/:blogNumber",
 				element: <BlogDetail />,
 			},
 			{
@@ -127,15 +127,15 @@ const router = createBrowserRouter([
 				element: <EditBlog />
 			},
 			{
-				path: "joinRun/:runId",
+				path: "joinRun/:runNumber",
 				element: <JoinRundetail />,
 			},
 			{
-				path: "joinCrewRun/:runId",
+				path: "joinCrewRun/:runNumber",
 				element: <JoinCrewrundetail />,
 			},
 			{
-				path: "joinCrew/:crewId",
+				path: "joinCrew/:crewNumber",
 				element: <JoinCrewdetail />,
 			},
 			{

@@ -12,9 +12,34 @@ import toast from 'react-hot-toast'
 
 const JoinCrewdetail = () => {
 
-    let { crewId } = useParams();
+    interface crewInfoTypes {
+        crewName: string;
+        crewIntroduction: string;
+        crewImageUrls: string[];
+        crewMaster: string;
+        activityRegion: string;
+        createdAt: string;
+        memberCount: number;
+        maxCapacity: number;
+    }
+
+    interface aboutUserTypes {
+        status: string;
+        joinDate: null | string;
+        applicationDate: string;
+        withdrawalDate: null | string;
+        caveat: number;
+        isMaster: boolean;
+        releaseDay: null | string,
+        availableToJoin: boolean
+    }
+
+
+    let { crewNumber } = useParams();
 
     const queryClient = useQueryClient();
+
+    const crewId = Number(crewNumber);
     const { mutate } = useMutation({
         mutationFn: joinCrew,
         onSuccess: (data) => {
@@ -43,17 +68,21 @@ const JoinCrewdetail = () => {
         },
     })
 
-    const { data: crewInfo, isLoading } = useQuery({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
-    const { data: aboutUser, isLoading: isaboutUserLoading } = useQuery({ queryKey: ['aboutUser', crewId], queryFn: () => getaboutUser(crewId) })
+    const { data: crewInfo, isLoading } = useQuery<crewInfoTypes>({ queryKey: ['crewInfo', crewId], queryFn: () => getCrewInfo(crewId) })
+    const { data: aboutUser, isLoading: isaboutUserLoading } = useQuery<aboutUserTypes>({ queryKey: ['aboutUser', crewId], queryFn: () => getaboutUser(crewId) })
 
     const [isOpen, setIsOpen] = useState(false)
     const handlAskjoincrew = () => {
         setIsOpen((prev) => !prev)
     }
 
-    if (!isaboutUserLoading) {
-        console.log(aboutUser)
+    if (isLoading) return <div>Loading...</div>;
+
+    if (!crewInfo) {
+        return <div>크루 정보가 없습니다.</div>;
     }
+
+    const crewInfodata = crewInfo.data.success.responseData;
 
     //크루에 가입하기 api
     const handleJoincrew = (crewId: number) => {
@@ -77,8 +106,9 @@ const JoinCrewdetail = () => {
 
     if (!isaboutUserLoading && aboutUser?.data?.success?.responseData !== undefined) {
         statustext = aboutUser.data.success.responseData.status;
-        if (!aboutUser.data.success.responseData.releaseDay || aboutUser.data.success.responseData.availableToJoin === true) {
+        if ((!aboutUser.data.success.responseData.releaseDay && statustext !== '가입 대기') || aboutUser.data.success.responseData.availableToJoin === true) {
             statustext = '크루 가입하기';
+            console.log('22statustext', statustext)
         }
         else if (statustext === '가입 완료') {
             statustext = '탈퇴하기';
@@ -90,8 +120,8 @@ const JoinCrewdetail = () => {
         <>
             <div className="pt-16">
                 {!isLoading && <div>
-                    <DetailHeader imgarray={crewInfo.data.success.responseData.crewImageUrls}></DetailHeader>
-                    <DetailInfo info={crewInfo.data.success.responseData} handlAskjoin={handlAskjoincrew}
+                    <DetailHeader imgarray={crewInfodata.crewImageUrls}></DetailHeader>
+                    <DetailInfo info={crewInfodata} handlAskjoin={handlAskjoincrew}
                         buttonText={aboutUser?.data?.success?.responseData === undefined
                             ? '크루 가입하기' : aboutUser.data.success.responseData.isMaster === true
                                 ? '크루 담당자' : statustext}></DetailInfo>

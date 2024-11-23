@@ -38,8 +38,10 @@ type Comment = {
 
 const BlogDetail = () => {
 
-    let { blogId } = useParams();
+    let { blogNumber } = useParams();
     const queryClient = useQueryClient();
+
+    const blogId = Number(blogNumber);
 
     const { mutate } = useMutation({
         mutationFn: writeComment,
@@ -56,7 +58,7 @@ const BlogDetail = () => {
 
     const { data: blogdetailarray, isLoading } = useQuery({
         queryKey: ['blogdetail', blogId],
-        queryFn: () => getBlogdetail(blogId)
+        queryFn: () => getBlogdetail(blogId),
     });
 
     const {
@@ -66,8 +68,8 @@ const BlogDetail = () => {
         hasNextPage
     } = useInfiniteQuery({
         queryKey: ['comment', blogId],
-        queryFn: ({ pageParam }) => getComment({ blogId: Number(blogId), pageParam }),
-        getNextPageParam: (lastPage) => {
+        queryFn: ({ pageParam = 0 }) => getComment({ blogId, pageParam }),
+        getNextPageParam: (lastPage: any) => {
             if (!lastPage) {
                 return false;
             }
@@ -128,6 +130,7 @@ const BlogDetail = () => {
                                 liked={blogDetail.liked}
                                 likeCount={blogDetail.likeCount}
                                 blogId={blogDetail.blogId}
+                                createdAt={blogDetail.createdAt}
                             />
                             <div className="pt-4">
                                 {!commentloading && commentarray?.pages[0]?.data?.success?.responseData?.currentScrollItems?.length === 0 ? (
