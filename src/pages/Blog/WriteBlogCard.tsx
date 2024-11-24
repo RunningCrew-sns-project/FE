@@ -23,7 +23,7 @@ type WriteBlogCardProps = {
     content?: string;
     blogId?: number;
     distance?: number | undefined;
-    imageUrl?: string[];
+    imageUrl?: string[] ;
     record?: number | undefined;
     title?: string;
     isEdit?: boolean
@@ -64,7 +64,9 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
     } = useForm<BlogCardInput>()
 
     const navigate = useNavigate();
-    const [blogImages, setblogImages] = useState(imageUrl || []);;
+    const [blogImages, setblogImages] = useState<string[]>(imageUrl || []);;
+    const [formimg, setFormImg] = useState<FormData | string[]>([]);
+
 
     const methods = useForm<BlogCardInput>();
 
@@ -84,11 +86,12 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
         try {
             const fileUrls = await uploadFiles(
                 'http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage',
-                blogImages,
+                formimg,
                 { directory: 'blog_images', big: false }
             );
 
             console.log(fileUrls)
+            setblogImages(fileUrls)
             BlogCardData["imageUrl"] = fileUrls
             console.log('BlogData', BlogCardData)
 
@@ -115,12 +118,15 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
             }
 
         } catch (error) {
-            console.error('파일 업로드 에러:', error);
+            console.error('파일 업로드 에러체크:', error);
         }
-
-
-
+        
     }
+
+    const handleFileUpload = (formData: FormData) => {
+        setFormImg(formData)
+    };
+
     return (
         <>
             <div className="flex flex-col items-center mb-20">
@@ -148,9 +154,7 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
 
                         <UploadImage
                             id="blog"
-                            onUploadFiles={(formData) => {
-                                setblogImages(formData);
-                            }}
+                            onUploadFiles={handleFileUpload}
                             multiple={true}
                             uploadfileLength={4}
                             imgpreviewWidth={250}

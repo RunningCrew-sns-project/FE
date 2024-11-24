@@ -14,7 +14,7 @@ type UploadImageProps = {
 	buttonpositionClassName: string;
 	showPreview?: boolean;
 	icon?: IconProp;
-	imgUrl?: string[];
+	imgUrl?: string[]  ;
 };
 
 const UploadImage = ({
