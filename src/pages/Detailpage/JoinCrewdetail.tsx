@@ -86,12 +86,11 @@ const JoinCrewdetail = () => {
 
     if (!isaboutUserLoading && aboutUserdata !== undefined) {
         statustext = aboutUserdata.status;
-        if ((!aboutUserdata.releaseDay && statustext !== '가입 대기') || aboutUserdata.availableToJoin === true) {
-            statustext = '크루 가입하기';
-            console.log('22statustext', statustext)
-        }
-        else if (statustext === '가입 완료') {
+        if (aboutUserdata.releaseDay === null && statustext === '가입 완료') {
             statustext = '탈퇴하기';
+        }
+        else if ((aboutUserdata.releaseDay === null && statustext !== '가입 대기') || aboutUserdata.availableToJoin === true) {
+            statustext = '크루 가입하기';
         }
     }
 
