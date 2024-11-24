@@ -13,14 +13,12 @@ import { dateFormatter } from "../../../util/dateFormatter";
 import { postEditRunApi } from "../../../api/run/api";
 import { Coordinates } from "../../Running/RunningContent";
 
-
 export interface LocationDataProps {
-	startCoordinates:  Coordinates;
+	startCoordinates: Coordinates;
 	endCoordinates: Coordinates;
 	startAddress: string;
 	endAddress: string;
 }
-
 
 export interface GeneralRunProps {
 	title: string; // 크루 이름
@@ -35,21 +33,16 @@ export interface GeneralRunProps {
 	maxParticipants: number; // 최대 수용 인원
 	fileDtos: FileDto[]; // 파일 정보 목록
 	date: string;
-
 }
-
-
 
 const EditRun = () => {
 	const location = useLocation();
 	const { info } = location.state || {};
-	const { content, title: runName, maximumPeople, runId } = info
-	const [isEdit, setIsEdit] = useState(false)
-
-
+	const { content, title: runName, maximumPeople, runId } = info;
+	const [isEdit, setIsEdit] = useState(false);
 
 	const currentDate = new Date();
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
 	const [imgfiile, setImageUrls] = useState<string[] | FormData>([]);
 	const [locationData, setLocationData] = useState<LocationDataProps>({
@@ -59,22 +52,18 @@ const EditRun = () => {
 		endAddress: "",
 	});
 
-
-
 	useEffect(() => {
-		if (location.pathname.includes('edit')) {
-			setIsEdit(true)
+		if (location.pathname.includes("edit")) {
+			setIsEdit(true);
 		}
-	}, [])
-
-
+	}, []);
 
 	const { mutate } = useMutation({
 		mutationFn: postEditRunApi,
 		onSuccess: (data) => {
 			toast.success("달리기가 수정되었습니다. !");
 			console.log("수정된 데이터 :", data);
-			navigate('/runlist')
+			navigate("/runlist");
 		},
 		onError: (error) => {
 			toast.error("수정 실패 !");
@@ -82,12 +71,11 @@ const EditRun = () => {
 		},
 	});
 
-
 	const handleSubmit = async (data: InputData) => {
-		const date = dateFormatter(startDate)
+		const date = dateFormatter(startDate);
 		try {
 			const imgurl = await uploadFiles(
-				"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
+				"https://runlink.kro.kr/api/storage",
 				imgfiile,
 				{ directory: "General_runImg", big: false },
 			);
@@ -110,15 +98,14 @@ const EditRun = () => {
 				maximumPeople: maximumPeople,
 				fileUrls: imgurl,
 				date: date.date,
-				startTime: date.startTime
-			}
+				startTime: date.startTime,
+			};
 
-			mutate({ data: newData, runId })
+			mutate({ data: newData, runId });
+		} catch (error) {
+			console.log(error);
 		}
-		catch (error) { console.log(error) }
-
 	};
-
 
 	return (
 		<div className="flex flex-col items-center mb-20">
@@ -131,8 +118,6 @@ const EditRun = () => {
 				content={content}
 				runName={runName}
 				maximumPeople={maximumPeople}
-
-
 			>
 				{/* 날짜 */}
 				<div className="mb-5 w-[320px] tablet:w-[640px] laptop:w-[800px] desktop:w-[800px]">
@@ -158,5 +143,5 @@ const EditRun = () => {
 			</FormLayout>
 		</div>
 	);
-}
-export default EditRun
+};
+export default EditRun;
