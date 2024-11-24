@@ -35,7 +35,7 @@ export const postCrewRun = async ({ data, crewId }: crewRun ) => {
 interface CrewFilter {
   size: number;
   cursor: string | null ;
-  cursorId: string   | undefined ;
+  cursorId: string | undefined ;
   reverse: boolean;         
   criteria:   string;  
   crewRegion: string;    

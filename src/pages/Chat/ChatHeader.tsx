@@ -46,9 +46,9 @@ const ChatHeader = () => {
 	};
 
 	const handleRoomOut = () => {
+		leaveRoom();
 		const filteredTodayData = todayDatas.filter(item => item.id !== id );
 		setTodayDatas(filteredTodayData)
-		leaveRoom();
 		console.log("채팅아웃")
 		navigate("/");
 		toast("채팅이 종료되었습니다 ");
@@ -57,8 +57,6 @@ const ChatHeader = () => {
 	
 
 	useEffect(() => {
-		console.log("룸데이터, ", roomData);
-		console.log("스케줄 확인 ", schedules);
 	
 		if(!msgMove){
 			const targetSchedule = schedules.find((schedule : ScheduleData)=> schedule.id === id);

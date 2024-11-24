@@ -22,7 +22,7 @@ const RunListPage = () => {
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [area, setArea] = useState("");
 	const [sortOrder, setSortOrder] = useState("newest"); // 기본값은 최신순
-	const [reversem, setReverse] = useState(false);
+	const [reversem, setReverse] = useState(true);
 	const [cursor, setCursor] = useState(null);
 	const [runCursor, setRunCursor] = useState(null);
 	const [cursorNext, setNextCursor] = useState();
@@ -47,7 +47,7 @@ const RunListPage = () => {
 			crewRegion: area,
 		};
 		const res = await getCrewListApi(CrewFilter);
-		console.log(res);
+		console.log(res, '크루리스트');
 		const listData = res.data.success.responseData;
 		const { currentScrollItems, lastScroll, nextCursor, nextCursorId } =
 			listData;
@@ -144,12 +144,15 @@ const RunListPage = () => {
 									>
 										최신순
 									</button>
-									<button
-										className={`text-sm  ml-4 ${sortOrder === "desc" ? "text-primary font-bold" : "text-white"}`}
-										onClick={() => handleSort("oldest")}
-									>
-										오래된순
-									</button>
+									{category === 'crewJoin' ? '' : (
+											<button
+											className={`text-sm  ml-4 ${sortOrder === "desc" ? "text-primary font-bold" : "text-white"}`}
+											onClick={() => handleSort("oldest")}
+										>
+											오래된순
+										</button>
+									)}
+
 								</div>
 							</div>
 							<hr className="border border-white my-4" />
