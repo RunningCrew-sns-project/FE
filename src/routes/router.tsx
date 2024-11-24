@@ -29,9 +29,11 @@ import EditRun from "../pages/Run/create/EditRun";
 import EditCrewRun from "../pages/Run/create/EditCrewRun";
 import MyCrewRequest from "../pages/MyPage/MyCrewRequest";
 import EditBlog from "../pages/Blog/EditBlog";
+import PrivateRoute from "../components/Layout/PrivateRoute";
 
 const router = createBrowserRouter([
 	{
+		path: "/",
 		element: <App />,
 		children: [
 			{
@@ -41,44 +43,6 @@ const router = createBrowserRouter([
 			{
 				path: "runList",
 				element: <RunListPage />,
-			},
-			{
-				path: "create",
-				element: <Create />,
-				children: [
-					{
-						path: "run",
-						element: <Run />,
-					},
-					{
-						path: "crewRun/:selectedCrewId",
-						element: <CrewRun />,
-					},
-					{
-						path: "crew",
-						element: <Crew />,
-					},
-					{
-						path: 'editRun/:id',
-						element: <EditRun />
-					},
-					{
-						path: 'editCrewRun/:id',
-						element: <EditCrewRun />
-					},
-				],
-			},
-			{
-				path: "running",
-				element: <RunningPage />,
-			},
-			{
-				path: "crew",
-				element: <CrewPage />,
-			},
-			{
-				path: "running/:id",
-				element: <RunningPage />,
 			},
 			{
 				path: "login",
@@ -93,58 +57,101 @@ const router = createBrowserRouter([
 				element: <KakaoCallback />,
 			},
 			{
-				path: "myPage",
-				element: <MyPage />,
+				element: <PrivateRoute />,
 				children: [
 					{
-						index: true,
-						element: <Navigate to="myRunning" replace />,
+						path: "create",
+						element: <Create />,
+						children: [
+							{
+								path: "run",
+								element: <Run />,
+							},
+							{
+								path: "crewRun/:selectedCrewId",
+								element: <CrewRun />,
+							},
+							{
+								path: "crew",
+								element: <Crew />,
+							},
+							{
+								path: "editRun/:id",
+								element: <EditRun />,
+							},
+							{
+								path: "editCrewRun/:id",
+								element: <EditCrewRun />,
+							},
+						],
 					},
-					{ path: "myCrew", element: <MyCrew /> },
-					{ path: "myRunning", element: <MyRunning /> },
-					{ path: "myFeed", element: <MyFeed /> },
-					{ path: "mycrewRequest", element: <MyCrewRequest /> },
+					{
+						path: "running",
+						element: <RunningPage />,
+					},
+					{
+						path: "crew",
+						element: <CrewPage />,
+					},
+					{
+						path: "running/:id",
+						element: <RunningPage />,
+					},
+					{
+						path: "myPage",
+						element: <MyPage />,
+						children: [
+							{
+								index: true,
+								element: <Navigate to="myRunning" replace />,
+							},
+							{ path: "myCrew", element: <MyCrew /> },
+							{ path: "myRunning", element: <MyRunning /> },
+							{ path: "myFeed", element: <MyFeed /> },
+							{ path: "mycrewRequest", element: <MyCrewRequest /> },
+						],
+					},
+					{
+						path: "profile",
+						element: <Profile />,
+					},
+					{
+						path: "blog",
+						element: <Blog />,
+					},
+					{
+						path: "writeBlogCard",
+						element: <WriteBlogCard />,
+					},
+					{
+						path: "blog/:blogNumber",
+						element: <BlogDetail />,
+					},
+					{
+						path: "editBlog/:blogId",
+						element: <EditBlog />,
+					},
+					{
+						path: "joinRun/:runNumber",
+						element: <JoinRundetail />,
+					},
+					{
+						path: "joinCrewRun/:runNumber",
+						element: <JoinCrewrundetail />,
+					},
+					{
+						path: "joinCrew/:crewNumber",
+						element: <JoinCrewdetail />,
+					},
+					{
+						path: "chat",
+						element: <Chat />,
+					},
+					{
+						path: "chat/ActiveChatlist",
+						element: <ActiveChat />,
+					},
 				],
-			},
-			{
-				path: "profile",
-				element: <Profile />,
-			},
-			{
-				path: "blog",
-				element: <Blog />,
-			},
-			{
-				path: "writeBlogCard",
-				element: <WriteBlogCard />,
-			},
-			{
-				path: "blog/:blogNumber",
-				element: <BlogDetail />,
-			},
-			{
-				path: 'editBlog/:blogId',
-				element: <EditBlog />
-			},
-			{
-				path: "joinRun/:runNumber",
-				element: <JoinRundetail />,
-			},
-			{
-				path: "joinCrewRun/:runNumber",
-				element: <JoinCrewrundetail />,
-			},
-			{
-				path: "joinCrew/:crewNumber",
-				element: <JoinCrewdetail />,
-			},
-			{
-				path: "chat",
-				element: <Chat />,
-			},
-			{
-				path: "chat/ActiveChatlist",
-				element: <ActiveChat />,
 			},
 		],
 		errorElement: <Errorpage />,
