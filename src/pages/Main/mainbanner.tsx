@@ -8,9 +8,9 @@ import { naearSchedule } from "../../util/nearSchedule";
 import { useMutation } from "@tanstack/react-query";
 import { createRoomNameApi } from "../../api/ChatApi/ChatApi";
 import { getRunToday } from "../../api/run/api";
-
-
-
+import { useRecoilValue } from "recoil";
+import { todayData } from "../../recoil/todayData";
+import { schedulesProps } from "../../components/Modal/RunResult";
 
 interface SlideProps {
 	id: number;
@@ -20,23 +20,18 @@ interface SlideProps {
 	btn: string;
 }
 
-
 interface Schedule {
-  id: number;
-  isCrew: boolean;
-  startDate: string;
-  title: string;
+	id: number;
+	isCrew: boolean;
+	startDate: string;
+	title: string;
 }
-
 
 interface NeaerType {
 	title?: string;
 	id?: number; // id는 선택적 속성일 수 있음
 	isCrew?: boolean; // isCrew는 선택적 속성일 수 있음
-	
 }
-
-
 
 interface Props {
 	slide: SlideProps;
@@ -47,7 +42,10 @@ const MainBanner = ({ slide }: Props) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [schedules, setSchedules] = useState<Schedule[]>([]);
 	const [neaer, setNeaer] = useState<NeaerType>({ title: "기본 제목" });
-	const [totalSchedules, setTotalSchedules ] = useState <Schedule[]>([]) 
+	const [totalSchedules, setTotalSchedules] = useState<Schedule[]>([]);
+	const todayDatas = useRecoilValue(todayData);
+
+
 	const navigate = useNavigate();
 
 	const handleMoveBtn = async (id?: number, isCrew?: boolean) => {
@@ -74,13 +72,12 @@ const MainBanner = ({ slide }: Props) => {
 							const roomData = res.data.success.responseData;
 							const roomId = res.data.success.responseData.roomId;
 							console.log("roomId", roomId);
-							// console.log(totalSchedules, '통스케줄')
-							// const pickSh = totalSchedules.find((schedule: Schedule) => schedule.id === id);
-							// console.log(pickSh, '선택스케줄')
-							//   // 기본값을 설정하거나 빈 문자열을 사용할 수 있습니다.
-							// 	const title = pickSh ? pickSh.title.trim().replace(/\s+/g, ' ') : "" &title=${encodeURIComponent(title)}; 
 							navigate(`/chat?roomId=${roomId}`, {
-								state: { roomData: roomData, id: id , schedules: totalSchedules},
+								state: {
+									roomData: roomData,
+									id: id,
+									schedules: totalSchedules,
+								},
 							});
 						}
 						console.log(res);
@@ -98,19 +95,23 @@ const MainBanner = ({ slide }: Props) => {
 		mutationFn: getRunToday,
 		onSuccess: (data) => {
 			const scheduleData = data.data.success.responseData;
-			const timeDate = naearSchedule(scheduleData);
+			// todayData와 scheduleData를 비교하여 동일한 id를 제외
+			const filteredScheduleData = scheduleData.filter(
+				(item: schedulesProps) => !todayDatas.some((todayItem) => todayItem.id === item.id),
+			);
+
+			const timeDate = naearSchedule(filteredScheduleData);
 			const neaerDate = timeDate.nearest;
 			const schedule = timeDate.remaining;
 			setSchedules(schedule);
 			setNeaer(neaerDate);
 			setIsLoading(false);
-			setTotalSchedules(scheduleData)
+			setTotalSchedules(scheduleData);
 			// if(data.data.success.message === null){
 			// 	setIsLoading(true)
 			// }else{
 			// 	setIsLoading(false);
 			// }
-		
 		},
 		onError: (error) => {
 			console.log(error);
