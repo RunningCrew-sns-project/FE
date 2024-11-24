@@ -107,11 +107,6 @@ const MainBanner = ({ slide }: Props) => {
 			setNeaer(neaerDate);
 			setIsLoading(false);
 			setTotalSchedules(scheduleData);
-			// if(data.data.success.message === null){
-			// 	setIsLoading(true)
-			// }else{
-			// 	setIsLoading(false);
-			// }
 		},
 		onError: (error) => {
 			console.log(error);

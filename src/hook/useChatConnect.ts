@@ -31,7 +31,8 @@ export interface Params {
 
 const useChatConnect = (roomId  : string | null ) => {
   const [stompClient, setStompClient] = useState<Client | null>(null); 
-  const CHAT_URL = import.meta.env.VITE_BACKEND_URL;
+  // const CHAT_URL = import.meta.env.VITE_BACKEND_URL;
+  const BASE_PATH = "https://runlink.kro.kr";
   const auth_token = localStorage.getItem("auth_token");
   const [userName, setUserName] = useState<string | null>(null);
   const [lastTime, setLastTime] = useState(null)
@@ -69,7 +70,7 @@ const useChatConnect = (roomId  : string | null ) => {
     if (stompClient) return;
 
 
-    const socket = new SockJS(`${CHAT_URL}/ws`);
+    const socket = new SockJS(`${BASE_PATH.replace(/^http:\/\//, 'wss://')}/ws`);
     const client = Stomp.over(socket);
 
     client.connect(
