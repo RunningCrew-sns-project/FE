@@ -73,7 +73,7 @@ const MainBanner = ({ slide }: Props) => {
 							const roomId = res.data.success.responseData.roomId;
 							console.log("roomId", roomId);
 							navigate(`/chat?roomId=${roomId}`, {
-								state: { roomData: roomData, id: id },
+								state: { roomData: roomData, id: id , schedules: neaer},
 							});
 						}
 						console.log(res);
@@ -97,6 +97,12 @@ const MainBanner = ({ slide }: Props) => {
 			setSchedules(schedule);
 			setNeaer(neaerDate);
 			setIsLoading(false);
+			// if(data.data.success.message === null){
+			// 	setIsLoading(true)
+			// }else{
+			// 	setIsLoading(false);
+			// }
+		
 		},
 		onError: (error) => {
 			console.log(error);

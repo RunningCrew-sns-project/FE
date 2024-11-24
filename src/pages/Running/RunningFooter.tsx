@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 interface RunningFooterProps {
 	stop: () => void;
 	setIsStop: (value: boolean) => void;
-	data: { time: string; progress: number }; // data의 구조에 따라 수정 필요
+	data: { time: string; progress: number }; 
 	distance: number | undefined;
 }
 
