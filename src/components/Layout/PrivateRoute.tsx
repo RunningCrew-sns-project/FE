@@ -4,7 +4,7 @@ const PrivateRoute = () => {
 	let isAuthenticated = false;
 
 	const userState = JSON.parse(localStorage.getItem("auth-storage") || "{}");
-	const isLoggedIn = userState.state.isLoggedIn;
+	const isLoggedIn = userState?.state?.isLoggedIn;
 	isAuthenticated = isLoggedIn;
 
 	if (!isAuthenticated) {
