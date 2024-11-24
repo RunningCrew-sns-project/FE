@@ -11,6 +11,7 @@ import { getRunToday } from "../../api/run/api";
 
 
 
+
 interface SlideProps {
 	id: number;
 	bgimg: string;
@@ -46,6 +47,7 @@ const MainBanner = ({ slide }: Props) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [schedules, setSchedules] = useState<Schedule[]>([]);
 	const [neaer, setNeaer] = useState<NeaerType>({ title: "기본 제목" });
+	const [totalSchedules, setTotalSchedules ] = useState <Schedule[]>([]) 
 	const navigate = useNavigate();
 
 	const handleMoveBtn = async (id?: number, isCrew?: boolean) => {
@@ -72,8 +74,13 @@ const MainBanner = ({ slide }: Props) => {
 							const roomData = res.data.success.responseData;
 							const roomId = res.data.success.responseData.roomId;
 							console.log("roomId", roomId);
+							// console.log(totalSchedules, '통스케줄')
+							// const pickSh = totalSchedules.find((schedule: Schedule) => schedule.id === id);
+							// console.log(pickSh, '선택스케줄')
+							//   // 기본값을 설정하거나 빈 문자열을 사용할 수 있습니다.
+							// 	const title = pickSh ? pickSh.title.trim().replace(/\s+/g, ' ') : "" &title=${encodeURIComponent(title)}; 
 							navigate(`/chat?roomId=${roomId}`, {
-								state: { roomData: roomData, id: id , schedules: neaer},
+								state: { roomData: roomData, id: id , schedules: totalSchedules},
 							});
 						}
 						console.log(res);
@@ -97,6 +104,7 @@ const MainBanner = ({ slide }: Props) => {
 			setSchedules(schedule);
 			setNeaer(neaerDate);
 			setIsLoading(false);
+			setTotalSchedules(scheduleData)
 			// if(data.data.success.message === null){
 			// 	setIsLoading(true)
 			// }else{

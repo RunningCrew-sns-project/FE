@@ -61,12 +61,11 @@ const RunningContent = () => {
 		distance: 1.1024046809285155
   })
 
-	const { stop } = useStopWatch();
+
 	const location = useLocation();
 	const {roomData, id  } = location.state || {};
 	console.log('룸데이터', roomData, '겟기글 아디이', id)
-
-
+	const { stop } = useStopWatch();
 
 	const {mutate: crewMutate } = useMutation({
 		mutationFn: getcrewrunInfo,

@@ -24,7 +24,7 @@ const RunningFooter = ({
 	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
 	const roomId = queryParams.get("roomId");
-	const { roomData, id } = location.state || {};
+	const { roomData, id , schedules } = location.state || {};
 	
 
 	const handleOpneModal = () => {
@@ -40,7 +40,7 @@ const RunningFooter = ({
 
 	const hadleMoveChat = () => {
 		navigate(`/chat?roomId=${roomId}`, {
-			state: { roomData: roomData, id: id },
+			state: { roomData: roomData, id: id ,schedules: schedules },
 		});
 	};
 
