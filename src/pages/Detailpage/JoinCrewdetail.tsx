@@ -87,7 +87,7 @@ const JoinCrewdetail = () => {
     if (!isaboutUserLoading && aboutUserdata !== undefined) {
         statustext = aboutUserdata.status;
         if (aboutUserdata.releaseDay === null && statustext === '가입 완료') {
-            statustext = '탈퇴하기';
+            statustext = '탈퇴 하기';
         }
         else if ((aboutUserdata.releaseDay === null && statustext !== '가입 대기') || aboutUserdata.availableToJoin === true) {
             statustext = '크루 가입하기';
