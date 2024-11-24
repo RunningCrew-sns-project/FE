@@ -3,27 +3,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import ActiveChat from "../../components/Modal/ActiveChat";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button";
 import useChatConnect from "../../hook/useChatConnect";
 import toast from "react-hot-toast";
 
 
-interface ChatHeaderProps {
-	title : string | null;
 
-}
 
-const ChatHeader = ({ title } : ChatHeaderProps) => {
+const ChatHeader = () => {
 	const { isMobile, isTablet } = useDevice();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
 	const roomId = queryParams.get("roomId");
 	const [isOpen, setIsOpen] = useState(false);
-	const { msgMove, roomData ,id  } = location.state || {};
-
+	const { msgMove, roomData ,id ,schedules } = location.state || {};
+	const [isTimeMatched, setIsTimeMatched] = useState(false);
 	const { leaveRoom} = useChatConnect(roomId);
 
 	const openList = () => {
@@ -45,6 +42,31 @@ const ChatHeader = ({ title } : ChatHeaderProps) => {
 		toast('채팅이 종료되었습니다 ')
 	}
 
+	useEffect(() => {
+		console.log('룸데이터, ', roomData )
+		console.log('스케줄', schedules)
+
+		if (schedules && schedules.startDate) {
+      const checkTimeMatch = () => {
+        const now = new Date();
+        const start = new Date(schedules.startDate);
+
+        // startDate와 현재 시간이 같으면 상태를 true로 설정
+        if (now.getTime() === start.getTime()) {
+          setIsTimeMatched(true);
+        } else {
+          setIsTimeMatched(false);
+        }
+      };
+
+      // 1초마다 비교
+      const intervalId = setInterval(checkTimeMatch, 1000);
+
+      // 컴포넌트 언마운트 시 interval 종료
+      return () => clearInterval(intervalId);
+    }
+	},[schedules])
+
 	return (
 		<>
 			<div
@@ -63,8 +85,9 @@ const ChatHeader = ({ title } : ChatHeaderProps) => {
 							theme="dark"
 							className={`${isMobile || isTablet ? "text-white" : "text-balck"} text-xs  whitespace-nowrap w-[40px] h-[30px]`}
 							onClick={handleGoBack}
+							disabled={!isTimeMatched}
 						>
-							시작
+							{isTimeMatched ? '시작' : '준비'}
 						</Button>
 					)}
 
@@ -72,7 +95,7 @@ const ChatHeader = ({ title } : ChatHeaderProps) => {
 						className={`${isMobile || isTablet ? "text-white" : "text-balck"}`}
 					>
 						<div className="text-center">
-							<h3 className="text-xl font-black mb-4">{title}</h3>
+							<h3 className="text-xl font-black mb-4"> {schedules && schedules.title ? schedules.title : roomId}</h3>
 						</div>
 					</div>
 					<div className="">
