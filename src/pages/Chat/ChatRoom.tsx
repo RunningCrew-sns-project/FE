@@ -17,8 +17,7 @@ const ChatRoom = () => {
 	const queryParams = new URLSearchParams(location.search); 
   const roomId = queryParams.get("roomId"); 
 	const { message, sendMessage , userName, getInitialMsg ,lastTime} = useChatConnect(roomId);
-	// const [isTop, setIsTop] = useState(0)
-	// const  debouceTop = useDebounceTimeOut(isTop, 2000)
+	
 
 
 	const handleSendMsg = (newmsg : string) => {
@@ -44,7 +43,6 @@ const ChatRoom = () => {
 
 	useEffect(() => {
 		const container = topRef.current;
-		console.log('실행이되는겨 ?', container)
 		if (container) {
 			container.addEventListener("scroll", handleScroll);
 		}
@@ -74,7 +72,7 @@ const ChatRoom = () => {
 						: "w-full max-w-[420px] h-[720px]"
 				} bg-white rounded-lg relative overflow-hidden`}
 			>
-				<ChatHeader title={roomId} />
+				<ChatHeader />
 				<div ref={topRef} className="absolute top-[130px] bottom-16 w-full overflow-y-auto  ">
 					<ChatList messages={message}  userName={userName}/>
 				</div>
