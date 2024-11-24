@@ -8,6 +8,8 @@ import Modal from "../../components/Modal/Modal";
 import Button from "../../components/Button";
 import useChatConnect from "../../hook/useChatConnect";
 import toast from "react-hot-toast";
+import { useRecoilState } from "recoil";
+import { todayData } from "../../recoil/todayData";
 
 interface ScheduleData {
   id: number;
@@ -27,12 +29,9 @@ const ChatHeader = () => {
 	const { msgMove, roomData, id, schedules } = location.state || {};
 	const [isTimeMatched, setIsTimeMatched] = useState(false);
 	const { leaveRoom } = useChatConnect(roomId);
+	const [todayDatas, setTodayDatas] = useRecoilState(todayData);
 
 
-	// const hadnleOutSchaechle = () => {
-	// 	const targetSchedule = schedules.find((schedule : ScheduleData)=> schedule.id === id);
-	// 	console.log(targetSchedule.isCrew , '크루여부' , schedules)
-	// }
 	const openList = () => {
 		setIsOpen(true);
 	};
@@ -47,9 +46,10 @@ const ChatHeader = () => {
 	};
 
 	const handleRoomOut = () => {
+		const filteredTodayData = todayDatas.filter(item => item.id !== id );
+		setTodayDatas(filteredTodayData)
 		leaveRoom();
 		console.log("채팅아웃")
-		// hadnleOutSchaechle()
 		navigate("/");
 		toast("채팅이 종료되었습니다 ");
 	};

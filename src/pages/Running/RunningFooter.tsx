@@ -70,6 +70,8 @@ const RunningFooter = ({
 						onClose={handleCloseModal}
 						data={data}
 						distance={distance}
+						schedules={schedules}
+						id={id}
 					/>
 				</div>
 			</div>

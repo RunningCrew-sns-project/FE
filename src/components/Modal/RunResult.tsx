@@ -4,12 +4,24 @@ import Modal from "./Modal";
 import { useMutation } from "@tanstack/react-query";
 import { postRunRecords } from "../../api/run/api";
 import toast from "react-hot-toast";
+import { useSetRecoilState } from "recoil";
+import { todayData } from "../../recoil/todayData";
+
+export interface schedulesProps {
+	id?: number;
+	isCrew?: boolean;
+	startDate?: string;
+	title?: string;
+}
+
 
 interface AddressModalProps {
 	isOpen: boolean;
 	onClose?: () => void;
 	data: { time: string; progress: number };
 	distance: number | undefined;
+	schedules: schedulesProps[]; 
+	id: number;
 }
 
 const RunResultModal = ({
@@ -17,8 +29,11 @@ const RunResultModal = ({
 	onClose,
 	data,
 	distance,
+	schedules,
+	id
 }: AddressModalProps) => {
 	const navigate = useNavigate()
+	const setTodays = useSetRecoilState(todayData)
 	
 	const { mutate: Result } = useMutation({
 		mutationFn: postRunRecords,
@@ -33,8 +48,16 @@ const RunResultModal = ({
 	});
 
 	const handleSubmit = () => {
-		console.log(data);
-		console.log(data.time);
+		const selectedSchedule = schedules.find((schedule : schedulesProps)  => schedule.id === id);
+		if (selectedSchedule) {
+			const todayData = {
+				id: selectedSchedule.id,
+				isCrew: selectedSchedule.isCrew,
+				isComplete: true,
+			};
+		
+			setTodays((prev) => [...prev, todayData]);
+		}
 		const result = {
 			record: data.time,
 			distance: distance,
@@ -61,7 +84,7 @@ const RunResultModal = ({
 							<div className="">
 								<Link to={"/"}>
 									<Button theme="dark" type="button">
-										저장하지 않기{" "}
+										저장하지 않기
 									</Button>
 								</Link>
 							</div>
