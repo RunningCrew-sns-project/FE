@@ -118,7 +118,7 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
             }
 
         } catch (error) {
-            console.error('파일 업로드 에러체크:', error);
+            console.error('파일 업로드 에러체크', error);
         }
         
     }
