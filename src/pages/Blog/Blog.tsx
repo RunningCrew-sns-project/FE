@@ -28,7 +28,7 @@ const Blog = () => {
         data: blogarray,
         isLoading,
         fetchNextPage,
-        hasNextPage
+        hasNextPage,
     } = useInfiniteQuery(
         {
             queryKey: ['blogs'],
@@ -40,7 +40,7 @@ const Blog = () => {
 
                 const responseData = lastPage.data.success.responseData;
                 const currentScrollItems = responseData.currentScrollItems;
-                const lastScroll = responseData.lastScroll; 
+                const lastScroll = responseData.lastScroll;
                 if (currentScrollItems.length === 0 && lastScroll) {
                     return false;
                 }

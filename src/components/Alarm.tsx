@@ -6,7 +6,7 @@ const Alarm = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [notification, setNotification] = useState<string>("");
 
-    const EventSource = EventSourcePolyfill || NativeEventSource;
+    const EventSource = EventSourcePolyfill;
     const eventSource = useRef<null | EventSource>(null);
     const auth_token = localStorage.getItem("auth_token");
     useEffect(() => {

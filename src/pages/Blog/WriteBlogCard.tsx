@@ -4,7 +4,7 @@ import { uploadFiles } from '../../api/image/api';
 import Button from '../../components/Button';
 import UploadImage from '../../components/UploadImage';
 import { bloginputfields } from '../../const/bloginputfields';
-import BlogInput, { BlogInputProps } from './BlogInput';
+import BlogInput from './BlogInput';
 import { useMutation } from "@tanstack/react-query";
 import { updateBlog, writeBlog } from '../../api/blog/api';
 import toast from 'react-hot-toast'
@@ -17,7 +17,6 @@ export type BlogCardInput = {
     record: number | undefined;
     distance: number | undefined;
     imageUrl: string[];
-    isEdit?: boolean
 }
 
 type WriteBlogCardProps = {
@@ -31,7 +30,7 @@ type WriteBlogCardProps = {
 };
 
 
-const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isEdit }: WriteBlogCardProps) => {
+const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isEdit = false }: WriteBlogCardProps) => {
 
     const queryClient = useQueryClient();
     console.log('writeblog', content, distance, blogId)
@@ -39,6 +38,7 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
         mutationFn: writeBlog,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['blogs'] });
+            toast.success('블로그가 작성되었습니다!');
         },
         onError: () => {
             console.error("블로그 작성 실패:");
@@ -66,7 +66,7 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
     const navigate = useNavigate();
     const [blogImages, setblogImages] = useState(imageUrl || []);;
 
-    const methods = useForm<BlogInputProps>();
+    const methods = useForm<BlogCardInput>();
 
     useEffect(() => {
         if (isEdit) {
@@ -102,12 +102,15 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
             };
 
             if (isEdit) {
-                editBlog({ updateblogData: writeBlogData, blogId })
+                if (blogId !== undefined) {
+                    editBlog({ updateblogData: writeBlogData, blogId });
+                } else {
+                    console.error("blogId가 정의되지 않았습니다.");
+                }
                 toast.success("블로그가 수정되었습니다.");
                 navigate('/myPage/myFeed')
             } else {
                 mutate(writeBlogData);
-                toast.success('블로그 작성완료되었어요!')
                 navigate(`/blog`);
             }
 
@@ -134,11 +137,11 @@ const WriteBlogCard = ({ content, blogId, distance, imageUrl, record, title, isE
                                     label={blogfield.label}
                                     required={blogfield.required}
                                     placeholder={blogfield.placeholder}
-                                    content={content}
-                                    title={title}
-                                    distance={distance}
-                                    record={record}
-                                    isEdit={isEdit}
+                                    content={content || ''}
+                                    title={title || ''}
+                                    distance={distance || 0}
+                                    record={record || 0}
+                                    isEdit={!!isEdit}
                                 />
                             </div>
                         ))}
