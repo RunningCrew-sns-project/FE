@@ -87,7 +87,7 @@ const Profile = () => {
 			let imgUrl: string[] | null = null;
 			if (profileImage) {
 				imgUrl = await uploadFiles(
-					"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
+					"https://runlink.kro.kr/api/storage",
 					profileImage,
 					{ directory: "profile_images", big: false },
 				);
