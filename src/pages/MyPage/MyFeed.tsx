@@ -39,12 +39,17 @@ interface FeedData {
 
 const MyFeed = () => {
 	const [feedData, setFeedData] = useState([]);
+	const [nextCursor, setNextCursor] = useState(null);
+	const [isLastPage, setIsLastPage] = useState(false);
 	const navigate = useNavigate();
 
 	const requestPost = async () => {
-		const res = await getMyFeed();
+		const res = await getMyFeed({ cursor: nextCursor, size: 5 });
+		const data = await res.data.success.responseData;
 		if (res.status === 200) {
-			setFeedData(res.data.success.responseData.currentScrollItems);
+			setFeedData((prev) => prev.concat(data.currentScrollItems));
+			setNextCursor(data.nextCursor?.blogId || null);
+			setIsLastPage(data.lastScroll);
 		}
 	};
 
@@ -62,6 +67,9 @@ const MyFeed = () => {
 		}
 	};
 
+	const handleClickComment = (blogId: number) => {
+		navigate(`/blog/${blogId}`);
+	};
 	useEffect(() => {
 		requestPost();
 	}, []);
@@ -83,7 +91,7 @@ const MyFeed = () => {
 					className="w-[400px] h-[400px] bg-gray-400 overflow-hidden"
 				>
 					{data.imageUrl.map((image: string) => (
-						<img src={image} className="object-cover w-full h-full" />
+						<img src={image} className="object-contain w-full h-full" />
 					))}
 				</Slider>
 
@@ -94,7 +102,10 @@ const MyFeed = () => {
 							{data.likeCount === 0 ? "" : data.likeCount}
 						</span>
 					</div>
-					<FaRegComment />
+					<FaRegComment
+						onClick={() => handleClickComment(data.blogId)}
+						className="cursor-pointer"
+					/>
 					<FaRegEdit
 						onClick={() => handlemoveEditblog(data.blogId)}
 						className="cursor-pointer"
@@ -111,7 +122,7 @@ const MyFeed = () => {
 			{feedData.map((myFeed) => {
 				return <Post data={myFeed} />;
 			})}
-			<InfiniteScroll isLastPage={true} fetch={requestPost} />
+			<InfiniteScroll isLastPage={isLastPage} fetch={requestPost} />
 		</div>
 	);
 };

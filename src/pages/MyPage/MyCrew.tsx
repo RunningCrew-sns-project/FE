@@ -44,7 +44,7 @@ const MyCrew = () => {
 				};
 				return <RunBox {...props} />;
 			})}
-			<InfiniteScroll fetch={requestMyCrew} isLastPage={false} />
+			<InfiniteScroll fetch={requestMyCrew} isLastPage={true} />
 		</div>
 	);
 };
