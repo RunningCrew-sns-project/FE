@@ -122,7 +122,7 @@ const JoinCrewdetail = () => {
                                 {crewInfodata.crewName} 가입 안내사항을 확인해주세요
                             </span>
                         </>
-                    </ApplicationModal> : statustext === '탈퇴하기' ?
+                    </ApplicationModal> : statustext === '탈퇴 하기' ?
                         <ApplicationModal
                             leftButtontext="탈퇴할래요!"
                             rightbuttontext="취소"
