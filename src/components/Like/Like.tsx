@@ -9,7 +9,7 @@ type LikeProps = {
 
 const Like = ({ blogId, liked }: LikeProps) => {
 
-    const { mutate } = useLikeMutation();
+    const { mutate } = useLikeMutation(blogId);
 
     //todo. 좋아요 api
     const handlelike = (blogId: number) => {

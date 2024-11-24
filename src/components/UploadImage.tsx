@@ -33,7 +33,7 @@ const UploadImage = ({
 }: UploadImageProps) => {
 	const [uploadedFiles, setUploadedFiles] = useState(imgUrl || []);
 	console.log('uploadimage', imgUrl)
-	const ref = useRef(null);
+	const ref = useRef<HTMLInputElement | null>(null);
 
 	const handleuploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;

@@ -7,7 +7,6 @@ const EditBlog = () => {
     const location = useLocation();
     const { feedData } = location.state || {};
     const [isEdit, setIsEdit] = useState(false)
-    console.log('editblog', feedData)
 
     useEffect(() => {
         if (location.pathname.includes('edit')) {

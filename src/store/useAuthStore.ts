@@ -12,7 +12,7 @@ interface AuthActions {
   logout: () => void;
 }
 
-const useAuthStore = create<AuthState & AuthActions>(
+const useAuthStore = create<AuthState & AuthActions>()(
   persist(
     (set) => ({
       userId: null,

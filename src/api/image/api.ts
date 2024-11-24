@@ -1,6 +1,7 @@
 import { http } from "../request";
 
-export const uploadFiles = async (url, files, params)=>{
+
+export const uploadFiles = async (url:string, files, params :{})=>{
     try{
         const response = await  http.post(url, files, {
             headers: {
@@ -17,7 +18,7 @@ export const uploadFiles = async (url, files, params)=>{
 
 }
 
-export const uploadCrewFiles = async (url, files, params)=>{
+export const uploadCrewFiles = async (url:string, files, params:{})=>{
     try{
         const response = await  http.post(url, files, {
             headers: {
@@ -35,19 +36,3 @@ export const uploadCrewFiles = async (url, files, params)=>{
 }
 
 
-
-
-//이건 이미 블로그 작성완료한다음에 작성완료한 블로그에서 사진을 빼고 싶을때 사용..  ->블로그 수정 api에서 추가하기 
-export const deleteFile = async (url,params)=>{
-    try{
-        const response = await http.delete(url, {
-            params, 
-        });
-        console.log('삭제완료')
-
-    }
-    catch (error) {
-        console.log('에러', error)
-    }
-
-}
