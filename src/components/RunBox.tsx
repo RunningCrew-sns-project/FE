@@ -55,9 +55,9 @@ const RunBox: React.FC<PostProps> = (props) => {
 	return (
 		<div
 			onClick={handlemovedetail}
-			className="group w-[170px] cursor-pointer flex flex-col laptop:flex-row laptop:w-[400px] rounded-xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+			className="group w-[160px] cursor-pointer flex flex-col laptop:flex-row laptop:w-[400px] rounded-xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
 		>
-			<div className="w-[170px] h-[160px] relative shrink-0 overflow-hidden rounded-t-xl laptop:rounded-l-xl laptop:rounded-tr-none">
+			<div className="w-[160px] h-[160px] relative shrink-0 overflow-hidden rounded-t-xl laptop:rounded-l-xl laptop:rounded-tr-none">
 				<img
 					src={
 						Array.isArray(props.banners) && props.banners.length > 0

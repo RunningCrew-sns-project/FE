@@ -56,7 +56,7 @@ const MyRunning = () => {
 	});
 
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex flex-col ">
 			{sortedMonths.length > 0 ? (
 				<div className="flex flex-col gap-6 items-center">
 					{sortedMonths.map((monthKey) => (

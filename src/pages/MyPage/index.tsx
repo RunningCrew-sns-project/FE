@@ -110,7 +110,7 @@ const MyPage = () => {
 							(isActive ? "bg-primary text-[#000]" : "bg-white text-[#000]")
 						}
 					>
-						크루가입요청
+						가입요청
 					</NavLink>
 				</div>
 			</div>

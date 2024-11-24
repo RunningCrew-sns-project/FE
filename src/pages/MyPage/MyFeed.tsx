@@ -76,7 +76,7 @@ const MyFeed = () => {
 
 	const Post = ({ data }: { data: FeedData }) => {
 		return (
-			<div className="bg-white rounded-lg p-6">
+			<div className="bg-white rounded-lg p-6 w-full max-w-[500px]">
 				<div className="flex justify-between items-center mb-2">
 					<h1 className="font-bold text-xl">{data.title}</h1>
 					<RiDeleteBin5Line
@@ -88,7 +88,7 @@ const MyFeed = () => {
 
 				<Slider
 					{...settings}
-					className="w-[400px] h-[400px] bg-gray-400 overflow-hidden"
+					className=" w-full h-[200px] laptop:h-[400px] bg-gray-400 overflow-hidden"
 				>
 					{data.imageUrl.map((image: string) => (
 						<img src={image} className="object-contain w-full h-full" />
