@@ -12,8 +12,10 @@ export const getMyRunning = async (data?: {}) => {
 	return response;
 };
 
-export const getMyFeed = async () => {
-	const response = await http.get(`/api/blog?isMyBlog=true`);
+export const getMyFeed = async (data: {}) => {
+	const response = await http.get(`/api/blog?isMyBlog=true`, {
+		params: data,
+	});
 	return response;
 };
 

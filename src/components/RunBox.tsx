@@ -33,7 +33,7 @@ const RunBox: React.FC<PostProps> = (props) => {
 		시작전: { bg: "bg-blue-100", text: "text-blue-700" },
 		진행중: { bg: "bg-green-100", text: "text-green-700" },
 		완료: { bg: "bg-gray-100", text: "text-gray-700" },
-		모집중: { bg: "bg-primary", text: "text-black" },
+		모집중: { bg: "bg-primary/90", text: "text-black" },
 		만원: { bg: "bg-red-100", text: "text-red-700" },
 		"가입 완료": { bg: "bg-purple-100", text: "text-purple-700" },
 	};
