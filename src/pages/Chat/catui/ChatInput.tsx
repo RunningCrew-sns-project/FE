@@ -17,7 +17,7 @@ const ChatInput = ({ handleSendMsg, setImageUrls, imgUrl }: ChatInputProps) => {
 	const getImgURL = async () => {
 		if (imgUrl.length === 0) return []; // 이미지가 없으면 빈 배열 반환
 		const fileUrls = await uploadFiles(
-			"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
+			"https://runlink.kro.kr/api/storage",
 			imgUrl,
 			{ directory: "chat", big: false },
 		);

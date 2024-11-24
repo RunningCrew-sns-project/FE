@@ -7,7 +7,7 @@ import SearchKeword from "../serachKeword";
 import { InputData } from "./createCrew";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import {  uploadFiles } from "../../../api/image/api";
+import { uploadFiles } from "../../../api/image/api";
 import { useNavigate } from "react-router-dom";
 
 import { dateFormatter } from "../../../util/dateFormatter";
@@ -15,33 +15,30 @@ import { postGeneralRun } from "../../../api/run/api";
 import { Coordinates } from "../../Running/RunningContent";
 
 export interface LocationDataProps {
-	startCoordinates:  Coordinates;
+	startCoordinates: Coordinates;
 	endCoordinates: Coordinates;
 	startAddress: string;
 	endAddress: string;
 }
 
-
 export interface GeneralRunProps {
-  title: string; // 크루 이름
-  content: string; // 크루 소개
-  location: string; // 활동 지역
+	title: string; // 크루 이름
+	content: string; // 크루 소개
+	location: string; // 활동 지역
 	inputLocation: string;
-	inputLatitude : number;
+	inputLatitude: number;
 	inputLongitude: number;
 	targetLocation: string;
-	targetLatitude : number;
+	targetLatitude: number;
 	targetLongitude: number;
-  maximumPeople: number; // 최대 수용 인원
-  fileUrls: string; // 파일 정보 목록
+	maximumPeople: number; // 최대 수용 인원
+	fileUrls: string; // 파일 정보 목록
 	date: string;
-
 }
-
 
 const Run = () => {
 	const currentDate = new Date();
-	const navigatge = useNavigate()
+	const navigatge = useNavigate();
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
 	const [imgfiile, setImageUrls] = useState<string[] | FormData>([]);
 	const [locationData, setLocationData] = useState<LocationDataProps>({
@@ -51,13 +48,12 @@ const Run = () => {
 		endAddress: "",
 	});
 
-
 	const { mutate } = useMutation({
 		mutationFn: postGeneralRun,
 		onSuccess: (data) => {
 			toast.success("달리기 게시 성공!");
 			console.log("달리기 게시  데이터:", data);
-			navigatge('/runlist')
+			navigatge("/runlist");
 		},
 		onError: (error) => {
 			toast.error("달리기 게시  실패!");
@@ -65,16 +61,15 @@ const Run = () => {
 		},
 	});
 
-
 	const handleSubmit = async (data: InputData) => {
-		const date = dateFormatter(startDate)
-		try{
+		const date = dateFormatter(startDate);
+		try {
 			const imgurl = await uploadFiles(
-				"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
+				"https://runlink.kro.kr/api/storage",
 				imgfiile,
 				{ directory: "General_runImg", big: false },
 			);
-			console.log('uploadFiles' ,imgurl)
+			console.log("uploadFiles", imgurl);
 			// const fileDtos = [imgfiile]
 			// const fileDtos: FileDto[] = imgurl.map((file:UploadedFile) => ({
 			// 	fileName: file.fileName,
@@ -83,26 +78,25 @@ const Run = () => {
 
 			const newData = {
 				title: data.crewName,
-				content: data.crewIntroduction, 
+				content: data.crewIntroduction,
 				location: data.activityRegion,
 				inputLocation: locationData.startAddress,
-				inputLatitude : locationData.startCoordinates?.lat,
+				inputLatitude: locationData.startCoordinates?.lat,
 				inputLongitude: locationData.startCoordinates?.lng,
 				targetLocation: locationData.endAddress,
-				targetLatitude : locationData.endCoordinates?.lat,
+				targetLatitude: locationData.endCoordinates?.lat,
 				targetLongitude: locationData.endCoordinates?.lng,
-				maximumPeople: Number(data.maxCapacity), 
-				fileUrls: imgurl ,
-				date : date.date,
-				startTime: date.startTime
-			}
+				maximumPeople: Number(data.maxCapacity),
+				fileUrls: imgurl,
+				date: date.date,
+				startTime: date.startTime,
+			};
 
-			mutate(newData)
+			mutate(newData);
+		} catch (error) {
+			console.log(error);
 		}
-		catch(error){ console.log(error)}
-	
 	};
-
 
 	return (
 		<div className="flex flex-col items-center mb-20">

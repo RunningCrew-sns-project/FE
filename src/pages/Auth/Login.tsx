@@ -2,7 +2,7 @@ import kakaoLoginWide from "../../assets/kakao_login_large_wide.png";
 
 const Login = () => {
 	const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
-	const REDIRECT_URI = "http://localhost:5173/auth/kakao/callback"; // 카카오 개발자 센터에 등록한 URI
+	const REDIRECT_URI = "https://runningcrew.netlify.app/auth/kakao/callback"; // 카카오 개발자 센터에 등록한 URI
 
 	const handleKakaoLogin = () => {
 		const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;

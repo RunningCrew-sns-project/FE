@@ -4,7 +4,7 @@ import { fields } from "../../../const/inputfileds";
 import FormLayout from "../commonForm";
 import MapPage from "../../../components/Map/Map";
 import SearchKeword from "../serachKeword";
-import {  InputData } from "./createCrew";
+import { InputData } from "./createCrew";
 import { uploadFiles } from "../../../api/image/api";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -15,35 +15,33 @@ import { postCrewRun } from "../../../api/run/api";
 import { Coordinates } from "../../Running/RunningContent";
 
 export interface LocationDataProps {
-	startCoordinates:  Coordinates;
+	startCoordinates: Coordinates;
 	endCoordinates: Coordinates;
 	startAddress: string;
 	endAddress: string;
 }
 
-
 export interface crewRunProps {
-  title: string; // 크루 이름
-  content: string; // 크루 소개
-  location: string; // 활동 지역
+	title: string; // 크루 이름
+	content: string; // 크루 소개
+	location: string; // 활동 지역
 	inputLocation: string;
-	inputLatitude : number;
+	inputLatitude: number;
 	inputLongitude?: number;
 	targetLocation?: string;
-	targetLatitude : number;
+	targetLatitude: number;
 	targetLongitude?: number;
-  maxParticipants?: number; // 최대 수용 인원
-  fileUrls: string // 파일 정보 목록
+	maxParticipants?: number; // 최대 수용 인원
+	fileUrls: string; // 파일 정보 목록
 	date: string;
-
 }
 
 const CrewRun = () => {
-	const { selectedCrewId : crewId } = useParams(); // URL에서 crewId 파라미터 추출
+	const { selectedCrewId: crewId } = useParams(); // URL에서 crewId 파라미터 추출
 
-  console.log("Crew ID:", crewId);
+	console.log("Crew ID:", crewId);
 	const currentDate = new Date();
-	const navigatge = useNavigate()
+	const navigatge = useNavigate();
 	const [startDate, setStartDate] = useState<Date | null>(currentDate);
 	const [imgfiile, setImageUrls] = useState<string[] | FormData>([]);
 	const [locationData, setLocationData] = useState<LocationDataProps>({
@@ -58,7 +56,7 @@ const CrewRun = () => {
 		onSuccess: (data) => {
 			toast.success("크루 달리기 성공 성공!");
 			console.log("생성된 크루 데이터:", data);
-			navigatge('/crew')
+			navigatge("/crew");
 		},
 		onError: (error) => {
 			toast.error("크루 달리기 실패!");
@@ -66,14 +64,13 @@ const CrewRun = () => {
 		},
 	});
 
-
 	const handleSubmit = async (data: InputData) => {
-		const date = dateFormatter(startDate)
-		console.log(data)
-		console.log(crewId)
-		try{
+		const date = dateFormatter(startDate);
+		console.log(data);
+		console.log(crewId);
+		try {
 			const imgurl = await uploadFiles(
-				"http://ec2-54-180-9-220.ap-northeast-2.compute.amazonaws.com:8080/api/storage",
+				"https://runlink.kro.kr/api/storage",
 				imgfiile,
 				{ directory: "General_runImg", big: false },
 			);
@@ -85,24 +82,24 @@ const CrewRun = () => {
 
 			const newData = {
 				title: data.crewName,
-				content: data.crewIntroduction, 
+				content: data.crewIntroduction,
 				location: data.activityRegion,
 				inputLocation: locationData.startAddress,
-				inputLatitude : locationData.startCoordinates?.lat,
+				inputLatitude: locationData.startCoordinates?.lat,
 				inputLongitude: locationData.startCoordinates?.lng,
 				targetLocation: locationData.endAddress,
-				targetLatitude : locationData.endCoordinates?.lat,
+				targetLatitude: locationData.endCoordinates?.lat,
 				targetLongitude: locationData.endCoordinates?.lng,
-				maximumPeople: Number(data.maxCapacity), 
-				fileUrls: imgurl ,
+				maximumPeople: Number(data.maxCapacity),
+				fileUrls: imgurl,
 				date: date.date,
-				startTime: date.startTime
-			}
+				startTime: date.startTime,
+			};
 
-			mutate({ data: newData, crewId } )
+			mutate({ data: newData, crewId });
+		} catch (error) {
+			console.log(error);
 		}
-		catch(error){ console.log(error)}
-	
 	};
 
 	return (
@@ -137,5 +134,5 @@ const CrewRun = () => {
 			</FormLayout>
 		</div>
 	);
-}
-export default CrewRun
+};
+export default CrewRun;
