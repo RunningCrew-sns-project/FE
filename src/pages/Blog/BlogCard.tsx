@@ -51,12 +51,18 @@ const BlogCard = (props: BlogCardprops) => {
                     </SlickSlider>
                 </div>
                 <BlogCardFooter liked={props.liked} blogId={props.blogId} likeCount={props.likeCount}></BlogCardFooter>
-                <div>{props.content}</div>
-                <div className="flex space-x-4">
-                    <div>{props.record}</div>
-                    <div>{props.distance}</div>
-                    <div>{props.createdAt}</div>
+                <div className="flex justify-between items-center mt-4 px-4 py-2 bg-gray-100 rounded-lg divide-x divide-gray-300">
+                    <div className="text-sm text-gray-600 pr-4">
+                        <span className="font-semibold">기록:</span> {props.record}
+                    </div>
+                    <div className="text-sm text-gray-600 px-4">
+                        <span className="font-semibold">거리:</span> {props.distance}
+                    </div>
+                    <div className="text-sm text-gray-600 pl-4">
+                        <span className="font-semibold">작성일:</span> {props.createdAt}
+                    </div>
                 </div>
+                <div className="mt-6 text-gray-800 text-sm leading-relaxed">{props.content}</div>
             </div>
         </>
 
