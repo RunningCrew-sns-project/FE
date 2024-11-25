@@ -29,7 +29,7 @@ const Alarm = () => {
 				(e: MessageEvent) => {
 					// 데이터가 들어오면 팝업 표시
 					console.log("event왔다", e);
-					setNotification(e.data.message);
+					setNotification(e.data);
 					setRealtimeData(true);
 					setShowPopup(true);
 				},
