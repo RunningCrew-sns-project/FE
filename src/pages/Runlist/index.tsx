@@ -22,7 +22,7 @@ const RunListPage = () => {
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [area, setArea] = useState("");
 	const [sortOrder, setSortOrder] = useState("newest"); // 기본값은 최신순
-	const [reversem, setReverse] = useState(true);
+	const [reversem, setReverse] = useState(false);
 	const [cursor, setCursor] = useState(null);
 	const [runCursor, setRunCursor] = useState(null);
 	const [cursorNext, setNextCursor] = useState();
@@ -119,7 +119,7 @@ const RunListPage = () => {
 				<ResponsiveContainer>
 					<div className=" flex flex-col mt-8 tablet:flex-col laptop:flex-row desktop:flex-row ">
 						{/* 필터 */}
-						<div className="w-full flex flex-col space-y-4 mr-6 mb-4 laptop:max-w-xs desktop:max-w-xs sticky top-0">
+						<div className="w-full flex flex-col space-y-4 mr-6 mb-4 laptop:max-w-xs desktop:max-w-xs">
 							<DateFilter
 								startDate={startDate}
 								setStartDate={setStartDate}
@@ -156,7 +156,7 @@ const RunListPage = () => {
 								</div>
 							</div>
 							<hr className="border border-white my-4" />
-							<div className="overflow-y-auto max-h-screen">
+							<div className="">
 							<ItemList runData={items} />
 							</div>
 						</div>

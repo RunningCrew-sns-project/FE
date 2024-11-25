@@ -26,3 +26,15 @@ export const getRefreshToken = async (data: {}) => {
 	});
 	return response;
 };
+
+
+
+//일반로그인 
+export const login = async (data: {}) => {
+	const res = await http.post(`/api/auth/login`, data,{
+		headers: {
+			"Content-Type": "application/json",
+		},
+	})
+	return res
+}

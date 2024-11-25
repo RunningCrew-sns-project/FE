@@ -62,7 +62,7 @@ export const deleteMember = async (crewId :string |undefined, userId :string) =>
 
 
 //크루탈퇴 
-export const deleteCrew = async (crewId :string | undefined) => {
+export const deleteCrew = async (crewId :string ) => {
   if (!crewId) {
     throw new Error("crewId는 필수입니다."); // crewId가 undefined인 경우 예외 처리
   }
