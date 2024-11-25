@@ -66,7 +66,7 @@ const Crew = () => {
 				imageUrls,
 				{ directory: "crew_image", big: false },
 			);
-
+			console.log('이미지 왔는가 ?', imgurl)
 			// crewImageUrls와 fileDtos를 필요한 형식으로 변환
 			const crewImageUrls: ImageUrl[] = imgurl.map((file: UploadedFile) => ({
 				url: file.fileUrl,

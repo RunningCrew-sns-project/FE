@@ -18,10 +18,12 @@ const MessageModal = ({ isOpen, selectedCrewId, setIsOpen }: recordsProps) => {
 	const navigate = useNavigate();
 	const handleCrewOut = async () => {
 		try {
-			await deleteCrew(selectedCrewId);
-			toast("탈퇴되었습니다. ");
-			setIsOpen(false);
-			navigate(0);
+			if(selectedCrewId){
+				await deleteCrew(selectedCrewId);
+				toast("탈퇴되었습니다. ");
+				setIsOpen(false);
+				navigate(0);
+			}
 		} catch (error) {
 			console.log(error);
 		}
@@ -51,7 +53,7 @@ const MessageModal = ({ isOpen, selectedCrewId, setIsOpen }: recordsProps) => {
 							onClick={() => handleCrewOut()}
 							className="w-1/2"
 						>
-							예{" "}
+							예
 						</Button>
 					</div>
 				</div>

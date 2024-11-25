@@ -71,7 +71,7 @@ const Header = () => {
 								</ul>
 							)}
 						</div>
-						<div className="flex gap-2 items-center mr-6">
+						<div className="flex gap-2 items-center mr-9">
 							{isLoggedIn ? (
 								<Button type="button" theme="light" onClick={handleLogout}>
 									로그아웃

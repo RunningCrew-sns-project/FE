@@ -113,7 +113,7 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 
 	return (
 		<>
-			<div className="">
+			<div className="pb-24">
 				<div className="flex items-center justify-between mb-8">
 					<h3 className="text-white mb-4">크루원을 관리해 보세요</h3>
 					<Button

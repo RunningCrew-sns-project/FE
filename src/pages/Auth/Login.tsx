@@ -1,4 +1,5 @@
 import kakaoLoginWide from "../../assets/kakao_login_large_wide.png";
+import LoginForm from "./GLogin";
 
 const Login = () => {
 	const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
@@ -12,11 +13,13 @@ const Login = () => {
 	return (
 		<div className="w-full h-screen bg-black flex justify-center items-center">
 			<div className="w-[400px] h-[600px] bg-white rounded-md flex flex-col items-center justify-center gap-6">
-				<div className="font-extrabold text-4xl mb-[100px]">
+				<div className="font-extrabold text-4xl mb-[0px]">
 					런닝 <span className="text-primary">크루</span>
 				</div>
 				<span>로그인하고 크루를 만나보세요!</span>
-
+				<div className="mt-8">
+					<LoginForm/>
+				</div>
 				<img
 					src={kakaoLoginWide}
 					className="w-[300px] cursor-pointer hover:opacity-70"

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import ActiveChatItem from "../../pages/Chat/ActiveChatItem";
 import { getChatRoomsApi } from "../../api/ChatApi/ChatApi";
-import Skeleton from "../Skeleton";
+
 
 interface Chat {
 	roomId: string;
@@ -17,14 +17,12 @@ interface Chat {
 const MessageList = () => {
 	const { isMobile, isTablet } = useDevice();
 	const [chatList, setChatList] = useState<Chat[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
 	const navigate = useNavigate();
 
 	const getChatList = async () => {
 		const RoomList = await getChatRoomsApi();
 		const rooms = RoomList.data.success.responseData;
 		setChatList(rooms);
-		setIsLoading(false);
 		console.log(RoomList);
 	};
 
@@ -50,21 +48,8 @@ const MessageList = () => {
 					<div className="flex items-center p-4 bg-gray-200">
 						<h1 className="text-lg font-bold">chat</h1>
 					</div>
-					<div className="cursor-pointer">
-						{isLoading ? (
-							<div>
-								{Array.from({ length: chatList.length }).map((_, index) => (
-									<Skeleton
-										key={index} // 키를 index로 설정 (적절한 경우에만 사용)
-										type="box"
-										width="32"
-										height="8"
-										borderRadius="rounded"
-										margin="mb-4"
-									/>
-								))}
-							</div>
-						) : (
+					<div className="cursor-pointer ">
+						{chatList && chatList.length > 0 ? (
 							chatList.map((chat) => (
 								<div
 									key={chat.roomId}
@@ -77,6 +62,10 @@ const MessageList = () => {
 									/>
 								</div>
 							))
+						) : (
+							<div className="h-full">
+							<p	className="flex items-center justify-center mt-10">아직, 진행중인 달리기가 없어요!</p>
+						</div>
 						)}
 					</div>
 				</div>
