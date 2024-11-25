@@ -15,7 +15,7 @@ function App() {
 
 	return (
 		<>
-			<Alarm />
+			<Alarm></Alarm>
 			{!hideHeaderFooter && <Header />}
 			{!hideHeaderFooter && <div className="h-[60px]"></div>}
 			<Outlet />

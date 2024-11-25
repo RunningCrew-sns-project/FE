@@ -161,17 +161,17 @@ const BlogDetail = () => {
                                 />
                             </div>
                             <div className="flex items-center gap-2 mt-6">
-                                <form onSubmit={handlesubmitcomment}>
+                                <form onSubmit={handlesubmitcomment} className="flex w-full">
                                     <input
                                         type="text"
                                         placeholder="댓글을 입력하세요"
-                                        className="flex-grow border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#BFFF00]"
+                                        className="flex-grow border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#BFFF00] w-full"
                                         value={commentContent}
                                         onChange={handlechangeComment}
                                     />
                                     <Button
                                         theme="primary"
-                                        className="bg-[#BFFF00] text-white px-4 py-2 rounded-md hover:bg-[#aaff00] transition"
+                                        className="bg-[#BFFF00] text-white px-6 py-2 rounded-md hover:bg-[#aaff00] transition"
                                         type="submit"
                                     >
                                         완료
