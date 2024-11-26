@@ -72,6 +72,7 @@ const RunningFooter = ({
 						distance={distance}
 						schedules={schedules}
 						id={id}
+						roomId={roomId}
 					/>
 				</div>
 			</div>

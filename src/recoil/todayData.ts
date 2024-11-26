@@ -9,6 +9,7 @@ interface todayDatatype {
   id: number | undefined;
   isCrew: boolean | undefined;
   isComplete: boolean;
+  roomId : string | null;
 }
 
 const { persistAtom } = recoilPersist();

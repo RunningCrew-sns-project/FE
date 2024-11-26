@@ -22,6 +22,7 @@ interface AddressModalProps {
 	distance: number | undefined;
 	schedules: schedulesProps[]; 
 	id: number;
+	roomId: string | null;
 }
 
 const RunResultModal = ({
@@ -30,7 +31,8 @@ const RunResultModal = ({
 	data,
 	distance,
 	schedules,
-	id
+	id,
+	roomId
 }: AddressModalProps) => {
 	const navigate = useNavigate()
 	const setTodays = useSetRecoilState(todayData)
@@ -54,6 +56,7 @@ const RunResultModal = ({
 				id: selectedSchedule.id,
 				isCrew: selectedSchedule.isCrew,
 				isComplete: true,
+				roomId : roomId,
 			};
 		
 			setTodays((prev) => [...prev, todayData]);

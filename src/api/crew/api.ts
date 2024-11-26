@@ -61,7 +61,7 @@ export const deleteMember = async (crewId :string |undefined, userId :string) =>
 }
 
 
-//크루탈퇴 
+//크루탈퇴 // 마스터가 아닌 크루만 가능 
 export const deleteCrew = async (crewId :string ) => {
   if (!crewId) {
     throw new Error("crewId는 필수입니다."); // crewId가 undefined인 경우 예외 처리
@@ -72,3 +72,19 @@ export const deleteCrew = async (crewId :string ) => {
 
 
 
+//크루 삭제 // 마스터인 크루 삭제 
+export const deleteCrewMaster = async (crewId: string) => {
+  const res = await http.delete(`/api/crews/${crewId}/admin`)
+  return res
+}
+
+
+// 크루 마스터 권한 넘기기 
+export const putChangeMster =  async (crewId: string, newMasterId: string  ) => {
+  const res = await http.put(`/api/crews/${crewId}/admin/transfer`, null , {
+    params : {
+      newMasterId : newMasterId 
+    }
+  })
+  return res
+}
