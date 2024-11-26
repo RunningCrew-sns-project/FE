@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import Button from "../Button";
 import Modal from "./Modal";
-import { deleteCrew } from "../../api/crew/api";
+import { deleteCrew, deleteCrewMaster } from "../../api/crew/api";
 import { useNavigate } from "react-router-dom";
 
 
@@ -26,10 +26,14 @@ const MessageModal = ({ isOpen, selectedCrewId, setIsOpen }: recordsProps) => {
 			}
 		} catch (error) {
 			console.log(error);
+			if(selectedCrewId){
+				const res = 	await deleteCrewMaster(selectedCrewId)
+				console.log(res)
+				toast('크루가 완전히 삭제되었습니다.')
+				navigate(0)
+			}
+			setIsOpen(false);
 		}
-
-
-		
     setIsOpen(false);
 	};
 
