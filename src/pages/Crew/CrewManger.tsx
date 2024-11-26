@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 
 import toast from "react-hot-toast";
-import { deleteMember, getCrewMember, putWarning } from "../../api/crew/api";
+import { deleteMember, getCrewMember, putChangeMster, putWarning } from "../../api/crew/api";
+import { useNavigate } from "react-router-dom";
+
 
 interface CrewMember {
 	userId: number;
@@ -20,6 +22,7 @@ interface crewMangerProps {
 const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 	const [members, setMembers] = useState<CrewMember[]>([]);
 	const [loading, setLoading] = useState(false); // 로딩 상태 추가
+	const navigate = useNavigate()
 
 	const fetchCrewMember = async () => {
 		try {
@@ -107,6 +110,22 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 		}
 	}
 
+	// 방장 권한 넘기기 
+	const handleChangeMaster = async (userId : string, nickname: string) => {
+		try{
+			if(crewId && userId ){
+				await putChangeMster(crewId, userId)
+				navigate(0)
+				toast(`권한을 ${nickname} 넘기고 크루를 탈퇴했습니다. `)
+			}
+		}
+		catch(error){
+			console.log(error)
+		}
+	}
+
+
+
 	useEffect(() => {
 		fetchCrewMember();
 	}, [crewId]);
@@ -138,7 +157,8 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 					<div className="flex-1 text-center border-r border-white px-2">
 						퇴장
 					</div>
-					<div className="flex-1 text-center px-2">상태</div>
+					<div className="flex-1 text-center border-r border-white px-2">상태</div>
+					<div className="flex-1 text-center px-2">방장변경</div>
 				</div>
 
 				{members && members.length > 0
@@ -168,7 +188,10 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 										강퇴
 									</Button>
 								</div>
-								<div className="flex-1 text-center px-2">{member.status}</div>
+								<div className="flex-1 text-center border-r border-white px-2">{member.status}</div>
+								<div className="flex-1 text-center px-2">
+									<Button type="button" theme="dark" onClick={() => handleChangeMaster(member.userId.toString(),  member.nickname)}>권한주기</Button>
+								</div>
 							</div>
 						))
 					: ""}

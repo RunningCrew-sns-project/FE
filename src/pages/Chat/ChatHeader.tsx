@@ -47,11 +47,18 @@ const ChatHeader = () => {
 
 	const handleRoomOut = () => {
 		leaveRoom();
-		const filteredTodayData = todayDatas.filter(item => item.id !== id );
-		setTodayDatas(filteredTodayData)
-		console.log("채팅아웃")
-		navigate("/");
-		toast("채팅이 종료되었습니다 ");
+		if(roomId){
+			const matchingData = todayDatas.find((data) => data.roomId === roomId);
+			if(matchingData){
+				const filteredTodayData = todayDatas.filter(item => item.id !== id );
+				setTodayDatas(filteredTodayData)
+				console.log("채팅아웃")
+				navigate("/");
+				toast("채팅이 종료되었습니다 ");
+			}else{
+				toast(' 아직 달리기가 진행중입니다!! 마저 진행해주세요! ')
+			}
+		}
 	};
 
 	
