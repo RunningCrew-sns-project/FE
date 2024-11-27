@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 
 import toast from "react-hot-toast";
-import { deleteMember, getCrewMember, putChangeMster, putWarning } from "../../api/crew/api";
+import {
+	deleteMember,
+	getCrewMember,
+	putChangeMster,
+	putWarning,
+} from "../../api/crew/api";
 import { useNavigate } from "react-router-dom";
-
 
 interface CrewMember {
 	userId: number;
@@ -15,28 +19,28 @@ interface CrewMember {
 }
 
 interface crewMangerProps {
-	setIsOpenManger: React.Dispatch<React.SetStateAction<boolean>>; 
-	crewId : string | undefined;
+	setIsOpenManger: React.Dispatch<React.SetStateAction<boolean>>;
+	crewId: string | undefined;
 }
 
-const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
+const CrewManger = ({ setIsOpenManger, crewId }: crewMangerProps) => {
 	const [members, setMembers] = useState<CrewMember[]>([]);
 	const [loading, setLoading] = useState(false); // 로딩 상태 추가
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const fetchCrewMember = async () => {
 		try {
 			const res = await getCrewMember(crewId);
 			const members = res.data.success.responseData;
 			setMembers(members);
-			console.log('멤버들', members)
+			console.log("멤버들", members);
 		} catch (error) {
 			console.error("Failed to fetch crew members", error);
 		}
 	};
 
 	// 경고 처리 함수 (낙관적 UI 구현)
-	const handleWarning = async (userId :number, currentWarning : number) => {
+	const handleWarning = async (userId: number, currentWarning: number) => {
 		// UI에서 즉시 경고 수 증가
 		setMembers((prevMembers) =>
 			prevMembers.map((member) =>
@@ -48,7 +52,7 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 
 		try {
 			setLoading(true); // 로딩 시작
-			const res = await putWarning({ crewId, userId: userId.toString()} );
+			const res = await putWarning({ crewId, userId: userId.toString() });
 
 			if (res.data.success.code === 200) {
 				const caveat = res.data.success.responseData.caveat;
@@ -59,8 +63,8 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 						member.userId === userId ? { ...member, caveat } : member,
 					),
 				);
-				if(caveat === 3){
-					fetchCrewMember()
+				if (caveat === 3) {
+					fetchCrewMember();
 				}
 			} else {
 				throw new Error("Failed to update warning");
@@ -81,50 +85,42 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 		}
 	};
 
-
-	// 강퇴처리 
-	const handleOut = (userId : string, nickname: string, status:string) => {
-
-		//낙관적 ui 업데이트  필요 
-		
-
-		try{
-			if(status !== '가입 대기'){
-				setMembers((prevMember) => 
-					prevMember.map((member) => 
-							member.userId.toString() === userId.toString() 
-									? { ...member, status: '강제 탈퇴' }
-									: member
-					)
-			);
-				deleteMember(crewId, userId )
-				toast(`${nickname}님이 강퇴처리되었습니다. `)
-			}else{
-				toast(`${nickname}님은 아직 크루원이 아닙니다.`)
+	// 강퇴처리
+	const handleOut = (userId: string, nickname: string, status: string) => {
+		console.log("상태확인 ", status);
+		try {
+			if (status === "가입 완료") {
+				setMembers((prevMember) =>
+					prevMember.map((member) =>
+						member.userId.toString() === userId.toString()
+							? { ...member, status: "강제 탈퇴" }
+							: member,
+					),
+				);
+				deleteMember(crewId, userId);
+				toast(`${nickname}님이 강퇴처리되었습니다. `);
+			} else {
+				toast(` 이미 크루원이 아닙니다.`);
 			}
+		} catch (error) {
+			console.log(error);
+			//롤백, 다시 받아오기
+			fetchCrewMember();
 		}
-		catch(error){
-			console.log(error)
-			//롤백, 다시 받아오기 
-			fetchCrewMember()
-		}
-	}
+	};
 
-	// 방장 권한 넘기기 
-	const handleChangeMaster = async (userId : string, nickname: string) => {
-		try{
-			if(crewId && userId ){
-				await putChangeMster(crewId, userId)
-				navigate(0)
-				toast(`권한을 ${nickname} 넘기고 크루를 탈퇴했습니다. `)
+	// 방장 권한 넘기기
+	const handleChangeMaster = async (userId: string, nickname: string) => {
+		try {
+			if (crewId && userId) {
+				await putChangeMster(crewId, userId);
+				navigate(0);
+				toast(`권한을 ${nickname} 넘기고 크루를 탈퇴했습니다. `);
 			}
+		} catch (error) {
+			console.log(error);
 		}
-		catch(error){
-			console.log(error)
-		}
-	}
-
-
+	};
 
 	useEffect(() => {
 		fetchCrewMember();
@@ -157,7 +153,9 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 					<div className="flex-1 text-center border-r border-white px-2">
 						퇴장
 					</div>
-					<div className="flex-1 text-center border-r border-white px-2">상태</div>
+					<div className="flex-1 text-center border-r border-white px-2">
+						상태
+					</div>
 					<div className="flex-1 text-center px-2">방장변경</div>
 				</div>
 
@@ -184,13 +182,52 @@ const CrewManger = ({ setIsOpenManger, crewId  } : crewMangerProps) => {
 									</Button>
 								</div>
 								<div className="flex-1 text-center border-r border-white px-2">
-									<Button type="button" theme="primary" onClick={() => handleOut(member.userId.toString() , member.nickname, member.status)}>
-										강퇴
-									</Button>
+									{member.status.trim() === "가입 완료".trim() ? (
+										<Button
+											type="button"
+											theme="primary"
+											onClick={() =>
+												handleOut(
+													member.userId.toString(),
+													member.nickname,
+													member.status,
+												)
+											}
+										>
+											강퇴
+										</Button>
+									) : (
+										<Button
+											type="button"
+											theme="primary"
+											onClick={() =>
+												handleOut(
+													member.userId.toString(),
+													member.nickname,
+													member.status,
+												)
+											}
+										>
+											강퇴불가
+										</Button>
+									)}
 								</div>
-								<div className="flex-1 text-center border-r border-white px-2">{member.status}</div>
+								<div className="flex-1 text-center border-r border-white px-2">
+									{member.status}
+								</div>
 								<div className="flex-1 text-center px-2">
-									<Button type="button" theme="dark" onClick={() => handleChangeMaster(member.userId.toString(),  member.nickname)}>권한주기</Button>
+									<Button
+										type="button"
+										theme="dark"
+										onClick={() =>
+											handleChangeMaster(
+												member.userId.toString(),
+												member.nickname,
+											)
+										}
+									>
+										권한주기
+									</Button>
 								</div>
 							</div>
 						))
