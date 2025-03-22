@@ -70,6 +70,7 @@
 <br />
 5) 러닝 크루 모집 게시글 조회<br />
 <img width="500" alt="스크린샷 2025-03-23 오전 12 06 54" src="https://github.com/user-attachments/assets/bcb0193e-2ee7-4e2a-98ed-084a7763d872" />
+<br />
 6) 관리자페이지<br />
 <img width="500" alt="스크린샷 2025-03-23 오전 12 14 50" src="https://github.com/user-attachments/assets/6312c228-007c-4ea9-b2a2-14d5f1e70576" />
 
